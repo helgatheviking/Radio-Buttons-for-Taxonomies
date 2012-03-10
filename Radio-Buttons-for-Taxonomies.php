@@ -7,7 +7,7 @@ This is a class implementation of the wp.tuts+ tutorial: http://wp.tutsplus.com/
 
 To use it, just add to your functions.php and add the javascript file to your theme’s js folder (call it radiotax.js). 
 
-Better still, make make a plug-in out of it, including the javascript file., and being sure to point the wp_register_script to radiotax.js in your plug-in folder.
+Better still, make make a plug-in out of it, including the javascript file, and being sure to point the wp_register_script to radiotax.js in your plug-in folder.
 
 The class constants are 
   - taxonomy: the taxonomy slug
@@ -16,12 +16,12 @@ The class constants are
 */
 class WordPress_Radio_Taxonomy {
 	static $taxonomy = 'mytaxonomy';
-	static $taxonomy_metabox_id = 'emytaxonomydiv';
+	static $taxonomy_metabox_id = 'mytaxonomydiv';
 	static $post_type= 'post';
 
 	function load(){
 		//Remove old taxonomy meta box  
-		add_action( 'admin_menu', 	array(__CLASS__,'remove_meta_box'));  
+		add_action( 'admin_menu', array(__CLASS__,'remove_meta_box'));  
 
 		//Add new taxonomy meta box  
 		add_action( 'add_meta_boxes', array(__CLASS__,'add_meta_box'));  
