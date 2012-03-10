@@ -1,3 +1,4 @@
+/*
 Author: Stephen Harris http://profiles.wordpress.org/stephenh1988/
 Github: https://github.com/stephenh1988
 
@@ -11,4 +12,4 @@ The class constants are
   - taxonomy: the taxonomy slug
   - taxonomy_metabox_id: the ID of the original taxonomy metabox
   - post type - the post type the metabox appears on
-
+*/
