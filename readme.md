@@ -6,7 +6,7 @@ To use it, just add to your functions.php and add the javascript file to your th
 
 Better still, make make a plug-in out of it, including the javascript file., and being sure to point the wp_register_script to radiotax.js in your plug-in folder.
 
-###The class constants are: 
+###The class properties are: 
 
 - taxonomy: the taxonomy slug
 
