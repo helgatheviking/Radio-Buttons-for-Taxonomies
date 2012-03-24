@@ -14,12 +14,13 @@ The class constants are
   - taxonomy_metabox_id: the ID of the original taxonomy metabox
   - post type - the post type the metabox appears on
 */
+
 class WordPress_Radio_Taxonomy {
 	static $taxonomy = 'mytaxonomy';
 	static $taxonomy_metabox_id = 'mytaxonomydiv';
 	static $post_type= 'post';
 
-	function load(){
+	public function load(){
 		//Remove old taxonomy meta box  
 		add_action( 'admin_menu', array(__CLASS__,'remove_meta_box'));  
 
@@ -34,35 +35,35 @@ class WordPress_Radio_Taxonomy {
 	}
 
 
-	static function remove_meta_box(){  
+	public static function remove_meta_box(){  
    		remove_meta_box(static::$taxonomy_metabox_id, static::$post_type, 'normal');  
 	} 
 
 
-	function add_meta_box() {  
+	public function add_meta_box() {  
 		add_meta_box( 'mytaxonomy_id', 'My Radio Taxonomy',array(__CLASS__,'metabox'), static::$post_type ,'side','core');  
 	}  
         
 
 	//Callback to set up the metabox  
-	static function metabox( $post ) {  
-		//Get taxonomy and terms
-	        $taxonomy = self::$taxonomy;
+	public static function metabox( $post ) {  
+		//Get taxonomy and terms  
+       	 $taxonomy = self::$taxonomy;
       
-       	 //Set up the taxonomy object and get terms
-       	 $tax = get_taxonomy($taxonomy);
-       	 $terms = get_terms($taxonomy,array('hide_empty' => 0));
+       	 //Set up the taxonomy object and get terms  
+       	 $tax = get_taxonomy($taxonomy);  
+       	 $terms = get_terms($taxonomy,array('hide_empty' => 0));  
       
-       	 //Name of the form
-       	 $name = 'tax_input[' . $taxonomy . ']';
+       	 //Name of the form  
+       	 $name = 'tax_input[' . $taxonomy . ']';  
       
-       	 //Get current and popular terms
-       	 $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
-       	 $postterms = get_the_terms( $post->ID,$taxonomy );
-       	 $current = ($postterms ? array_pop($postterms) : false);
-       	 $current = ($current ? $current->term_id : 0);
-       	 ?>
-
+       	 //Get current and popular terms  
+       	 $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );  
+       	 $postterms = get_the_terms( $post->ID,$taxonomy );  
+       	 $current = ($postterms ? array_pop($postterms) : false);  
+       	 $current = ($current ? $current->term_id : 0);  
+       	 ?>  
+      
 		<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
 			<!-- Display tabs-->
 			<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
@@ -106,7 +107,7 @@ class WordPress_Radio_Taxonomy {
         <?php  
     }
 
-	  function admin_script(){  
+	 public function admin_script(){  
 		wp_register_script( 'radiotax', get_template_directory_uri() . '/js/radiotax.js', array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
 		wp_localize_script( 'radiotax', 'radio_tax', array('slug'=>self::$taxonomy));
 		wp_enqueue_script( 'radiotax' );  
