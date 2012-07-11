@@ -103,13 +103,14 @@ class WordPress_Radio_Taxonomy {
 				}?>
 				</ul>
 			</div>
-
-			 <p id="<?php echo $taxonomy; ?>-add" class="">
-				<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
-				<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
-				<input type="button" id="" class="radio-tax-add button" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
-				<?php wp_nonce_field( 'radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag', false ); ?>
-			</p>
+			<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
+				 <p id="<?php echo $taxonomy; ?>-add" class="radio-box">
+					<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
+					<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
+					<input type="button" id="add-new-<?php echo $taxonomy;?>" class="radio-tax-add button" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
+					<?php wp_nonce_field( 'radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag', false ); ?>
+				</p>
+			<?php endif; ?>
 		</div>
         <?php  
     }
@@ -129,7 +130,7 @@ class WordPress_Radio_Taxonomy {
 		check_ajax_referer('radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag');
 
 		if(!$tax || empty($term))
-			exit();
+			exit('-1');
 
 		if ( !current_user_can( $tax->cap->edit_terms ) )
 			die('-1');
@@ -138,7 +139,7 @@ class WordPress_Radio_Taxonomy {
 
 		if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
 			//TODO Error handling
-			exit();
+			exit('-1');
 		}
 	
 		$id = $taxonomy.'-'.$tag->term_id;
