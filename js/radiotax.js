@@ -1,6 +1,12 @@
-    jQuery(document).ready(function($) {  
+jQuery(document).ready(function($) {  
 
-        var taxonomy = radio_tax.slug; //Or set manually.
+	$('.radio-buttons-for-taxonomies').each(function(){
+
+        id = $(this).attr('id');
+
+        taxonomy = id.replace(/taxonomy-/g,""); 
+
+        console.log(taxonomy);
 
         $('#' + taxonomy + 'checklist li :radio, #' + taxonomy + 'checklist-pop :radio').live( 'click', function(){  
             var t = $(this), c = t.is(':checked'), id = t.val();  
@@ -20,4 +26,5 @@
 				$('#' + taxonomy + 'checklist').append(r.html).find('li#'+taxonomy+'-'+r.term+' :radio').attr('checked', true);
 			},'json');
 	    });  
-    });  
+    });//end each
+});  //end ready
