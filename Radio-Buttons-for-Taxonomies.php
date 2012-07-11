@@ -1,4 +1,31 @@
 <?php
+
+/*
+Plugin Name: Radio Buttons for Taxonomies
+Plugin URI: http://www.kathyisawesome.com/436/kia-subtitle/
+Description: Use radio buttons for any taxonomy
+Version: 0.1
+Author: Kathy Darling
+Author URI: http://www.kathyisawesome.com
+License: GPL2
+
+    Copyright 2012  Kathy Darling  (email: kathy.darling@gmail.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+*/
+
 /*
 Author: Stephen Harris http://profiles.wordpress.org/stephenh1988/
 Github: https://github.com/stephenh1988
@@ -15,12 +42,16 @@ The class constants are
   - post type - the post type the metabox appears on
 */
 
-class WordPress_Radio_Taxonomy {
-	static $taxonomy = 'mytaxonomy';
-	static $taxonomy_metabox_id = 'mytaxonomydiv';
-	static $post_type= 'post';
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	public function load(){
+if(!class_exists('WordPress_Radio_Taxonomy')):
+
+class WordPress_Radio_Taxonomy {
+	static $taxonomy = 'subject';
+	static $taxonomy_metabox_id = 'subjectdiv';
+	static $post_type= 'article';
+
+	public function __construct(){
 		//Remove old taxonomy meta box  
 		add_action( 'admin_menu', array(__CLASS__,'remove_meta_box'));  
 
@@ -144,6 +175,10 @@ class WordPress_Radio_Taxonomy {
 		exit();
 	}
 
-}
-WordPress_Radio_Taxonomy::load();
+} //end class - do NOT remove
+
+endif;
+
+global $subject_taxonomy;
+$subject_taxonomy = new WordPress_Radio_Taxonomy();
 ?>
