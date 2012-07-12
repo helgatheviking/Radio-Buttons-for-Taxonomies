@@ -1,6 +1,6 @@
 === Radio Buttons for Taxonomies ===
 Contributors: helgatheviking
-Donate link: http://www.kathyisawesome.com/??/radio-buttons-for-taxonomies/
+Donate link: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies/ ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.4
