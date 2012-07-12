@@ -32,12 +32,13 @@
                             'show_ui' => true
                             
                           );  
-                        $taxonomies = get_taxonomies($args); //var_dump($taxonomies);
+                        $taxonomies = get_taxonomies($args); 
 
-                        foreach ($taxonomies as $i=>$taxonomy) :
+                        if(!is_wp_error($taxonomies )) foreach ($taxonomies as $i=>$taxonomy) :
                             $tax = get_taxonomy($taxonomy);
-                            ?>
-                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $taxonomy;?>" <?php if(in_array($taxonomy, $options['taxonomies'])) echo 'checked="CHECKED"';?> /> <?php echo $tax->labels->name; ?><br/>
+                            
+                            $checked = is_array($options['taxonomies']) && in_array($taxonomy, $options['taxonomies']) ? 'checked="CHECKED"' : ''; ?>
+                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $taxonomy;?>" <?php echo $checked;?> /> <?php echo $tax->labels->name; ?><br/>
 
 
                         <?php endforeach; ?>
