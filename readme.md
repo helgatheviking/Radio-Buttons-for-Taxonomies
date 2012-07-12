@@ -3,7 +3,9 @@ Contributors: helgatheviking
 Donate link: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies/
 Tags: taxonomy, admin, interface, ui, post, radio buttons
 Requires at least: 3.4   
-Tested up to: 3.4Stable tag: 1.0License: GPLv2 or later
+Tested up to: 3.4
+Stable tag: 1.0.1
+License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html   
 
 The Radio Buttons for Taxonomies plugin lets you switch any taxonomy to a radio-button style metabox.
