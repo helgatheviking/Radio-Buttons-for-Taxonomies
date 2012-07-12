@@ -85,7 +85,7 @@ class WordPress_Radio_Taxonomy {
        				 $id = $taxonomy.'-'.$term->term_id;
 					$value= (is_taxonomy_hierarchical($taxonomy) ? "value='{$term->term_id}'" : "value='{$term->term_slug}'");
 				        echo "<li id='$id'><label class='selectit'>";
-				        echo "<input type='radio' id='in-$id' name='{$name}'".checked($current,$term->term_id,false)." {$value} />$term->name<br />";
+				        echo "<input type='radio' id='in-$id' name='{$name}'".checked($current,$term->term_id,false)." {$value} />&nbsp;$term->name<br />";
 				        echo "</label></li>";
 		       	 }?>
 				</ul>
@@ -98,30 +98,41 @@ class WordPress_Radio_Taxonomy {
 				        $id = 'popular-'.$taxonomy.'-'.$term->term_id;
 					$value= (is_taxonomy_hierarchical($taxonomy) ? "value='{$term->term_id}'" : "value='{$term->term_slug}'");
 				        echo "<li id='$id'><label class='selectit'>";
-				        echo "<input type='radio' id='in-$id'".checked($current,$term->term_id,false)." {$value} />$term->name<br />";
+				        echo "<input type='radio' id='in-$id'".checked($current,$term->term_id,false)." {$value} />&nbsp;$term->name<br />";
 				        echo "</label></li>";
 				}?>
 				</ul>
 			</div>
-			<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
-				 <p id="<?php echo $taxonomy; ?>-add" class="radio-box">
-					<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
-					<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
-					<input type="button" id="add-new-<?php echo $taxonomy;?>" class="radio-tax-add button" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
-					<?php wp_nonce_field( 'radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag', false ); ?>
-				</p>
-			<?php endif; ?>
+				<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
+			<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
+				<h4>
+					<a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js" tabindex="3">
+						<?php
+							/* translators: %s: add new taxonomy label */
+							printf( __( '+ %s' ), $tax->labels->add_new_item );
+						?>
+					</a>
+				</h4>
+
+			 <p id="<?php echo $taxonomy; ?>-add" class="wp-hidden-child">
+				<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $tax->labels->add_new_item; ?></label>
+				<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $tax->labels->new_item_name ); ?>" tabindex="3" aria-required="true"/>
+				<input type="button" id="" class="radio-tax-add button" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
+				<?php wp_nonce_field( 'radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag', false ); ?>
+				<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
+			</p>
+
+			</div>
+		<?php endif; ?>
 		</div>
         <?php  
     }
 
 	 public function admin_script(){  
-	 	global $Radio_Buttons_for_Taxonomies;
-
-		wp_enqueue_script( 'radiotax', $Radio_Buttons_for_Taxonomies->plugin_url() . '/js/radiotax.js', array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
+		wp_enqueue_script( 'radiotax', plugins_url('js/radiotax.js', __FILE__), array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
 	}
 
-	public function ajax_add_term(){
+	public function ajax_add_term(){  
 
 		$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : '';
 		$term = !empty($_POST['term']) ? $_POST['term'] : '';
@@ -130,7 +141,7 @@ class WordPress_Radio_Taxonomy {
 		check_ajax_referer('radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag');
 
 		if(!$tax || empty($term))
-			exit('-1');
+			die('-1');
 
 		if ( !current_user_can( $tax->cap->edit_terms ) )
 			die('-1');
@@ -139,14 +150,14 @@ class WordPress_Radio_Taxonomy {
 
 		if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
 			//TODO Error handling
-			exit('-1');
+			die('-1');
 		}
 	
 		$id = $taxonomy.'-'.$tag->term_id;
 		$name = 'tax_input[' . $taxonomy . ']';
 		$value= (is_taxonomy_hierarchical($taxonomy) ? "value='{$tag->term_id}'" : "value='{$term->tag_slug}'");
 
-		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" '.$value.' />'. $tag->name.'</label></li>';
+		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" '.$value.' />&nbsp;'. $tag->name.'</label></li>';
 	
 		echo json_encode(array('term'=>$tag->term_id,'html'=>$html));
 		exit();
