@@ -157,7 +157,7 @@ class Radio_Buttons_for_Taxonomies {
   function add_action_links( $links, $file ) {
 
     if ( $file == plugin_basename( __FILE__ ) ) {
-      $posk_links = '<a href="'.admin_url('options-general.php?page=facebook-social-widgets').'">'.__('Settings').'</a>';
+      $posk_links = '<a href="'.admin_url('options-general.php?page=radio-buttons-for-taxonomies').'">'.__('Settings').'</a>';
       // make the 'Settings' link appear first
       array_unshift( $links, $posk_links );
     }
