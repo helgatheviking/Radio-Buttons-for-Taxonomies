@@ -35,7 +35,7 @@ It has been expanded to provide a plugin options page where the user can select 
 * fixed variable scope in javascript that was preventing plugin from working on multiple metaboxes
 
 = 1.0.1 =
-* minor bug fix
+* bug fix for when no taxonomies are selected
 
 = 1.0 =
 * Initial release.
