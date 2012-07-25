@@ -4,7 +4,7 @@ Donate link: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies/ ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,13 @@ It has been expanded to provide a plugin options page where the user can select 
 2. This is what the metabox will look like on the post editor screen.
 
 == Changelog ==
+
+= 1.0.2 =
+* fixed incorrect plugin settings link
+* fixed variable scope in javascript that was preventing plugin from working on multiple metaboxes
+
+= 1.0.1 =
+* minor bug fix
 
 = 1.0 =
 * Initial release.
