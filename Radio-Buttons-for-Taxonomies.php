@@ -52,6 +52,7 @@ class Radio_Buttons_for_Taxonomies {
 
 	    // Include required files
 	    include_once('inc/class.WordPress_Radio_Taxonomy.php');
+      include_once('inc/class.Walker_Category_Radio.php');
 
 	    //create a class property for each taxonomy that we are converting to radio buttons
   		//for example: $this->categories
@@ -74,6 +75,7 @@ class Radio_Buttons_for_Taxonomies {
 
 	    //add settings link to plugins page
 	    add_filter( 'plugin_action_links', array(&$this,'add_action_links'), 10, 2 );
+
   }
 
 
@@ -164,8 +166,6 @@ class Radio_Buttons_for_Taxonomies {
 
     return $links;
   }
-
-
 
 } // end class
 endif;
