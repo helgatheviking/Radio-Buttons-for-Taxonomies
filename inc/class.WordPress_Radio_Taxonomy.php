@@ -2,47 +2,43 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if(!class_exists('WordPress_Radio_Taxonomy')):
+if( !class_exists( 'WordPress_Radio_Taxonomy' )) :
 
 class WordPress_Radio_Taxonomy {
 
 	static $taxonomy = null;
 	static $tax_obj = null;
 
-	public function __construct($taxonomy){
+	public function __construct( $taxonomy ){
 
 		$this->taxonomy = $taxonomy;
 
-		add_action( 'init', array(&$this, 'get_taxonomy'));
-
 		//disable the UI for non-hierarchical taxonomies that are using radio buttons
-		add_action( 'registered_taxonomy', array(&$this, 'disable_ui' ), 10, 3 );
+		add_action( 'registered_taxonomy', array( &$this, 'disable_ui' ), 10, 3 );
 
 		//Remove old taxonomy meta box  
-		add_action( 'admin_menu', array(&$this, 'remove_meta_box'));  
+		add_action( 'admin_menu', array( &$this, 'remove_meta_box') );  
 
 		//Add new taxonomy meta box  
-		add_action( 'add_meta_boxes', array(&$this, 'add_meta_box'));  
+		add_action( 'add_meta_boxes', array( &$this, 'add_meta_box') );  
 
 		//change checkboxes to radios
-		add_filter( 'wp_terms_checklist_args', array(&$this, 'filter_terms_checklist_args' ));
+		add_filter( 'wp_terms_checklist_args', array( &$this, 'filter_terms_checklist_args' ) );
 
 		//Load admin scripts
-		add_action('admin_enqueue_scripts', array(&$this, 'admin_script'));
+		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
 
 	}
 
-	public function get_taxonomy(){ 
-		$obj = get_taxonomy( $this->taxonomy ); 
-		return $this->tax_obj = $obj;
-	}
 
-	/*
-	 * 
+	/**
+	 * Disable the UI for non-hierarchical radio taxonomies
+	 * this prevents them from appearing in quick edit
 	 *
+	 * @since 1.1
 	 */
 	public function disable_ui( $taxonomy, $object_type, $args ){
-		if( !is_taxonomy_hierarchical( $this->taxonomy ) && $args['show_ui'] === true ) {
+		if( ! is_taxonomy_hierarchical( $this->taxonomy ) && $args['show_ui'] === true ) {
 		    global $wp_taxonomies;
 		    $wp_taxonomies[$this->taxonomy]->show_ui = FALSE;
 		}
