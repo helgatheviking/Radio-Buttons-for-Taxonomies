@@ -92,6 +92,8 @@
 
 /*
  * EDIT POST SCREEN
+ *
+ * @todo: support other taxonomies
  */
 
 	$('.editinline').on('click', function(){
@@ -104,6 +106,11 @@
 
 			category = $('.post_category', '#post-'+post_id).text();
 
+			// protect against multiple categories (which are separated with a comma ,
+			categories = category.split(",");
+			category = categories ? categories[0] : category;
+
+			//uses :radio so doesn't need any other special selector
 			//seems to need :first for some reason
 			$( "ul.cat-checklist :radio[value="+category+"]:first" ).attr( 'checked', 'checked' );
 
