@@ -30,9 +30,6 @@ class WordPress_Radio_Taxonomy {
 		//Load admin scripts
 		add_action('admin_enqueue_scripts', array(&$this, 'admin_script'));
 
-		//Load admin scripts
-		add_action('wp_ajax_radio_tax_add_taxterm', array(&$this, 'ajax_add_term'));
-
 	}
 
 	public function get_taxonomy(){ 
@@ -169,38 +166,6 @@ class WordPress_Radio_Taxonomy {
 
 	 public function admin_script(){  
 		wp_enqueue_script( 'radiotax', plugins_url('js/radiotax.js', __FILE__), array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
-	}
-
-	public function ajax_add_term(){  
-
-		$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : '';
-		$term = !empty($_POST['term']) ? $_POST['term'] : '';
-		$parent = !empty($_POST['parent']) && $_POST['parent'] > 0 ? $_POST['parent'] : 0;
-		$tax = get_taxonomy($taxonomy);
-
-		check_ajax_referer('radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag');
-
-		if(!$tax || empty($term))
-			die('-1');
-
-		if ( !current_user_can( $tax->cap->edit_terms ) )
-			die('-1');
-
-		$tag = wp_insert_term($term, $taxonomy, array('parent'=>$parent));
-
-		if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
-			//TODO Error handling
-			die('-1');
-		}
-	
-		$id = $taxonomy.'-'.$tag->term_id;
-		$name = 'tax_input[' . $taxonomy . ']';
-		$value= (is_taxonomy_hierarchical($taxonomy) ? "value='{$tag->term_id}'" : "value='{$term->tag_slug}'");
-
-		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" '.$value.' />&nbsp;'. $tag->name.'</label></li>';
-	
-		echo json_encode(array('term'=>$tag->term_id,'parent'=>$parent,'html'=>$html));
-		exit();
 	}
 
 } //end class - do NOT remove
