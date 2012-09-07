@@ -94,4 +94,23 @@
  * EDIT POST SCREEN
  */
 
+	$('.editinline').on('click', function(){
+
+	    matches = $(this).parents('tr').attr('id').match(/\post-(\d+)/);
+
+	    if ( matches ) post_id = matches[1];
+
+		if (post_id) {
+
+			category = $('.post_category', '#post-'+post_id).text();
+
+			//seems to need :first for some reason
+			$( "ul.cat-checklist :radio[value="+category+"]:first" ).attr( 'checked', 'checked' );
+
+		}
+
+	});
+
+
+
 })(jQuery);
