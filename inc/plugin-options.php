@@ -30,18 +30,36 @@
                         $args=array(
                             'public'   => true,
                             'show_ui' => true
+                          );
+
+                        $taxonomies = get_taxonomies( $args, 'objects' ); 
+
+                        /*
+                         * add radio-ized taxonomies back into array
+                         * this is a bit of a work-around since disabling the UI for non-hierarchical taxonomies 
+                         * happens on the init hook, and therefore weren't showing up in get_taxonomies
+                         *
+                         * this is a bit hackish, but is the most efficient since it only happens on this options page
+                         *
+                         */
+                        if ( ! empty ( $options['taxonomies'] ) ) foreach ( $options['taxonomies'] as $radiotax ) {
+                            if ( $obj = get_taxonomy( $radiotax ) ) $taxonomies[$radiotax] = $obj;
+                        
+                        }
+
+                        if( ! is_wp_error( $taxonomies ) ) { 
+
+                          ksort( $taxonomies );
+
+                          foreach ($taxonomies as $i=>$taxonomy) {
                             
-                          );  
-                        $taxonomies = get_taxonomies($args); 
+                            $checked = is_array($options['taxonomies']) && in_array($i, $options['taxonomies']) ? 'checked="CHECKED"' : ''; ?>
+                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php echo $checked;?> /> <?php echo $taxonomy->labels->name; ?><br/>
 
-                        if(!is_wp_error($taxonomies )) foreach ($taxonomies as $i=>$taxonomy) :
-                            $tax = get_taxonomy($taxonomy);
-                            
-                            $checked = is_array($options['taxonomies']) && in_array($taxonomy, $options['taxonomies']) ? 'checked="CHECKED"' : ''; ?>
-                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $taxonomy;?>" <?php echo $checked;?> /> <?php echo $tax->labels->name; ?><br/>
+                          <?php 
+                              } 
 
-
-                        <?php endforeach; ?>
+                        } ?>
 
                       </td>
                     </tr>
