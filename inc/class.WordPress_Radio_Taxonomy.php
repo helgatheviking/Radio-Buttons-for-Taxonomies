@@ -13,8 +13,11 @@ class WordPress_Radio_Taxonomy {
 
 		$this->taxonomy = $taxonomy;
 
-		//disable the UI for non-hierarchical taxonomies that are using radio buttons
-		add_action( 'registered_taxonomy', array( &$this, 'disable_ui' ), 10, 3 );
+		//get the taxonomy object - need to get it after init but before admin_menu
+		add_action( 'wp_loaded', array( &$this, 'get_taxonomy' ) );  
+
+		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen
+		add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
 
 		//Remove old taxonomy meta box  
 		add_action( 'admin_menu', array( &$this, 'remove_meta_box') );  
@@ -30,35 +33,45 @@ class WordPress_Radio_Taxonomy {
 
 	}
 
-
 	/**
-	 * Disable the UI for non-hierarchical radio taxonomies
-	 * this prevents them from appearing in quick edit
+	 * Set up the taxonomy object
+	 * need to do this after all custom taxonomies are registered
 	 *
 	 * @since 1.1
 	 */
-	public function disable_ui( $taxonomy, $object_type, $args ){
-		if( ! is_taxonomy_hierarchical( $this->taxonomy ) && $args['show_ui'] === true ) {
+	public function get_taxonomy(){
+		$this->tax_obj = get_taxonomy( $this->taxonomy );
+	}
+
+
+	/**
+	 * Disable the UI for non-hierarchical radio taxonomies, but only on EDIT screen
+	 * which prevents them from appearing in quick edit
+	 *
+	 * @since 1.1
+	 */
+	public function disable_ui(){
+
+		if( ! is_taxonomy_hierarchical( $this->taxonomy ) ) {
 		    global $wp_taxonomies;
 		    $wp_taxonomies[$this->taxonomy]->show_ui = FALSE;
 		}
 	}
 
-	public function remove_meta_box(){  
+	public function remove_meta_box() {  
 		
-		if(isset($this->tax_obj->object_type)) foreach ( $this->tax_obj->object_type as $post_type):
-			$id = !is_taxonomy_hierarchical($this->taxonomy) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
-	   		remove_meta_box($id, $post_type, 'side');  
+		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) foreach ( $this->tax_obj->object_type as $post_type ):
+			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
+	   		remove_meta_box( $id, $post_type, 'side' );  
 	   	endforeach; 
 	} 
 
-	public function add_meta_box() { //var_dump($this->tax_obj);
+	public function add_meta_box() { 
 
-		$label = $this->tax_obj->labels->name;
-
-		if(isset($this->tax_obj->object_type)) foreach ( $this->tax_obj->object_type as $post_type):
-			$id = !is_taxonomy_hierarchical($this->taxonomy) ? 'radio-tagsdiv-'.$this->taxonomy : 'radio-' .$this->taxonomy .'div' ;
-			add_meta_box( $id, $label ,array(&$this,'metabox'), $post_type ,'side','core', array('taxonomy'=>$this->taxonomy)); 
+		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ):
+			$label = $this->tax_obj->labels->name;
+			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-'.$this->taxonomy : 'radio-' .$this->taxonomy .'div' ;
+			add_meta_box( $id, $label ,array( &$this,'metabox' ), $post_type ,'side','core', array( 'taxonomy'=>$this->taxonomy ) ); 
 		endforeach; 
 	}  
         
@@ -160,9 +173,21 @@ class WordPress_Radio_Taxonomy {
 	    return $args;
 	}
 
-	 public function admin_script(){  
+	public function admin_script(){  
 		wp_enqueue_script( 'radiotax', plugins_url('js/radiotax.js', __FILE__), array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
 	}
+
+	function add_columns(){
+
+	}
+
+	function column_header($columns)
+	{
+		$columns['start-date'] = __('Start Date', 'my_plugin');
+		$columns['end-date'] = __('End Date', 'my_plugin');
+		return $columns;
+	}
+	//add_filter('manage_edit-president_columns', 'column_header', 10, 1);
 
 } //end class - do NOT remove
 

@@ -34,19 +34,6 @@
 
                         $taxonomies = get_taxonomies( $args, 'objects' ); 
 
-                        /*
-                         * add radio-ized taxonomies back into array
-                         * this is a bit of a work-around since disabling the UI for non-hierarchical taxonomies 
-                         * happens on the init hook, and therefore weren't showing up in get_taxonomies
-                         *
-                         * this is a bit hackish, but is the most efficient since it only happens on this options page
-                         *
-                         */
-                        if ( ! empty ( $options['taxonomies'] ) ) foreach ( $options['taxonomies'] as $radiotax ) {
-                            if ( $obj = get_taxonomy( $radiotax ) ) $taxonomies[$radiotax] = $obj;
-                        
-                        }
-
                         if( ! is_wp_error( $taxonomies ) ) { 
 
                           ksort( $taxonomies );
