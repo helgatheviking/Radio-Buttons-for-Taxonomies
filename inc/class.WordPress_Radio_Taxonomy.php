@@ -31,8 +31,15 @@ class WordPress_Radio_Taxonomy {
 		//Load admin scripts
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
 
-		//Create callback for adding non-hierarchical term via ajax
-		add_action('wp_ajax_radio_tax_add_taxterm',array(&$this,'ajax_add_term'));
+		//Ajax callback for adding a non-hierarchical term
+		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this,'ajax_add_term' ) );
+
+		//add columns to the edit screen
+		//add_filter( 'wp_loaded', array( &$this,'add_columns_init' ) );
+ 
+		//add_action( 'bulk_edit_custom_box',  array( &$this, 'add_to_bulk_quick_edit_custom_box'), 10, 2 );
+		//add_action( 'quick_edit_custom_box',  array( &$this, 'add_to_bulk_quick_edit_custom_box'), 10, 2 );
+
 
 	}
 
@@ -169,9 +176,6 @@ class WordPress_Radio_Taxonomy {
 	    if( isset($args['taxonomy']) && $this->taxonomy == $args['taxonomy'] ) { 
 	    	$args['walker'] = new Walker_Category_Radio;
 	    	$args['checked_ontop'] = false;
-
-	    	//if it is not hierarchical it will never have descendants
-	    	//if(!is_taxonomy_hierarchical($args['taxonomy'])) $args['descendants_and_self'] = 0;
 	    }
 	    return $args;
 	}
@@ -183,45 +187,57 @@ class WordPress_Radio_Taxonomy {
 
 	public function ajax_add_term(){  
 
-		$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : '';
-		$term = !empty($_POST['term']) ? $_POST['term'] : '';
-		$tax = get_taxonomy($taxonomy);
+		$taxonomy = ! empty( $_POST['taxonomy'] ) ? $_POST['taxonomy'] : '';
+		$term = ! empty( $_POST['term'] ) ? $_POST['term'] : '';
+		$tax = $this->tax_obj;
 
-		check_ajax_referer('radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag');
+		check_ajax_referer( 'add-'.$taxonomy, '_ajax_nonce-add-' );
 
-		if(!$tax || empty($term))
-			die('-1');
-
-		if ( !current_user_can( $tax->cap->edit_terms ) )
-			die('-1');
-
-		$tag = wp_insert_term($term, $taxonomy);
-
-		if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
-			//TODO Error handling
-			die('-1');
+		//sent an empty value @todo: prevent submission
+		if( ! $taxonomy || empty( $term ) ) {
+			echo json_encode( array(
+								'error'=>__('Can\'t insert an empty term.',"radio-buttons-for-taxonomies" )
+								) );
+			exit();
+		}
+		//user doesn't have high enough permissions
+		if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+			echo json_encode( array(
+								'error'=>__('You aren\'t allowed to do that.',"radio-buttons-for-taxonomies")
+								));
+			exit();
+		}
+		//term already exists
+		if ( $tag = term_exists( $term, $taxonomy ) ) {
+			echo json_encode( array(
+								'hasterm'=> $tag['term_id'], 'term' => $term, 'taxonomy'=>$taxonomy )
+							);
+			exit();
 		}
 
+		//ok at this point we can add the new term
+		$tag = wp_insert_term( $term, $taxonomy );
+
+		//in theory, by now we shouldn't have any errors, but just in case
+		if ( ! $tag || is_wp_error( $tag ) || ( ! $tag = get_term( $tag['term_id'], $taxonomy ) ) ) {
+			echo json_encode( array(
+								'error'=> $tag->get_error_message()
+								) );
+			exit();
+		}
+	
+		//if all is successful, build the new radio button to send back
 		$id = $taxonomy.'-'.$tag->term_id;
 		$name = 'tax_input[' . $taxonomy . ']';
 
 		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" value="' . $term->tag_slug .'" />&nbsp;'. $tag->name.'</label></li>';
 
-		echo json_encode(array('term'=>$tag->term_id,'html'=>$html));
+		echo json_encode( array( 
+			'term'=>$tag->term_id,
+			'html'=>$html 
+			) );
 		exit();
 	}
-
-	function add_columns(){
-
-	}
-
-	function column_header($columns)
-	{
-		$columns['start-date'] = __('Start Date', 'my_plugin');
-		$columns['end-date'] = __('End Date', 'my_plugin');
-		return $columns;
-	}
-	//add_filter('manage_edit-president_columns', 'column_header', 10, 1);
 
 } //end class - do NOT remove
 
