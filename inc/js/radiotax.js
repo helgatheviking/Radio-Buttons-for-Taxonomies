@@ -52,7 +52,7 @@
 			return s;
 		};
 
-		catAddAfter = function( r, s ) {
+		catAddAfter = function( r, s ) {  console.log(r); console.log(s);
 			var sup, drop = $('#new'+taxonomy+'_parent');
 
 			$( '#' + taxonomy + '-add-submit' ).prop( 'disabled', false );
@@ -66,12 +66,29 @@
 
 		};
 
-		$('#' + taxonomy + 'checklist').wpList({
+		//wpList doesn't work well with non hierarchical taxonomies so we'll need to do that outselves
+		$('#' + taxonomy + 'checklist:not(.tagchecklist)').wpList({
 			alt: '',
 			response: taxonomy + '-ajax-response',
 			addBefore: catAddBefore,
 			addAfter: catAddAfter
 		});
+
+		//add non-hierarchical via our own ajax
+		$('#' + taxonomy +'-add .radio-add-submit').on( 'click', function(){  
+			term = $('#' + taxonomy+'-add #new'+taxonomy).val();    console.log(term);
+			nonce =$('#' + taxonomy+'-add #_wpnonce_radio-add-tag').val();
+			$.post(ajaxurl, {
+				action: 'radio_tax_add_taxterm',
+				term: term,
+				'_wpnonce_radio-add-tag':nonce,
+				taxonomy: taxonomy
+				}, function(r){
+					$('#' + taxonomy + 'checklist').append(r.html).find('li#'+taxonomy+'-'+r.term+' :radio').attr('checked', true);
+				},'json');
+	    }); 
+
+
 
 		$('#' + taxonomy + '-add-toggle').click( function() {
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );

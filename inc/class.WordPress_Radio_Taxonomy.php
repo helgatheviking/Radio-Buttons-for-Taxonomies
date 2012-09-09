@@ -31,6 +31,9 @@ class WordPress_Radio_Taxonomy {
 		//Load admin scripts
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
 
+		//Create callback for adding non-hierarchical term via ajax
+		add_action('wp_ajax_radio_tax_add_taxterm',array(&$this,'ajax_add_term'));
+
 	}
 
 	/**
@@ -104,7 +107,7 @@ class WordPress_Radio_Taxonomy {
 			</style>
 
 			<div id="<?php echo $taxonomy; ?>-pop" class="wp-tab-panel tabs-panel" style="display: none;">
-				<ul id="<?php echo $taxonomy; ?>checklist-pop" class="categorychecklist form-no-clear" >
+				<ul id="<?php echo $taxonomy; ?>checklist-pop" class="<?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'categorychecklist'; } else { echo 'tagchecklist';} ?> form-no-clear" >
 					<?php $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );  
 
 						$popular_ids = array() ?>
@@ -112,7 +115,7 @@ class WordPress_Radio_Taxonomy {
 						<?php foreach($popular as $term){ 
 							$popular_ids[] = $term->term_id;
 
-					        $value = is_taxonomy_hierarchical($taxonomy) ? $term->term_id : $term->slug;
+					        $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
 					        $id = 'popular-'.$taxonomy.'-'.$value;
 
 					        echo "<li id='$id'><label class='selectit'>";
@@ -128,7 +131,7 @@ class WordPress_Radio_Taxonomy {
 	            $name = ( $taxonomy == 'category' ) ? 'post_category' : 'tax_input[' . $taxonomy . ']';
 	            echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
 	            ?>
-				<ul id="<?php echo $taxonomy; ?>checklist" class="list:<?php echo $taxonomy?> categorychecklist form-no-clear">
+				<ul id="<?php echo $taxonomy; ?>checklist" class="list:<?php echo $taxonomy?> <?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'categorychecklist'; } else { echo 'tagchecklist';} ?> form-no-clear">
 					<?php wp_terms_checklist($post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 				</ul>
 			</div>
@@ -151,7 +154,7 @@ class WordPress_Radio_Taxonomy {
 						<?php if( is_taxonomy_hierarchical($taxonomy) ) { 
 							wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); 
 						} ?>
-						<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button category-add-submit" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
+						<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button <?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'category-add-submit'; } else { echo 'radio-add-submit';} ?>" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
 						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy, false ); ?>
 						<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
 					</p>
@@ -168,13 +171,44 @@ class WordPress_Radio_Taxonomy {
 	    	$args['checked_ontop'] = false;
 
 	    	//if it is not hierarchical it will never have descendants
-	    	if(!is_taxonomy_hierarchical($args['taxonomy'])) $args['descendants_and_self'] = 0;
+	    	//if(!is_taxonomy_hierarchical($args['taxonomy'])) $args['descendants_and_self'] = 0;
 	    }
 	    return $args;
 	}
 
 	public function admin_script(){  
 		wp_enqueue_script( 'radiotax', plugins_url('js/radiotax.js', __FILE__), array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
+	}
+
+
+	public function ajax_add_term(){  
+
+		$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : '';
+		$term = !empty($_POST['term']) ? $_POST['term'] : '';
+		$tax = get_taxonomy($taxonomy);
+
+		check_ajax_referer('radio-tax-add-'.$taxonomy, '_wpnonce_radio-add-tag');
+
+		if(!$tax || empty($term))
+			die('-1');
+
+		if ( !current_user_can( $tax->cap->edit_terms ) )
+			die('-1');
+
+		$tag = wp_insert_term($term, $taxonomy);
+
+		if ( !$tag || is_wp_error($tag) || (!$tag = get_term( $tag['term_id'], $taxonomy )) ) {
+			//TODO Error handling
+			die('-1');
+		}
+
+		$id = $taxonomy.'-'.$tag->term_id;
+		$name = 'tax_input[' . $taxonomy . ']';
+
+		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" value="' . $term->tag_slug .'" />&nbsp;'. $tag->name.'</label></li>';
+
+		echo json_encode(array('term'=>$tag->term_id,'html'=>$html));
+		exit();
 	}
 
 	function add_columns(){
