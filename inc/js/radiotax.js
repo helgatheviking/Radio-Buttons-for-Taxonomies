@@ -52,21 +52,28 @@
 			return s;
 		};
 
-		catAddAfter = function( r, s ) {  console.log(r); console.log(s);
+		catAddAfter = function( r, s ) { console.log(s.parsed.responses[0]);
 			var sup, drop = $('#new'+taxonomy+'_parent');
+
+			//fix for popular radio buttons- when new term is added -uncheck all
+        	$('#' + taxonomy + 'checklist-pop :radio').prop('checked',false);  
 
 			$( '#' + taxonomy + '-add-submit' ).prop( 'disabled', false );
 			if ( 'undefined' != s.parsed.responses[0] && (sup = s.parsed.responses[0].supplemental.newcat_parent) ) {
 				drop.before(sup);
 				drop.remove();
+
+				id = $(s.parsed.responses[0].data).find('input').attr('value');  console.log(id);
+
+				//if an existing term is added, check it in the popular list too
+				$('#in-popular-' + taxonomy + '-' + id ).prop('checked', true);  
 			}
 	
-			//fix for popular radio buttons- when new term is added -uncheck all
-        	$('#' + taxonomy + 'checklist-pop :radio').prop('checked',false);  
+			
 
 		};
 
-		//wpList doesn't work well with non hierarchical taxonomies so we'll need to do that outselves
+		//use wpList to handle hierarchical taxonomies
 		$('#' + taxonomy + 'checklist:not(.tagchecklist)').wpList({
 			alt: '',
 			response: taxonomy + '-ajax-response',
@@ -74,21 +81,51 @@
 			addAfter: catAddAfter
 		});
 
-		//add non-hierarchical via our own ajax
+		// wpList doesn't work well with non hierarchical taxonomies so we'll need to do that outselves via ajax
 		$('#' + taxonomy +'-add .radio-add-submit').on( 'click', function(){  
-			term = $('#' + taxonomy+'-add #new'+taxonomy).val();    console.log(term);
-			nonce =$('#' + taxonomy+'-add #_wpnonce_radio-add-tag').val();
-			$.post(ajaxurl, {
-				action: 'radio_tax_add_taxterm',
-				term: term,
-				'_wpnonce_radio-add-tag':nonce,
-				taxonomy: taxonomy
-				}, function(r){
-					$('#' + taxonomy + 'checklist').append(r.html).find('li#'+taxonomy+'-'+r.term+' :radio').attr('checked', true);
-				},'json');
+			var term = $.trim( $('#' + taxonomy+'-add #new'+taxonomy).val() ); 
+			var nonce =$('#' + taxonomy+'-add #_ajax_nonce-add-' + taxonomy ).val(); 
+
+			//quit if the term is empty
+			if ( ! term.length ) return;
+
+			var request = $.ajax({
+				type: "POST",
+				url: ajaxurl,
+				data: { action: "radio_tax_add_taxterm", '_wpnonce_radio-add-tag': nonce, 'taxonomy' : taxonomy, 'term' : term }
+			});
+
+			request.fail(function(msg, textStatus) {   
+				$('#' + taxonomy + '-ajax-response').addClass('error-message').text(msg); 
+			});
+
+			request.done(function(msg, textStatus) { 
+
+				var response = JSON.parse(msg);
+
+				//something went wrong in the admin side
+				if( typeof response.error != 'undefined') {
+				 	$('#' + taxonomy + '-ajax-response').addClass('error-message').text(response.error); 
+				} 
+
+				//uncheck any currently checked
+				$('#' + taxonomy + 'checklist li :radio, #' + taxonomy + 'checklist-pop :radio').prop('checked',false);  
+				// term already exists
+				if (typeof response.hasterm != 'undefined' ) { 
+					//check the existing term in regular list and move to top (mimics add new term)
+				  	$( '#in-' + taxonomy + '-' + response.hasterm ).prop('checked',true).parents('li').prependTo('#' + taxonomy + 'checklist'); 
+
+				  	//check the existing term in popular list
+				  	$( '#in-popular-' + taxonomy + '-' + response.hasterm ).prop('checked',true).parents('li');
+				} 
+				// if neither then we must be good to go
+				else {
+					$('#' + taxonomy + 'checklist').prepend(response.html);
+				}
+
+			});
+
 	    }); 
-
-
 
 		$('#' + taxonomy + '-add-toggle').click( function() {
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
@@ -101,7 +138,7 @@
         $('#' + taxonomy + 'checklist li :radio, #' + taxonomy + 'checklist-pop :radio').on('click', function(){  
             var t = $(this), c = t.is(':checked'), id = t.val();
             $('#' + taxonomy + 'checklist li :radio, #' + taxonomy + 'checklist-pop :radio').prop('checked',false);  
-            $('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).prop( 'checked', c );  
+            $('#' + taxonomy + 'checklist li :radio[value="'+id+'"], #' + taxonomy + 'checklist-pop :radio[value="'+id+'"]').prop( 'checked', c );  
 
 	    });  //end on radio click
 

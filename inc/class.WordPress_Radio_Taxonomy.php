@@ -99,7 +99,7 @@ class WordPress_Radio_Taxonomy {
 		//get current terms
 		$checked_terms = $post->ID ? wp_get_object_terms($post->ID, $taxonomy) : array();
 		//get first term object
-       	$current = !empty($checked_terms) && !is_wp_error($checked_terms) ? array_pop($checked_terms) : false;  
+       	$current = ! empty($checked_terms) && !is_wp_error($checked_terms) ? array_pop($checked_terms) : false;  
 
 		?>
 		<div id="taxonomy-<?php echo $taxonomy; ?>" class="radio-buttons-for-taxonomies">
@@ -109,7 +109,7 @@ class WordPress_Radio_Taxonomy {
 			</ul>
 
 			<style>
-				.radio-buttons-for-taxonomies ul.categorychecklist { margin: 0; }
+				.radio-buttons-for-taxonomies ul.categorychecklist, .radio-buttons-for-taxonomies ul.tagchecklist { margin: 0; }
 				.radio-buttons-for-taxonomies ul.children { margin-left: 18px; }
 			</style>
 
@@ -123,7 +123,7 @@ class WordPress_Radio_Taxonomy {
 							$popular_ids[] = $term->term_id;
 
 					        $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
-					        $id = 'popular-'.$taxonomy.'-'.$value;
+					        $id = 'popular-'.$taxonomy.'-'.$term->term_id;
 
 					        echo "<li id='$id'><label class='selectit'>";
 					        echo "<input type='radio' id='in-{$id}'" . checked($current->term_id, $term->term_id, false) . " value='{$value}' {$disabled} />&nbsp;{$term->name}<br />";
@@ -191,22 +191,8 @@ class WordPress_Radio_Taxonomy {
 		$term = ! empty( $_POST['term'] ) ? $_POST['term'] : '';
 		$tax = $this->tax_obj;
 
-		check_ajax_referer( 'add-'.$taxonomy, '_ajax_nonce-add-' );
+		check_ajax_referer( 'add-'.$taxonomy, '_wpnonce_radio-add-tag' );
 
-		//sent an empty value @todo: prevent submission
-		if( ! $taxonomy || empty( $term ) ) {
-			echo json_encode( array(
-								'error'=>__('Can\'t insert an empty term.',"radio-buttons-for-taxonomies" )
-								) );
-			exit();
-		}
-		//user doesn't have high enough permissions
-		if ( ! current_user_can( $tax->cap->edit_terms ) ) {
-			echo json_encode( array(
-								'error'=>__('You aren\'t allowed to do that.',"radio-buttons-for-taxonomies")
-								));
-			exit();
-		}
 		//term already exists
 		if ( $tag = term_exists( $term, $taxonomy ) ) {
 			echo json_encode( array(
@@ -230,7 +216,7 @@ class WordPress_Radio_Taxonomy {
 		$id = $taxonomy.'-'.$tag->term_id;
 		$name = 'tax_input[' . $taxonomy . ']';
 
-		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" value="' . $term->tag_slug .'" />&nbsp;'. $tag->name.'</label></li>';
+		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" value="' . $tag->slug .'" checked="checked"/>&nbsp;'. $tag->name.'</label></li>';
 
 		echo json_encode( array( 
 			'term'=>$tag->term_id,
