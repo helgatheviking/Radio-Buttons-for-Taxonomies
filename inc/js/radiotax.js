@@ -4,7 +4,7 @@
  * SINGLE POST SCREEN
  */
 
-	// categories
+	// taxonomy metaboxes
 	$('.radio-buttons-for-taxonomies').each( function(){
 		var this_id = $(this).attr('id'), noSyncChecks = false, syncChecks, catAddAfter, taxonomyParts, taxonomy, settingName;
 
@@ -84,7 +84,7 @@
 		// wpList doesn't work well with non hierarchical taxonomies so we'll need to do that outselves via ajax
 		$('#' + taxonomy +'-add .radio-add-submit').on( 'click', function(){  
 			var term = $.trim( $('#' + taxonomy+'-add #new'+taxonomy).val() ); 
-			var nonce =$('#' + taxonomy+'-add #_ajax_nonce-add-' + taxonomy ).val(); 
+			var nonce =$('#' + taxonomy+'-add #radio_' + taxonomy + '_nonce' ).val(); 
 
 			//quit if the term is empty
 			if ( ! term.length ) return;
@@ -142,7 +142,8 @@
 
 	    });  //end on radio click
 
-	}); // end cats
+	}); // end taxonomy metaboxes
+
 
 /*
  * EDIT POST SCREEN
@@ -152,26 +153,30 @@
 
 	$('.editinline').on('click', function(){
 
-	    matches = $(this).parents('tr').attr('id').match(/\post-(\d+)/);
+		// reset
+		inlineEditPost.revert();
 
-	    if ( matches ) post_id = matches[1];
+		tag_id = $(this).parents('tr').attr('id'); 
 
-		if (post_id) {
+		// for each checklist get the value and check the correct input
 
-			category = $('.post_category', '#post-'+post_id).text();
+		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () { 
 
-			// protect against multiple categories (which are separated with a comma ,
-			categories = category.split(",");
-			category = categories ? categories[0] : category;
+			taxonomy = $(this).attr('id'); 
+
+			value = $('.' + taxonomy, '#' + tag_id ).text(); 
+
+			// protect against multiple taxonomies (which are separated with a comma , )
+			// this should be overkill, but just in case
+			taxonomies = value.split(",");
+			taxonomy = taxonomies ? taxonomies[0] : taxonomy; console.log(taxonomy);
 
 			//uses :radio so doesn't need any other special selector
-			//seems to need :first for some reason
-			$( "ul.cat-checklist :radio[value="+category+"]:first" ).attr( 'checked', 'checked' );
+			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
 
-		}
+		});
 
 	});
-
 
 
 })(jQuery);

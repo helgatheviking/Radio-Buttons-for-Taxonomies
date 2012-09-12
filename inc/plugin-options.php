@@ -27,16 +27,30 @@
                       <td>
 
                         <?php 
+
                         $args=array(
                             'public'   => true,
-                            'show_ui' => true
+                            'show_ui' => true,
+                            '_builtin' => true
                           );
 
-                        $taxonomies = get_taxonomies( $args, 'objects' ); 
+                        $defaults = get_taxonomies( $args, 'objects' ); 
+                        ksort( $defaults );
+
+
+                        $args=array(
+                            'public'   => true,
+                            'show_ui' => true,
+                            '_builtin' => false
+                          );
+
+                        $custom = get_taxonomies( $args, 'objects' ); 
+                        ksort( $custom );
+
+
+                        $taxonomies = array_merge( $defaults , $custom );
 
                         if( ! is_wp_error( $taxonomies ) ) { 
-
-                          ksort( $taxonomies );
 
                           foreach ($taxonomies as $i=>$taxonomy) {
                             
