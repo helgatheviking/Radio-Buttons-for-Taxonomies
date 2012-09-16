@@ -175,7 +175,7 @@ class WordPress_Radio_Taxonomy {
 	    if ( is_array( $this->tax_obj->object_type ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
 	   
     	// verify this came from our screen and with proper authorization.
-	 	if ( ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
+	 	if ( ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) || ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
 	 
 	  	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 	  	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
@@ -365,9 +365,9 @@ class WordPress_Radio_Taxonomy {
 	function quick_edit_custom_box( $column_name, $screen ) {
 		if ( ! in_array ( $screen, $this->tax_obj->object_type ) || $column_name != 'radio-' . $this->taxonomy ) return false;
 		    
-	    wp_nonce_field( 'radio-'.$this->taxonomy, "radio_{$this->taxonomy}_nonce" , false ); 
-
-		?>
+	    //needs the same name as metabox nonce
+	    wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );  ?>
+		
 		<fieldset class="inline-edit-col-left inline-edit-categories">
 			<div class="inline-edit-col">
 			<span class="title inline-edit-categories-label"><?php echo esc_html( $this->tax_obj->labels->name ) ?>
