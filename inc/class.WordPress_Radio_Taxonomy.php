@@ -29,7 +29,7 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this, 'ajax_add_term' ) );
 
 		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen - irrelevant in 3.4.2
-		add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
+		//add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
 
 		//add columns to the edit screen
 		add_filter( 'wp_loaded', array( &$this, 'add_columns_init' ) );
@@ -42,8 +42,6 @@ class WordPress_Radio_Taxonomy {
 
 		//add to quick edit
 		add_action( 'quick_edit_custom_box', array( &$this,'quick_edit_custom_box' ), 10, 2);
-
-
 
 	}
 
@@ -84,12 +82,13 @@ class WordPress_Radio_Taxonomy {
 		else
 			$args = $box['args'];
 		extract( wp_parse_args($args, $defaults), EXTR_SKIP );
+
 		$tax = get_taxonomy($taxonomy);
 
 		//get current terms
-		$checked_terms = $post->ID ? wp_get_object_terms($post->ID, $taxonomy) : array();
+		$checked_terms = $post->ID ? wp_get_object_terms( $post->ID, $taxonomy) : array();
 		//get first term object
-       	$current = ! empty($checked_terms) && !is_wp_error($checked_terms) ? array_pop($checked_terms) : false;  
+       	$current = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;  
 
 		?>
 		<div id="taxonomy-<?php echo $taxonomy; ?>" class="radio-buttons-for-taxonomies">
@@ -132,7 +131,7 @@ class WordPress_Radio_Taxonomy {
 					<?php wp_terms_checklist($post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 				</ul>
 			</div>
-		<?php if ( current_user_can($tax->cap->edit_terms) ) : ?>
+		<?php if ( current_user_can( $tax->cap->edit_terms ) ) : ?>
 				<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
 					<h4>
 						<a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js" tabindex="3">
@@ -271,7 +270,7 @@ class WordPress_Radio_Taxonomy {
 	function add_columns_init() {  
 		if( $this->tax_obj->object_type ) foreach ( $this->tax_obj->object_type as $post_type ){
 			//add taxonomy columns - does not exist in 3.4.2
-			add_filter( "manage_taxonomies_for_{$post_type}_columns", array(&$this,'remove_tax_columns'), 10, 2 );
+			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array(&$this,'remove_tax_columns'), 10, 2 );
 
 			//add some hidden data that we'll need for the quickedit
 			add_filter( "manage_{$post_type}_posts_columns", array( &$this, 'add_tax_columns' ) );
@@ -297,7 +296,10 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.1
 	 */
 	function add_tax_columns( $columns ) { 
-		$columns[ "radio-{$this->taxonomy}"] = $this->tax_obj->labels->name;
+		//until wp3.5 skip adding category and tag columns
+		if ( ! in_array ( $this->taxonomy , array ('post_tag', 'category') ) ) {
+			$columns[ "radio-{$this->taxonomy}"] = $this->tax_obj->labels->name;
+		}
 		return $columns;
 	}
 
@@ -309,9 +311,15 @@ class WordPress_Radio_Taxonomy {
 	function custom_tax_columns( $column, $post_id ) { 
 		global $post;
 
+		$terms = get_the_terms( $post_id, $this->taxonomy );
+		$value =  ! is_wp_error( $terms )  ?  $terms[0] : '';
+
+		//need this for WP3.4 until we can actually remove existing columns
+		echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">'. $value .'</div>';
+
 		switch ( $column ) {  
 			case "radio-{$this->taxonomy}": 
-				if ( $terms = get_the_terms( $post_id, $this->taxonomy ) ) {
+				if ( $terms ) { //switch back to get_the_terms() here when 3.5 is available
 						$out = array();
 						$hidden = array();
 						foreach ( $terms as $t ) {
@@ -334,7 +342,8 @@ class WordPress_Radio_Taxonomy {
 						}
 						/* translators: used between list items, there is a space after the comma */
 						echo join( __( ', ' ), $out );
-						echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
+						//redo this when wp 3.5 is available
+						//echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
 					} else {
 						/* translators: No 'terms' where %s is the taxonomy name */
 						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->name );
@@ -377,17 +386,21 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function filter_terms( $terms, $object_ids, $taxonomy, $args ) {
 
-		//all the terms that are in this tax
-	    $matches = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'and' );
+		if ( $this->taxonomy == $taxonomy && $terms ) {
 
-	    //all terms NOT in this tax
-	    $remainder = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'not' );
+			//all the terms that are in this tax
+		    $matches = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'and' );
 
-	    //get first term in this tax
-	    $single =  count( $matches ) > 1 ? array_slice( $matches, 0, 1) : $matches; 
+		    //all terms NOT in this tax
+		    $remainder = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'not' );
 
-	    //merge it back together	   
-	    $terms = array_merge( $remainder, $single );
+		    //get first term in this tax
+		    $single =  count( $matches ) > 1 ? array_slice( $matches, 0, 1) : $matches; 
+
+		    //merge it back together	   
+		    $terms = array_merge( $remainder, $single );
+
+		}
 
 		return $terms;
 
