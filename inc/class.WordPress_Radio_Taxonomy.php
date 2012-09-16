@@ -31,7 +31,7 @@ class WordPress_Radio_Taxonomy {
 		//Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this, 'ajax_add_term' ) );
 
-		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen
+		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen - irrelevant in 3.4.2
 		add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
 
 		//add columns to the edit screen
@@ -173,7 +173,7 @@ class WordPress_Radio_Taxonomy {
 	    return $args;
 	}
 
-	function save_taxonomy_term ( $post_ID ) {
+	function save_taxonomy_term ( $post_id ) {
 	
 		// make sure we're on a supported post type
 	    if ( is_array( $this->tax_obj->object_type ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
@@ -200,14 +200,13 @@ class WordPress_Radio_Taxonomy {
 	  	// OK, we're authenticated: we need to find and save the data
 	  	if( $this->taxonomy == 'category' && isset ( $_POST["post_category"] ) ) {
 	  		$terms = $_POST["post_category"];
-
 	  	} elseif ( isset ( $_POST["tax_input"]["{$this->taxonomy}"] ) )  {
 	  		$terms = $_POST["tax_input"]["{$this->taxonomy}"];
 	  	}
 
 	  	// WordPress always saves a zero/null integer which we will want to skip
-	  	if ( count ( $terms > 1 ) ) { 
-	  		usort( $terms ); 
+	  	if ( count ( $terms ) > 1 ) { 		
+	  		sort( $terms ); 
 	  		$terms = $terms[1]; //make sure we're only saving 1 term, but not index 0
 			wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 	  	}
@@ -216,7 +215,7 @@ class WordPress_Radio_Taxonomy {
 	}
 
 	public function admin_script(){  
-		wp_enqueue_script( 'radiotax', plugins_url('js/radiotax.js', __FILE__), array('jquery'), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
+		wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
 	}
 
 
@@ -269,7 +268,6 @@ class WordPress_Radio_Taxonomy {
 	public function disable_ui(){
 		global $wp_taxonomies;
 		$wp_taxonomies[$this->taxonomy]->show_ui = FALSE;
-		//$wp_taxonomies[$this->taxonomy]->show_admin_column = FALSE;  //redundant? need filter taxonomies?
 	}
 
 
@@ -278,14 +276,14 @@ class WordPress_Radio_Taxonomy {
 	 *
 	 * @since 1.1
 	 */
-	function add_columns_init() {  //var_dump($this->taxonomy);
+	function add_columns_init() {  
 		if( $this->tax_obj->object_type ) foreach ( $this->tax_obj->object_type as $post_type ){
-			//add taxonomy columns
+			//add taxonomy columns - does not exist in 3.4.2
 			add_filter( "manage_taxonomies_for_{$post_type}_columns", array(&$this,'remove_tax_columns'), 10, 2 );
 
 			//add some hidden data that we'll need for the quickedit
 			add_filter( "manage_{$post_type}_posts_columns", array( &$this, 'add_tax_columns' ) );
-			add_action( "manage_{$post_type}_posts_custom_column", array(&$this,'custom_tax_columns'), 99, 2);
+			add_action( "manage_{$post_type}_posts_custom_column", array( &$this, 'custom_tax_columns' ), 99, 2);
 
 		}
 
@@ -328,8 +326,8 @@ class WordPress_Radio_Taxonomy {
 							$posts_in_term_qv = array();
 							if ( 'post' != $post->post_type )
 								$posts_in_term_qv['post_type'] = $post->post_type;
-							if ( $taxonomy_object->query_var ) {
-								$posts_in_term_qv[ $taxonomy_object->query_var ] = $t->slug;
+							if ( $this->tax_obj->query_var ) {
+								$posts_in_term_qv[ $this->tax_obj->query_var ] = $t->slug;
 							} else {
 								$posts_in_term_qv['taxonomy'] = $taxonomy;
 								$posts_in_term_qv['term'] = $t->slug;
@@ -337,7 +335,7 @@ class WordPress_Radio_Taxonomy {
 
 							$out[] = sprintf( '<a href="%s">%s</a>',
 								esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
-								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
+								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $this->taxonomy, 'display' ) )
 							);
 
 							$hidden[] = is_taxonomy_hierarchical( $this->taxonomy ) ? $t->term_id : $t->slug;
@@ -346,7 +344,8 @@ class WordPress_Radio_Taxonomy {
 						echo join( __( ', ' ), $out );
 						echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
 					} else {
-						echo '&#8212;';
+						/* translators: No 'terms' where %s is the taxonomy name */
+						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->name );
 					}
 				break;
 		}
@@ -403,6 +402,4 @@ class WordPress_Radio_Taxonomy {
 	}
 
 } //end class - do NOT remove or else
-
 endif;
-?>
