@@ -32,8 +32,9 @@ It has been expanded to provide a plugin options page where the user can select 
 
 ### 1.1
 * Added columns to edit screen for every radio taxonomy
-* Add quick edit for every radio taxonomy
+* Add quick edit for hierarchical radio taxonomies : WP3.4.2 is missing hooks required to do non-hierarchical
 * Enforce limit of single terms both via save_post and wp_get_object_terms
+* fixed error with taxonomy object property not being loaded on the right hook
 
 ### 1.0.3
 * updated donate link
