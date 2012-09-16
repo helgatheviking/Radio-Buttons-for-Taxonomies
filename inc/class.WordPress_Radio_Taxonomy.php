@@ -40,8 +40,8 @@ class WordPress_Radio_Taxonomy {
 		//never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( &$this, 'save_taxonomy_term' ) );
 
-		//add to quick edit
-		add_action( 'quick_edit_custom_box', array( &$this,'quick_edit_custom_box' ), 10, 2);
+		//add to quick edit - irrelevant for wp 3.4.2
+		//add_action( 'quick_edit_custom_box', array( &$this,'quick_edit_custom_box' ), 10, 2);
 
 	}
 
@@ -172,7 +172,7 @@ class WordPress_Radio_Taxonomy {
 	function save_taxonomy_term ( $post_id ) {
 	
 		// make sure we're on a supported post type
-	    if ( is_array( $this->tax_obj->object_type ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
+	    if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
 	   
     	// verify this came from our screen and with proper authorization.
 	 	if ( ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) || ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
@@ -315,15 +315,9 @@ class WordPress_Radio_Taxonomy {
 	function custom_tax_columns( $column, $post_id ) { 
 		global $post;
 
-		$terms = get_the_terms( $post_id, $this->taxonomy );
-		$value =  ! is_wp_error( $terms )  ?  $terms[0] : '';
-
-		//need this for WP3.4 until we can actually remove existing columns
-		echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">'. $value .'</div>';
-
 		switch ( $column ) {  
 			case "radio-{$this->taxonomy}": 
-				if ( $terms ) { //switch back to get_the_terms() here when 3.5 is available
+				if ( $terms = get_the_terms( $post_id, $this->taxonomy ) ) { //switch back to get_the_terms() here when 3.5 is available
 						$out = array();
 						$hidden = array();
 						foreach ( $terms as $t ) {
@@ -366,21 +360,23 @@ class WordPress_Radio_Taxonomy {
 		if ( ! in_array ( $screen, $this->tax_obj->object_type ) || $column_name != 'radio-' . $this->taxonomy ) return false;
 		    
 	    //needs the same name as metabox nonce
-	    wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );  ?>
+	    wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );  
+
+	    ?>
 		
 		<fieldset class="inline-edit-col-left inline-edit-categories">
 			<div class="inline-edit-col">
-			<span class="title inline-edit-categories-label"><?php echo esc_html( $this->tax_obj->labels->name ) ?>
-				<span class="catshow"><?php _e( '[more]' ); ?></span>
-				<span class="cathide" style="display:none;"><?php _e( '[less]' ); ?></span>
-			</span>
-			<input type="hidden" name="<?php echo ( $this->taxonomy == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $this->tax_obj->labels->name ) . '][]'; ?>" value="0" />
-			<ul id="<?php echo $this->taxonomy ?>" class="radio-checklist cat-checklist <?php echo esc_attr( $this->tax_obj->labels->name )?>-checklist">
-				<?php wp_terms_checklist( null, array( 'taxonomy' => $this->taxonomy ) ) ?>
-			</ul>
+				<span class="title inline-edit-categories-label"><?php echo esc_html( $this->tax_obj->labels->name ) ?>
+					<span class="catshow"><?php _e( '[more]' ); ?></span>
+					<span class="cathide" style="display:none;"><?php _e( '[less]' ); ?></span>
+				</span>
+				<input type="hidden" name="<?php echo ( $this->taxonomy == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $this->tax_obj->labels->name ) . '][]'; ?>" value="0" />
+				<ul id="<?php echo $this->taxonomy ?>" class="radio-checklist cat-checklist <?php echo esc_attr( $this->tax_obj->labels->name )?>-checklist">
+					<?php wp_terms_checklist( null, array( 'taxonomy' => $this->taxonomy ) ) ?>
+				</ul>
 			</div>
 		</fieldset>
-	<?php 
+		<?php 
 	}
 
 	/**
