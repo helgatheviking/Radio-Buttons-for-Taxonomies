@@ -203,7 +203,12 @@ class WordPress_Radio_Taxonomy {
 	  	// WordPress always saves a zero/null integer which we will want to skip
 	  	if ( count ( $terms ) > 1 ) { 		
 	  		sort( $terms ); 
-	  		$terms = $terms[1]; //make sure we're only saving 1 term, but not index 0
+	  		$terms = array_slice($terms, 1, 1); //make sure we're only saving 1 term, but not index 0
+
+	  		//if hierarchical we need to ensure integers!
+	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) $terms = array_map( 'intval', $terms );
+
+	  		//set the single term
 			wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 	  	}
 	
