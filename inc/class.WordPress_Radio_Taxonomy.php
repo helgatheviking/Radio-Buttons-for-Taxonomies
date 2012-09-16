@@ -176,7 +176,7 @@ class WordPress_Radio_Taxonomy {
 	function save_taxonomy_term ( $post_ID ) {
 	
 		// make sure we're on a supported post type
-	    if ( ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
+	    if ( is_array( $this->tax_obj->object_type ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
 	   
 
     	// verify this came from our screen and with proper authorization.
