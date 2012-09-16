@@ -49,24 +49,28 @@ class Radio_Buttons_for_Taxonomies {
 	    include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
       include_once( 'inc/class.Walker_Category_Radio.php' );
 
-	    //create a class property for each taxonomy that we are converting to radio buttons
-  		//for example: $this->categories
-  		$options = get_option( 'radio_button_for_taxonomies_options', true );  
-  		if( isset( $options['taxonomies'] ) ) foreach( $options['taxonomies'] as $taxonomy ) {  
-		     $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
-		}
-
 	    // Set-up Action and Filter Hooks
 	    register_uninstall_hook( __FILE__, array( __CLASS__,'delete_plugin_options' ) );
 
 	    //load plugin text domain for translations
 	    add_action( 'plugins_loaded', array( &$this,'load_text_domain' ) );
 
+      //create a class property for each taxonomy that we are converting to radio buttons
+      //for example: $this->categories
+      $options = get_option( 'radio_button_for_taxonomies_options', true );  
+
+      if( isset( $options['taxonomies'] ) ) foreach( $options['taxonomies'] as $taxonomy ) {  
+         $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
+      }
+
 	    //register settings
 	    add_action( 'admin_init', array( &$this,'admin_init' ));
 
 	    //add plugin options page
 	    add_action( 'admin_menu', array( &$this,'add_options_page' ) );
+
+      //Load admin scripts
+      add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
 
 	    //add settings link to plugins page
 	    add_filter( 'plugin_action_links', array( &$this,'add_action_links' ), 10, 2 );
@@ -141,6 +145,22 @@ class Radio_Buttons_for_Taxonomies {
 
     return $clean;
   }
+
+  // ------------------------------------------------------------------------------
+  // CALLBACK FUNCTION FOR: add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
+  // ------------------------------------------------------------------------------
+
+    public function admin_script(){ 
+
+      $options = get_option( 'radio_button_for_taxonomies_options', true );  
+
+      if( ! isset( $options['taxonomies'] ) ) return;
+      
+      wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true ); 
+      //pass the radio taxonomies to a JS object
+      wp_localize_script( 'radiotax', 'radio_button_for_taxonomies', array( 'taxonomies' => $options['taxonomies'] ) );
+
+    }
 
   // Display a Settings link on the main Plugins page
   function add_action_links( $links, $file ) {

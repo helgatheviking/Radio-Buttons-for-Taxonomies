@@ -25,9 +25,6 @@ class WordPress_Radio_Taxonomy {
 		//change checkboxes to radios
 		add_filter( 'wp_terms_checklist_args', array( &$this, 'filter_terms_checklist_args' ) );
 
-		//Load admin scripts
-		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
-
 		//Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this, 'ajax_add_term' ) );
 
@@ -213,11 +210,6 @@ class WordPress_Radio_Taxonomy {
 	
 		return;	 
 	}
-
-	public function admin_script(){  
-		wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true ); // We specify true here to tell WordPress this script needs to be loaded in the footer  
-	}
-
 
 	public function ajax_add_term(){  
 
