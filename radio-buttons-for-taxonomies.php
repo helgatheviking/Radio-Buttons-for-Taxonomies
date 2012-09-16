@@ -39,16 +39,11 @@ To use this plugin, just activate it and go to the settings page.  Then Check th
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
-if ( !class_exists( "Radio_Buttons_for_Taxonomies" ) ) :
+if ( ! class_exists( "Radio_Buttons_for_Taxonomies" ) ) :
 
 class Radio_Buttons_for_Taxonomies {
 
-	static $plugin_url;
-
   	function __construct(){
-
-  		//define the $plugin_url
-    	$this->plugin_url();
 
 	    // Include required files
 	    include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
@@ -62,7 +57,7 @@ class Radio_Buttons_for_Taxonomies {
 		}
 
 	    // Set-up Action and Filter Hooks
-	    register_uninstall_hook( __FILE__, array( &$this,'delete_plugin_options' ) );
+	    register_uninstall_hook( __FILE__, array( __CLASS__,'delete_plugin_options' ) );
 
 	    //load plugin text domain for translations
 	    add_action( 'plugins_loaded', array( &$this,'load_text_domain' ) );
@@ -80,21 +75,11 @@ class Radio_Buttons_for_Taxonomies {
 
 
   // --------------------------------------------------------------------------------------
-  // HELPER FUNCTION: define the plugin url 
-  // --------------------------------------------------------------------------------------
-
-	function plugin_url() { 
-		if ( $this->plugin_url ) return $this->plugin_url;
-		return $this->plugin_url = plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) );
-	}
-
-
-  // --------------------------------------------------------------------------------------
   // CALLBACK FUNCTION FOR: register_uninstall_hook(__FILE__,  array(&$this,'delete_plugin_options'))
   // --------------------------------------------------------------------------------------
 
   // Delete options table entries ONLY when plugin deactivated AND deleted
-  function delete_plugin_options() {
+  public static function delete_plugin_options() {
     $options = get_option( 'radio_button_for_taxonomies_options', true );
     if( isset( $options['delete'] ) ) delete_option( 'radio_button_for_taxonomies_options' );
   }
@@ -176,5 +161,4 @@ endif;
 * Launch the whole plugin
 */
 global $Radio_Buttons_for_Taxonomies;
-$Radio_Buttons_for_Taxonomies = new Radio_Buttons_for_Taxonomies(); 
-?>
+$Radio_Buttons_for_Taxonomies = new Radio_Buttons_for_Taxonomies();
