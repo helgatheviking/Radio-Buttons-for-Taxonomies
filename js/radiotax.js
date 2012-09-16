@@ -52,7 +52,7 @@
 			return s;
 		};
 
-		catAddAfter = function( r, s ) { console.log(s.parsed.responses[0]);
+		catAddAfter = function( r, s ) { 
 			var sup, drop = $('#new'+taxonomy+'_parent');
 
 			//fix for popular radio buttons- when new term is added -uncheck all
@@ -63,7 +63,7 @@
 				drop.before(sup);
 				drop.remove();
 
-				id = $(s.parsed.responses[0].data).find('input').attr('value');  console.log(id);
+				id = $(s.parsed.responses[0].data).find('input').attr('value');  
 
 				//if an existing term is added, check it in the popular list too
 				$('#in-popular-' + taxonomy + '-' + id ).prop('checked', true);  
@@ -154,25 +154,29 @@
 	$('.editinline').on('click', function(){
 
 		// reset
-		inlineEditPost.revert();
+		inlineEditPost.revert();  
 
 		tag_id = $(this).parents('tr').attr('id'); 
 
+		id = tag_id.split("-");
+
+		id = ( typeof id[1] != 'undefined' ) ? id[1] : '';  
+
 		// for each checklist get the value and check the correct input
 
-		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () { 
+		if ( typeof radio_button_for_taxonomies.taxonomies == 'undefined' ) return;
 
-			taxonomy = $(this).attr('id'); 
+		//for each radio enabled taxonomy
+		$.each( radio_button_for_taxonomies.taxonomies, function( i, taxonomy ) {
 
-			value = $('.' + taxonomy, '#' + tag_id ).text(); 
-
+			term = $( '#inline_'+id ).find('#' + taxonomy + '_' + id ).text();
 			// protect against multiple taxonomies (which are separated with a comma , )
 			// this should be overkill, but just in case
-			taxonomies = value.split(",");
-			taxonomy = taxonomies ? taxonomies[0] : taxonomy; console.log(taxonomy);
+			terms = term.split(",");
+			term = terms ? terms[0] : term; 
 
 			//uses :radio so doesn't need any other special selector
-			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
+			$( 'ul.'+taxonomy+'-checklist', '.quick-edit-row' ).find( ':radio[value='+term+']' ).prop( 'checked', true );
 
 		});
 
