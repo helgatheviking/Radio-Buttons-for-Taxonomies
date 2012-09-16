@@ -151,7 +151,7 @@ class WordPress_Radio_Taxonomy {
 							wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); 
 						} ?>
 						<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button <?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'category-add-submit'; } else { echo 'radio-add-submit';} ?>" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
-						<?php wp_nonce_field( 'radio-'.$taxonomy, 'radio_'.$taxonomy . '_nonce', false ); ?>
+						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy, false ); ?>
 						<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
 					</p>
 				</div>
@@ -174,9 +174,8 @@ class WordPress_Radio_Taxonomy {
 		// make sure we're on a supported post type
 	    if ( is_array( $this->tax_obj->object_type ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
 	   
-
     	// verify this came from our screen and with proper authorization.
-	 	if ( ! wp_verify_nonce( $_POST["radio_{$this->taxonomy}_nonce"], "radio-{$this->taxonomy}" ) ) return;
+	 	if ( ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
 	 
 	  	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 	  	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
@@ -221,7 +220,7 @@ class WordPress_Radio_Taxonomy {
 		$term = ! empty( $_POST['term'] ) ? $_POST['term'] : '';
 		$tax = $this->tax_obj;
 
-		check_ajax_referer( 'radio-'.$taxonomy, '_wpnonce_radio-add-tag' );
+		check_ajax_referer( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy );
 
 		//term already exists
 		if ( $tag = term_exists( $term, $taxonomy ) ) {
