@@ -8,14 +8,15 @@ Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html   
 
-The Radio Buttons for Taxonomies plugin lets you switch any taxonomy to a radio-button style metabox.
 
 ## Description
 
-This plugin is an evolution of the class by Stephen Harris:  
-https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
+This plugin lets you switch any taxonomy to a radio-button style metabox, so users can only select 1 term at a time.
 
-It has been expanded to provide a plugin options page where the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.  
+A plugin options page allows the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.  
+
+Based on the the class by Stephen Harris:  
+https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 ## Installation
 
