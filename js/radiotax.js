@@ -84,15 +84,15 @@
 		// wpList doesn't work well with non hierarchical taxonomies so we'll need to do that outselves via ajax
 		$('#' + taxonomy +'-add .radio-add-submit').on( 'click', function(){  
 			var term = $.trim( $('#' + taxonomy+'-add #new'+taxonomy).val() ); 
-			var nonce =$('#' + taxonomy+'-add #radio_' + taxonomy + '_nonce' ).val(); 
+			var nonce =$('#_ajax_nonce-add-' + taxonomy ).val();  
 
 			//quit if the term is empty
 			if ( ! term.length ) return;
 
 			var request = $.ajax({
-				type: "POST",
+				type: 'POST',
 				url: ajaxurl,
-				data: { action: "radio_tax_add_taxterm", '_wpnonce_radio-add-tag': nonce, 'taxonomy' : taxonomy, 'term' : term }
+				data: { 'action': 'radio_tax_add_taxterm', 'wpnonce_radio-add-term' : nonce, 'taxonomy' : taxonomy, 'term' : term }
 			});
 
 			request.fail(function(msg, textStatus) {   
@@ -167,7 +167,7 @@
 		if ( typeof radio_button_for_taxonomies.taxonomies == 'undefined' ) return;
 
 		//for each radio enabled taxonomy
-		$.each( radio_button_for_taxonomies.taxonomies, function( i, taxonomy ) {
+/*		$.each( radio_button_for_taxonomies.taxonomies, function( i, taxonomy ) {
 
 			term = $( '#inline_'+id ).find('#' + taxonomy + '_' + id ).text();
 			// protect against multiple taxonomies (which are separated with a comma , )
@@ -179,6 +179,25 @@
 			$( 'ul.'+taxonomy+'-checklist', '.quick-edit-row' ).find( ':radio[value='+term+']' ).prop( 'checked', true );
 
 		});
+*/
+
+
+		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () { 
+
+			taxonomy = $(this).attr('id'); 
+
+			value = $('.' + taxonomy, '#' + tag_id ).text(); 
+
+			// protect against multiple taxonomies (which are separated with a comma , )
+			// this should be overkill, but just in case
+			taxonomies = value.split(",");
+			taxonomy = taxonomies ? taxonomies[0] : taxonomy; 
+
+			//uses :radio so doesn't need any other special selector
+			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
+
+		});
+
 
 	});
 

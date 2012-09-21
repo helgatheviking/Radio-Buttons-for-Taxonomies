@@ -31,10 +31,7 @@ class Walker_Category_Radio extends Walker {
         if ( empty($taxonomy) )
             $taxonomy = 'category';
 
-        if ( $taxonomy == 'category' )
-            $name = 'post_category';
-        else
-            $name = 'tax_input['.$taxonomy.']';
+        $name = 'radio_tax_input['.$taxonomy.']';
 
         //small tweak so that it works for both hierarchical and non-hierarchical tax
         $value = is_taxonomy_hierarchical($taxonomy) ? $term->term_id : $term->slug;

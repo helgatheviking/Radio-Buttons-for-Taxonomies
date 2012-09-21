@@ -29,19 +29,19 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this, 'ajax_add_term' ) );
 
 		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen - irrelevant in 3.4.2
-		//add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
+		add_action( 'load-edit.php', array( &$this, 'disable_ui' ) );
 
 		//add columns to the edit screen
-		add_filter( 'wp_loaded', array( &$this, 'add_columns_init' ) );
+		add_filter( 'admin_init', array( &$this, 'add_columns_init' ), 20 );
 
 		//filter wp_get_object_terms to only show a single term
-		add_filter( 'wp_get_object_terms', array( &$this, 'filter_terms' ), 10, 4 );
+		//add_filter( 'wp_get_object_terms', array( &$this, 'filter_object_terms' ), 10, 4 );
 
 		//never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( &$this, 'save_taxonomy_term' ) );
 
 		//add to quick edit - irrelevant for wp 3.4.2
-		//add_action( 'quick_edit_custom_box', array( &$this,'quick_edit_custom_box' ), 10, 2);
+		add_action( 'quick_edit_custom_box', array( &$this, 'quick_edit_custom_box' ), 10, 2);
 
 	}
 
@@ -51,7 +51,7 @@ class WordPress_Radio_Taxonomy {
 	 *
 	 * @since 1.1
 	 */
-	public function get_taxonomy(){
+	public function get_taxonomy(){ 
 		$this->tax_obj = get_taxonomy( $this->taxonomy );
 	}
 
@@ -86,7 +86,7 @@ class WordPress_Radio_Taxonomy {
 		$tax = get_taxonomy($taxonomy);
 
 		//get current terms
-		$checked_terms = $post->ID ? wp_get_object_terms( $post->ID, $taxonomy) : array();
+		$checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy) : array();
 		//get first term object
        	$current = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;  
 
@@ -124,7 +124,7 @@ class WordPress_Radio_Taxonomy {
 
 			<div id="<?php echo $taxonomy; ?>-all" class="wp-tab-panel tabs-panel">
 				<?php
-	            $name = ( $taxonomy == 'category' ) ? 'post_category' : 'tax_input[' . $taxonomy . ']';
+	            $name = 'radio_tax_input[' . $taxonomy . ']';
 	            echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
 	            ?>
 				<ul id="<?php echo $taxonomy; ?>checklist" class="list:<?php echo $taxonomy?> <?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'categorychecklist'; } else { echo 'tagchecklist';} ?> form-no-clear">
@@ -151,7 +151,7 @@ class WordPress_Radio_Taxonomy {
 							wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $tax->labels->parent_item . ' &mdash;', 'tab_index' => 3 ) ); 
 						} ?>
 						<input type="button" id="<?php echo $taxonomy; ?>-add-submit" class="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add button <?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'category-add-submit'; } else { echo 'radio-add-submit';} ?>" value="<?php echo esc_attr( $tax->labels->add_new_item ); ?>" tabindex="3" />
-						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy, false ); ?>
+						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy ); ?>
 						<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
 					</p>
 				</div>
@@ -169,19 +169,26 @@ class WordPress_Radio_Taxonomy {
 	    return $args;
 	}
 
-	function save_taxonomy_term ( $post_id ) {
+	function save_taxonomy_term ( $post_id ) {  
+
+		
 	
 		// make sure we're on a supported post type
 	    if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
-	   
+
+	    update_option('kia_var_dump',  'post type');
+/*	   
     	// verify this came from our screen and with proper authorization.
 	 	if ( ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) || ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
+
+	 	update_option('kia_var_dump',  'verified');
 	 
 	  	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 	  	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
 	    	return $post_id;
 	 
-	 
+	update_option('kia_var_dump',  'not autosave');
+
 	  	// Check permissions
 	  	if ( 'page' == $_POST['post_type'] ) {
 	    	if ( !current_user_can( 'edit_page', $post_id ) ) return;
@@ -189,29 +196,42 @@ class WordPress_Radio_Taxonomy {
 	    	if ( !current_user_can( 'edit_post', $post_id ) ) return;
 	  	}
 
-	  	
-	 	$terms = array();
+	  	update_option('kia_var_dump',  'verified');
+*/
+	 	$terms = null;
 
 	  	// OK, we're authenticated: we need to find and save the data
-	  	if( $this->taxonomy == 'category' && isset ( $_POST["post_category"] ) ) {
-	  		$terms = $_POST["post_category"];
-	  	} elseif ( isset ( $_POST["tax_input"]["{$this->taxonomy}"] ) )  {
-	  		$terms = $_POST["tax_input"]["{$this->taxonomy}"];
+	  	if ( isset ( $_POST["radio_tax_input"]["{$this->taxonomy}"] ) )  {
+	  		$terms = $_POST["radio_tax_input"]["{$this->taxonomy}"];
 	  	}
 
+	  	//update_option('kia_var_dump',  $_POST["tax_input"]["post_tag"]);
+
 	  	// WordPress always saves a zero/null integer which we will want to skip
-	  	if ( count ( $terms ) > 1 ) { 		
+	  	if ( is_array( $terms ) ) { 		 update_option('kia_var_dump',  'array');
 	  		sort( $terms ); 
 	  		$terms = array_slice($terms, 1, 1); //make sure we're only saving 1 term, but not index 0
 
 	  		//if hierarchical we need to ensure integers!
 	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) $terms = array_map( 'intval', $terms );
 
-	  		//set the single term
-			wp_set_object_terms( $post_id, $terms, $this->taxonomy );
+	  	} else {
+
+	  		//if somehow user is saving string of tags, split string and grab first
+	  		$terms = explode( ',' , $terms) ;
+		    $terms = array_map( 
+		        function($n) { return trim($n); }, 
+		        $terms 
+		    ); 
+
+		    $terms = $terms[0];
+
 	  	}
+
+	  	//set the single term
+		wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 	
-		return;	 
+		return $post_id;	 
 	}
 
 	public function ajax_add_term(){  
@@ -220,7 +240,7 @@ class WordPress_Radio_Taxonomy {
 		$term = ! empty( $_POST['term'] ) ? $_POST['term'] : '';
 		$tax = $this->tax_obj;
 
-		check_ajax_referer( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy );
+		check_ajax_referer( 'add-'.$taxonomy, 'wpnonce_radio-add-term' );
 
 		//term already exists
 		if ( $tag = term_exists( $term, $taxonomy ) ) {
@@ -243,7 +263,7 @@ class WordPress_Radio_Taxonomy {
 	
 		//if all is successful, build the new radio button to send back
 		$id = $taxonomy.'-'.$tag->term_id;
-		$name = 'tax_input[' . $taxonomy . ']';
+		$name = 'radio_tax_input[' . $taxonomy . ']';
 
 		$html ='<li id="'.$id.'"><label class="selectit"><input type="radio" id="in-'.$id.'" name="'.$name.'" value="' . $tag->slug .'" checked="checked"/>&nbsp;'. $tag->name.'</label></li>';
 
@@ -272,7 +292,12 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.1
 	 */
 	function add_columns_init() {  
-		if( $this->tax_obj->object_type ) foreach ( $this->tax_obj->object_type as $post_type ){
+
+		$screen = get_current_screen();
+
+		if ( isset( $screen->base ) && 'edit' != $screen->base ) return;
+
+		if( isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){  
 			//add taxonomy columns - does not exist in 3.4.2
 			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array(&$this,'remove_tax_columns'), 10, 2 );
 
@@ -288,6 +313,7 @@ class WordPress_Radio_Taxonomy {
 	 * Remove the existing columns
 	 *
 	 * @since 1.1
+	 * Waiting for manage_taxonomies_for filter in WP 3.5
 	 */
 	function remove_tax_columns( $taxonomies, $post_type ) {
 		unset( $taxonomies[$this->taxonomy] );
@@ -300,10 +326,20 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.1
 	 */
 	function add_tax_columns( $columns ) { 
-		//until wp3.5 skip adding category and tag columns
-		if ( ! in_array ( $this->taxonomy , array ('post_tag', 'category') ) ) {
-			$columns[ "radio-{$this->taxonomy}"] = $this->tax_obj->labels->name;
-		}
+		
+		/* keep trickery for post_tag and category' replacement until WP 3.5 */
+		switch ( $this->taxonomy ) {
+			case 'post_tag' :
+				$json = str_replace("tags", "radio-{$this->taxonomy}" , json_encode($columns));
+   				$columns = json_decode($json, true);
+				break;
+			case 'category' :
+				$json = str_replace("categories", "radio-{$this->taxonomy}" , json_encode($columns));
+    			$columns = json_decode($json, true);
+    			break;
+    		default: 
+				$columns[ "radio-{$this->taxonomy}"] = $this->tax_obj->labels->name;
+		} 
 		return $columns;
 	}
 
@@ -317,10 +353,11 @@ class WordPress_Radio_Taxonomy {
 
 		switch ( $column ) {  
 			case "radio-{$this->taxonomy}": 
-				if ( $terms = get_the_terms( $post_id, $this->taxonomy ) ) { //switch back to get_the_terms() here when 3.5 is available
+				if ( $terms = wp_get_object_terms( $post_id, $this->taxonomy ) ) { 
 						$out = array();
 						$hidden = array();
 						foreach ( $terms as $t ) {
+							if ( count ( $out ) == 1 ) break; //break out of this foreach at 1 term only (is filtering get_the_terms better?
 							$posts_in_term_qv = array();
 							if ( 'post' != $post->post_type )
 								$posts_in_term_qv['post_type'] = $post->post_type;
@@ -341,7 +378,7 @@ class WordPress_Radio_Taxonomy {
 						/* translators: used between list items, there is a space after the comma */
 						echo join( __( ', ' ), $out );
 						//redo this when wp 3.5 is available
-						//echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
+						echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
 					} else {
 						/* translators: No 'terms' where %s is the taxonomy name */
 						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->name );
@@ -370,7 +407,7 @@ class WordPress_Radio_Taxonomy {
 					<span class="catshow"><?php _e( '[more]' ); ?></span>
 					<span class="cathide" style="display:none;"><?php _e( '[less]' ); ?></span>
 				</span>
-				<input type="hidden" name="<?php echo ( $this->taxonomy == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $this->tax_obj->labels->name ) . '][]'; ?>" value="0" />
+				<input type="hidden" name="<?php echo 'radio_tax_input[' . esc_attr( $this->taxonomy ) . '][]'; ?>" value="0" />
 				<ul id="<?php echo $this->taxonomy ?>" class="radio-checklist cat-checklist <?php echo esc_attr( $this->tax_obj->labels->name )?>-checklist">
 					<?php wp_terms_checklist( null, array( 'taxonomy' => $this->taxonomy ) ) ?>
 				</ul>
@@ -384,23 +421,42 @@ class WordPress_Radio_Taxonomy {
 	 *
 	 * @since 1.1
 	 */
-	function filter_terms( $terms, $object_ids, $taxonomy, $args ) {
+	function filter_object_terms( $terms, $object_ids, $taxonomies, $args ) { 
 
-		if ( $this->taxonomy == $taxonomy && $terms ) {
+		if ( empty ( $terms ) ) return $terms;
+
+		if ( isset ( $args['fields'] ) && in_array( $args['fields'], array( 'all', 'all_with_object_id' ) ) ) { 
 
 			//all the terms that are in this tax
 		    $matches = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'and' );
 
+		   //update_option('kia_var_dump', 'bacon' );
+
+
 		    //all terms NOT in this tax
 		    $remainder = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'not' );
+
+		     //update_option('kia_var_dump', $remainder );
+			if( ( is_array($object_ids) && in_array(1351, $object_ids)) || 1351 == $object_ids ){
+		    	update_option('kia_var_dump', $remainder );
+
+		    } 
+
 
 		    //get first term in this tax
 		    $single =  count( $matches ) > 1 ? array_slice( $matches, 0, 1) : $matches; 
 
-		    //merge it back together	   
-		    $terms = array_merge( $remainder, $single );
+		     //update_option('kia_var_dump', $single );
 
+		    //merge it back together	   
+		    $terms = array_values($single + $remainder);
+		    		   
 		}
+
+
+
+
+
 
 		return $terms;
 
