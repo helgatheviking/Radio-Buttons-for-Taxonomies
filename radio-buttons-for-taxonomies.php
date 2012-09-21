@@ -121,12 +121,12 @@ class Radio_Buttons_for_Taxonomies {
   // ------------------------------------------------------------------------------
 
   // Render the Plugin options form
-  function render_form() {
+  function render_form(){
     include( 'inc/plugin-options.php' );
   }
 
   // Sanitize and validate input. Accepts an array, return a sanitized array.
-  function validate_options($input) {
+  function validate_options( $input ){ 
 
     $clean = array();  
 
@@ -141,7 +141,7 @@ class Radio_Buttons_for_Taxonomies {
     	if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
     }
 
-    $clean['delete'] =  isset( $input['delete'] ) ? 1 : 0 ;  //checkbox
+    $clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
 
     return $clean;
   }
