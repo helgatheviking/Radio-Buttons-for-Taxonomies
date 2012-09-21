@@ -33,9 +33,11 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 ### 1.1
 * Added columns to edit screen for every radio taxonomy
-* Add quick edit for hierarchical radio taxonomies : WP3.4.2 is missing hooks required to do non-hierarchical
-* Enforce limit of single terms both via save_post and wp_get_object_terms
+* Add quick edit for all radio taxonomies
+* Enforce limit of single terms via save_post
 * fixed error with taxonomy object property not being loaded on the right hook
+* fixed uninstall hook
+* fixed saving of 'delete' option
 
 ### 1.0.3
 * updated donate link
