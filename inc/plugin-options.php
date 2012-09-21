@@ -26,7 +26,7 @@
                       <th scope="row"><?php _e('Select Taxonomies');?></th>
                       <td>
 
-                        <?php var_dump($options);
+                        <?php 
 
                         $args=array(
                             'public'   => true,
