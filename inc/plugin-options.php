@@ -26,7 +26,7 @@
                       <th scope="row"><?php _e('Select Taxonomies');?></th>
                       <td>
 
-                        <?php 
+                        <?php var_dump($options);
 
                         $args=array(
                             'public'   => true,
@@ -65,7 +65,7 @@
                     <tr>
                       <th scope="row"><?php _e('Completely remove options on plugin removal');?></th>
                       <td>
-                        <input type="checkbox" name="radio_button_for_taxonomies_options[delete]" value="1" <?php checked($options['delete'], 'true');?> />
+                        <input type="checkbox" name="radio_button_for_taxonomies_options[delete]" value="1" <?php checked( isset( $options['delete'] ) && $options['delete'], 1 );?> />
                       </td>
                     </tr>
                   </table>

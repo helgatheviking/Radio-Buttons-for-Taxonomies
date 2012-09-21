@@ -85,7 +85,7 @@ class Radio_Buttons_for_Taxonomies {
   // Delete options table entries ONLY when plugin deactivated AND deleted
   public static function delete_plugin_options() {
     $options = get_option( 'radio_button_for_taxonomies_options', true );
-    if( isset( $options['delete'] ) ) delete_option( 'radio_button_for_taxonomies_options' );
+    if( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
   }
 
   // ------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ class Radio_Buttons_for_Taxonomies {
     	if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
     }
 
-    $clean['delete'] =  isset( $input['delete'] ) ? 'true' : 'false' ;  //checkbox
+    $clean['delete'] =  isset( $input['delete'] ) ? 1 : 0 ;  //checkbox
 
     return $clean;
   }
