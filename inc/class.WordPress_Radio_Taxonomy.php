@@ -176,24 +176,16 @@ class WordPress_Radio_Taxonomy {
 
 	function save_taxonomy_term ( $post_id ) {  
 
-		
-	
 		// make sure we're on a supported post type
 	    if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
-
-	    update_option('kia_var_dump',  'post type');
-/*	   
+   
     	// verify this came from our screen and with proper authorization.
 	 	if ( ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) || ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
-
-	 	update_option('kia_var_dump',  'verified');
 	 
 	  	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 	  	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
 	    	return $post_id;
 	 
-	update_option('kia_var_dump',  'not autosave');
-
 	  	// Check permissions
 	  	if ( 'page' == $_POST['post_type'] ) {
 	    	if ( !current_user_can( 'edit_page', $post_id ) ) return;
@@ -201,8 +193,6 @@ class WordPress_Radio_Taxonomy {
 	    	if ( !current_user_can( 'edit_post', $post_id ) ) return;
 	  	}
 
-	  	update_option('kia_var_dump',  'verified');
-*/
 	 	$terms = null;
 
 	  	// OK, we're authenticated: we need to find and save the data
@@ -218,7 +208,7 @@ class WordPress_Radio_Taxonomy {
 	  		$terms = array_slice($terms, 1, 1); //make sure we're only saving 1 term, but not index 0
 
 	  		//if hierarchical we need to ensure integers!
-	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) $terms = array_map( 'intval', $terms );
+	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) { $terms = array_map( 'intval', $terms ); }
 
 	  	} else {
 
