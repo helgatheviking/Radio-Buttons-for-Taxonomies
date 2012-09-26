@@ -106,6 +106,11 @@ class WordPress_Radio_Taxonomy {
 				<ul id="<?php echo $taxonomy; ?>checklist-pop" class="<?php if ( is_taxonomy_hierarchical ( $taxonomy ) ) { echo 'categorychecklist'; } else { echo 'tagchecklist';} ?> form-no-clear" >
 					<?php $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );  
 
+						if ( ! current_user_can($tax->cap->assign_terms) )
+							$disabled = 'disabled="disabled"';
+						else
+							$disabled = '';
+
 						$popular_ids = array() ?>
 
 						<?php foreach($popular as $term){ 
