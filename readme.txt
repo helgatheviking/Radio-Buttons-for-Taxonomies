@@ -30,6 +30,10 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix notice in popular terms tab
+* Fix fatal error on multisite
+
 = 1.1 =
 * Added columns to edit screen for every radio taxonomy
 * Add quick edit for all radio taxonomies
