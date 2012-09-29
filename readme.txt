@@ -30,7 +30,7 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 == Bug Reporting ==
 
-Please report an issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
+Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
 == Changelog ==
 
