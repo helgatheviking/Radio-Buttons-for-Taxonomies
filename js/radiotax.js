@@ -148,40 +148,16 @@
 /*
  * EDIT POST SCREEN
  *
- * @todo: support other taxonomies
  */
 
-	$('.editinline').on('click', function(){
+	$('#the-list').on('click', '.editinline', function(){
 
 		// reset
 		inlineEditPost.revert();  
 
 		tag_id = $(this).parents('tr').attr('id'); 
 
-		id = tag_id.split("-");
-
-		id = ( typeof id[1] != 'undefined' ) ? id[1] : '';  
-
 		// for each checklist get the value and check the correct input
-
-		if ( typeof radio_button_for_taxonomies.taxonomies == 'undefined' ) return;
-
-		//for each radio enabled taxonomy
-/*		$.each( radio_button_for_taxonomies.taxonomies, function( i, taxonomy ) {
-
-			term = $( '#inline_'+id ).find('#' + taxonomy + '_' + id ).text();
-			// protect against multiple taxonomies (which are separated with a comma , )
-			// this should be overkill, but just in case
-			terms = term.split(",");
-			term = terms ? terms[0] : term; 
-
-			//uses :radio so doesn't need any other special selector
-			$( 'ul.'+taxonomy+'-checklist', '.quick-edit-row' ).find( ':radio[value='+term+']' ).prop( 'checked', true );
-
-		});
-*/
-
-
 		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () { 
 
 			taxonomy = $(this).attr('id'); 

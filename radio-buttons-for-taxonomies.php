@@ -157,8 +157,6 @@ class Radio_Buttons_for_Taxonomies {
       if( ! isset( $options['taxonomies'] ) ) return;
       
       wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true ); 
-      //pass the radio taxonomies to a JS object
-      wp_localize_script( 'radiotax', 'radio_button_for_taxonomies', array( 'taxonomies' => $options['taxonomies'] ) );
 
     }
 
