@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if( !class_exists( 'WordPress_Radio_Taxonomy' )) :
+if( ! class_exists( 'WordPress_Radio_Taxonomy' ) ) :
 
 class WordPress_Radio_Taxonomy {
 
@@ -17,10 +17,10 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'wp_loaded', array( &$this, 'get_taxonomy' ) );  
 
 		//Remove old taxonomy meta box  
-		add_action( 'admin_menu', array( &$this, 'remove_meta_box') );  
+		add_action( 'admin_menu', array( &$this, 'remove_meta_box' ) );  
 
 		//Add new taxonomy meta box  
-		add_action( 'add_meta_boxes', array( &$this, 'add_meta_box') );  
+		add_action( 'add_meta_boxes', array( &$this, 'add_meta_box' ) );  
 
 		//change checkboxes to radios
 		add_filter( 'wp_terms_checklist_args', array( &$this, 'filter_terms_checklist_args' ) );

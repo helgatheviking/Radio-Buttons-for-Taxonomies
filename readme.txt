@@ -4,7 +4,7 @@ Donate link: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies/ ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,9 +30,14 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 == Changelog ==
 
+- 1.1.2 -
+* Removed unneeded localize_script object
+* Fix fatal error on multisite ( caused by using an anonymous function when not supported until PHP 5.3)
+* Fixed quick edit refresh ( second click on quick edit for same item and the value still reflected the original)
+
 = 1.1.1 =
 * Fix notice in popular terms tab
-* Fix fatal error on multisite
+* Attempted fix fatal error on multisite
 
 = 1.1 =
 * Added columns to edit screen for every radio taxonomy

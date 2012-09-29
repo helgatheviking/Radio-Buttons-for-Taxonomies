@@ -4,7 +4,7 @@
 Plugin Name: Radio Buttons for Taxonomies
 Plugin URI: http://www.kathyisawesome.com/436/kia-subtitle/
 Description: Use radio buttons for any taxonomy
-Version: 1.1.1
+Version: 1.1.2
 Author: Kathy Darling
 Author URI: http://www.kathyisawesome.com
 License: GPL2
