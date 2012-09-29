@@ -14,7 +14,7 @@ This plugin lets you switch any taxonomy to a radio-button style metabox, so use
 
 A plugin options page allows the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.  
 
-Based on the the class by Stephen Harris:  
+Originally based on the the class by Stephen Harris:  
 https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies 
 
 == Installation ==
@@ -27,6 +27,10 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 1. The settings page where you determine which taxonomies will get radio buttons.
 2. This is what the metabox will look like on the post editor screen.
+
+== Bug Reporting ==
+
+Please report an issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
 == Changelog ==
 
