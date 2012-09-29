@@ -212,11 +212,7 @@ class WordPress_Radio_Taxonomy {
 
 	  		//if somehow user is saving string of tags, split string and grab first
 	  		$terms = explode( ',' , $terms ) ;
-		    $terms = array_map( 
-		        function( $n ) { return trim( $n ); }, 
-		        $terms 
-		    ); 
-
+		    $terms = array_map( array( $this, 'array_map'), $terms ); 
 		    $terms = $terms[0];
 
 	  	}
@@ -225,6 +221,16 @@ class WordPress_Radio_Taxonomy {
 		wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 	
 		return $post_id;	 
+	}
+
+	/**
+	 * Callback for array_map
+	 * since anonymous function isn't supported until PHP 5.3
+	 *
+	 * @since 1.1.2
+	 */
+	private function array_map ( $n ) {
+		return trim( $n );
 	}
 
 	public function ajax_add_term(){  
