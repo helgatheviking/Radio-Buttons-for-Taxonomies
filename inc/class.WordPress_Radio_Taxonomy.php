@@ -457,23 +457,11 @@ class WordPress_Radio_Taxonomy {
 			//all the terms that are in this tax
 		    $matches = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'and' );
 
-		   //update_option('kia_var_dump', 'bacon' );
-
-
 		    //all terms NOT in this tax
 		    $remainder = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'not' );
 
-		     //update_option('kia_var_dump', $remainder );
-			if( ( is_array($object_ids) && in_array(1351, $object_ids)) || 1351 == $object_ids ){
-		    	update_option('kia_var_dump', $remainder );
-
-		    } 
-
-
 		    //get first term in this tax
 		    $single =  count( $matches ) > 1 ? array_slice( $matches, 0, 1) : $matches; 
-
-		     //update_option('kia_var_dump', $single );
 
 		    //merge it back together	   
 		    $terms = array_values($single + $remainder);
