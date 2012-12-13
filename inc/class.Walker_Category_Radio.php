@@ -27,6 +27,8 @@ class Walker_Category_Radio extends Walker {
     }
 
     function start_el( &$output, $term, $depth, $args, $id = 0 ) {
+        global $post;
+
         extract($args);
         if ( empty($taxonomy) )
             $taxonomy = 'category';
