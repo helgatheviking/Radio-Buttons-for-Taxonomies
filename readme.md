@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking
 Tags: taxonomy, admin, interface, ui, post, radio buttons
 Requires at least: 3.4   
 Tested up to: 3.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html   
 
@@ -34,6 +34,11 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
 ## Changelog
+
+### 1.1.4
+* Correct plugin URL
+* fixed quick edit bug
+* fixed undefined $post variable warning
 
 ### 1.1.3
 * Code cleanup
