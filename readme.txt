@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5
-Stable tag: 1.2.1
+Stable tag: 1.2.s
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
 == Changelog ==
+
+- 1.2.2 -
+* Still fixing SVN
 
 - 1.2.1 -
 * Hopeful fix of SVN failure to include class.Walker_Category_Radio.php in v1.2 - SVN Is not my strong suit. Sorry for any inconvenience!

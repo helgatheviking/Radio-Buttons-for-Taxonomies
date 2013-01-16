@@ -35,6 +35,9 @@ Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for
 
 ## Changelog
 
+### 1.2.2
+* Still fixing SVN
+
 ### 1.2.1
 * Hopeful fix of SVN failure to include class.Walker_Category_Radio.php in v1.2 - SVN Is not my strong suit. Sorry for any inconvenience!
 
