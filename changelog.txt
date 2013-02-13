@@ -1,0 +1,54 @@
+== Changelog ==
+
+- 1.2.3 -
+* fix PHP notice https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues/5
+* fix popular/all clicking for WP 3.5.1
+* move changelog to own file
+
+- 1.2.2 -
+* Still fixing SVN
+
+- 1.2.1 -
+* Hopeful fix of SVN failure to include class.Walker_Category_Radio.php in v1.2 - SVN Is not my strong suit. Sorry for any inconvenience!
+
+- 1.2 -
+* change donation URL
+* fixed save bug for users without the manage_categories
+
+- 1.1.4 -
+* Correct plugin URL
+* fixed quick edit bug
+* fixed undefined $post variable warning
+
+- 1.1.3 -
+* Code cleanup
+
+- 1.1.2 -
+* Removed unneeded localize_script object
+* Fix fatal error on multisite ( caused by using an anonymous function when not supported until PHP 5.3)
+* Fixed quick edit refresh ( second click on quick edit for same item and the value still reflected the original)
+
+= 1.1.1 =
+* Fix notice in popular terms tab
+* Attempted fix fatal error on multisite
+
+= 1.1 =
+* Added columns to edit screen for every radio taxonomy
+* Add quick edit for all radio taxonomies
+* Enforce limit of single terms via save_post
+* fixed error with taxonomy object property not being loaded on the right hook
+* fixed uninstall hook
+* fixed saving of 'delete' option
+
+= 1.0.3 =
+* updated donate link
+
+= 1.0.2 =
+* fixed incorrect plugin settings link
+* fixed variable scope in javascript that was preventing plugin from working on multiple metaboxes
+
+= 1.0.1 =
+* bug fix for when no taxonomies are selected
+
+= 1.0 =
+* Initial release.
