@@ -100,8 +100,10 @@ class WordPress_Radio_Taxonomy {
 
 		//get current terms
 		$checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy) : array();
+
 		//get first term object
-       	$current = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
+      $current_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
+      $current_id = ( $current_term ) ? $current_term->term_id : '';
 
 		?>
 		<div id="taxonomy-<?php echo $taxonomy; ?>" class="radio-buttons-for-taxonomies">
@@ -126,19 +128,20 @@ class WordPress_Radio_Taxonomy {
 						else
 							$disabled = '';
 
-						$popular_ids = array() ?>
+						$popular_ids = array(); ?>
 
-						<?php foreach($popular as $term){
+						<?php foreach( $popular as $term ){
+
 							$popular_ids[] = $term->term_id;
 
-					        $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
-					        $id = 'popular-'.$taxonomy.'-'.$term->term_id;
+					      $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
+					      $id = 'popular-'.$taxonomy.'-'.$term->term_id;
 
-					        echo "<li id='$id'><label class='selectit'>";
-					        echo "<input type='radio' id='in-{$id}'" . checked($current->term_id, $term->term_id, false) . " value='{$value}' {$disabled} />&nbsp;{$term->name}<br />";
+					      echo "<li id='$id'><label class='selectit'>";
+					      echo "<input type='radio' id='in-{$id}'" . checked( $current_id, $term->term_id, false ) . " value='{$value}' {$disabled} />&nbsp;{$term->name}<br />";
 
-					        echo "</label></li>";
-						}?>
+					      echo "</label></li>";
+						} ?>
 				</ul>
 			</div>
 
@@ -242,8 +245,8 @@ class WordPress_Radio_Taxonomy {
 
 	  		//if somehow user is saving string of tags, split string and grab first
 	  		$terms = explode( ',' , $terms ) ;
-		    $terms = array_map( array( $this, 'array_map'), $terms );
-		    $terms = $terms[0];
+		   $terms = array_map( array( $this, 'array_map'), $terms );
+		   $terms = $terms[0];
 
 	  	}
 

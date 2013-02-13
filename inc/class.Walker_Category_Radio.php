@@ -1,4 +1,4 @@
-<?php 
+<?php
 //
 // Category Radio Lists
 //
@@ -36,15 +36,29 @@ class Walker_Category_Radio extends Walker {
         $name = 'radio_tax_input['.$taxonomy.']';
 
         $checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy) : array();
-        //get first term object
-        $current = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;  
 
+        //get first term object
+        $current_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
+        $current_id = ( $current_term ) ? $current_term->term_id : '';
 
         //small tweak so that it works for both hierarchical and non-hierarchical tax
         $value = is_taxonomy_hierarchical($taxonomy) ? $term->term_id : $term->slug;
 
         $class = in_array( $term->term_id, $popular_cats ) ? ' class="popular-category"' : '';
-        $output .= "\n<li id='{$taxonomy}-{$value}' $class>" . '<label class="selectit"><input value="' . $value . '" type="radio" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $term->term_id . '"' . checked( $term->term_id, $current->term_id, false ) . disabled( empty( $args['disabled'] ), false, false ) . ' /> ' . esc_html( apply_filters('the_category', $term->name )) . '</label>';
+
+        $output .= sprintf( "\n" . '<li id="%1s-%2s" %3s><label class="selectit"><input id="%4s" type="radio" name="%5s" value="%6s" %s7 %8s/> %9s</label>' ,
+                $taxonomy, //1
+                $value, //2
+                $class, //3
+                "in-{$taxonomy}-{$term->term_id}", //4
+                $name . '[]', //5
+                $value, //6
+                checked( $current_id, $term->term_id, false ), //7
+                disabled( empty( $args['disabled'] ), false, false ), //8
+                esc_html( apply_filters( 'the_category', $term->name ) ) //9
+        );
+
+
     }
 
     function end_el( &$output, $term, $depth = 0, $args = array() ) {
