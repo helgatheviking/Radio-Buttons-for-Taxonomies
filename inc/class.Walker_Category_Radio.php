@@ -42,17 +42,17 @@ class Walker_Category_Radio extends Walker {
         $current_id = ( $current_term ) ? $current_term->term_id : '';
 
         //small tweak so that it works for both hierarchical and non-hierarchical tax
-        $value = is_taxonomy_hierarchical($taxonomy) ? $term->term_id : $term->slug;
+        $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
 
         $class = in_array( $term->term_id, $popular_cats ) ? ' class="popular-category"' : '';
 
-        $output .= sprintf( "\n" . '<li id="%1s-%2s" %3s><label class="selectit"><input id="%4s" type="radio" name="%5s" value="%6s" %s7 %8s/> %9s</label>' ,
+        $output .= sprintf( "\n" . '<li id="%1$-%2$s" %3$s><label class="selectit"><input id="%4$s" type="radio" name="%5$s" value="%6$s" %7$s %8$s/> %9$s</label>' ,
                 $taxonomy, //1
                 $value, //2
                 $class, //3
                 "in-{$taxonomy}-{$term->term_id}", //4
                 $name . '[]', //5
-                $value, //6
+                esc_attr( trim( $value ) ), //6
                 checked( $current_id, $term->term_id, false ), //7
                 disabled( empty( $args['disabled'] ), false, false ), //8
                 esc_html( apply_filters( 'the_category', $term->name ) ) //9
