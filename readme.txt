@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,33 +34,36 @@ Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for
 
 == Changelog ==
 
-- 1.2.4 -
+= 1.2.5 =
+* fix markdown for changelog
+
+= 1.2.4 =
 * return changelog to readme.txt
 
-- 1.2.3 -
+= 1.2.3 =
 * fix PHP notice https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues/5
 * fix popular/all clicking for WP 3.5.1
 * move changelog to own file
 
-- 1.2.2 -
+= 1.2.2 =
 * Still fixing SVN
 
-- 1.2.1 -
+= 1.2.1 =
 * Hopeful fix of SVN failure to include class.Walker_Category_Radio.php in v1.2 - SVN Is not my strong suit. Sorry for any inconvenience!
 
-- 1.2 -
+= 1.2 =
 * change donation URL
 * fixed save bug for users without the manage_categories
 
-- 1.1.4 -
+= 1.1.4 =
 * Correct plugin URL
 * fixed quick edit bug
 * fixed undefined $post variable warning
 
-- 1.1.3 -
+= 1.1.3 =
 * Code cleanup
 
-- 1.1.2 -
+= 1.1.2 =
 * Removed unneeded localize_script object
 * Fix fatal error on multisite ( caused by using an anonymous function when not supported until PHP 5.3)
 * Fixed quick edit refresh ( second click on quick edit for same item and the value still reflected the original)
