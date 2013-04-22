@@ -233,11 +233,14 @@ class WordPress_Radio_Taxonomy {
 	  		$terms = $_POST["radio_tax_input"]["{$this->taxonomy}"];
 	  	}
 
+	  	// if category and not saving any terms, set to default
+	  	if ( 'category' == $this->taxonomy && is_array( $terms ) && count( $terms ) == 1 && empty( $terms[0] ) ) {
+	  		$terms = intval( get_option( 'default_category' ) );
 	  	// WordPress always saves a zero/null integer which we will want to skip
-	  	if ( is_array( $terms ) ) {
+	  	} elseif ( is_array( $terms ) ) {
 	  		sort( $terms );
 	  		$terms = array_slice( $terms, 1, 1 ); //make sure we're only saving 1 term, but not index 0
-
+//die(var_dump($terms));
 	  		//if hierarchical we need to ensure integers!
 	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) { $terms = array_map( 'intval', $terms ); }
 
