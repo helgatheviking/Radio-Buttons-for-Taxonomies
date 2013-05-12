@@ -46,7 +46,7 @@ class Walker_Category_Radio extends Walker {
 
         $class = in_array( $term->term_id, $popular_cats ) ? ' class="popular-category"' : '';
 
-        $output .= sprintf( "\n" . '<li id="%1$-%2$s" %3$s><label class="selectit"><input id="%4$s" type="radio" name="%5$s" value="%6$s" %7$s %8$s/> %9$s</label>' ,
+        $output .= sprintf( "\n" . '<li id="%1$s-%2$s" %3$s><label class="selectit"><input id="%4$s" type="radio" name="%5$s" value="%6$s" %7$s %8$s/> %9$s</label>' ,
                 $taxonomy, //1
                 $value, //2
                 $class, //3
