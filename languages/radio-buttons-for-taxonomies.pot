@@ -1,0 +1,100 @@
+# Copyright (C) 2013 Radio Buttons for Taxonomies
+# This file is distributed under the same license as the Radio Buttons for Taxonomies package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Radio Buttons for Taxonomies 1.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/radio-buttons-for-taxonomies\n"
+"POT-Creation-Date: 2013-05-12 19:11:10+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:112
+#: inc/class.WordPress_Radio_Taxonomy.php:112
+msgid "Most Used"
+msgstr ""
+
+#. translators: %s: add new taxonomy label
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:163
+#: inc/class.WordPress_Radio_Taxonomy.php:163
+msgid "+ %s"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:420 inc/class.WordPress_Radio_Taxonomy
+#: (helga-700Z3A-700Z4A-700Z5A-700Z5B's conflicted copy 2013-04-25).php:422
+#: inc/class.WordPress_Radio_Taxonomy.php:448
+#: inc/class.WordPress_Radio_Taxonomy.php:450
+msgid ", "
+msgstr ""
+
+#. translators: No 'terms' where %s is the taxonomy name
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:425
+#: inc/class.WordPress_Radio_Taxonomy.php:453
+msgid "No %s"
+msgstr ""
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:448
+#: inc/class.WordPress_Radio_Taxonomy.php:478
+msgid "[more]"
+msgstr ""
+
+#: inc/class.WordPress_Radio_Taxonomy (helga-700Z3A-700Z4A-700Z5A-700Z5B's
+#: conflicted copy 2013-04-25).php:449
+#: inc/class.WordPress_Radio_Taxonomy.php:479
+msgid "[less]"
+msgstr ""
+
+#: inc/plugin-options.php:15 radio-buttons-for-taxonomies.php:112
+msgid "Radio Buttons for Taxonomies"
+msgstr ""
+
+#: inc/plugin-options.php:26
+msgid "Select Taxonomies"
+msgstr ""
+
+#: inc/plugin-options.php:66
+msgid "Completely remove options on plugin removal"
+msgstr ""
+
+#: inc/plugin-options.php:76
+msgid "Save Changes"
+msgstr ""
+
+#: radio-buttons-for-taxonomies.php:112
+msgid "Radio Buttons for Taxonomies Options Page"
+msgstr ""
+
+#: radio-buttons-for-taxonomies.php:164
+msgid "Settings"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Radio Buttons for Taxonomies"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Use radio buttons for any taxonomy"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Kathy Darling"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.kathyisawesome.com"
+msgstr ""
