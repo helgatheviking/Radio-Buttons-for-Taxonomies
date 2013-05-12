@@ -196,6 +196,7 @@ class WordPress_Radio_Taxonomy {
 	    return $args;
 	}
 
+
 	/**
 	 * Only ever save a single term
 	 *
@@ -435,7 +436,9 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.1
 	 */
 	function quick_edit_custom_box( $column_name, $screen ) {
-		if ( ! in_array ( $screen, $this->tax_obj->object_type ) || $column_name != 'radio-' . $this->taxonomy ) return false;
+
+		if ( ! is_array( $this->tax_obj->object_type ) || ! in_array ( $screen, $this->tax_obj->object_type ) || $column_name != 'radio-' . $this->taxonomy )
+			return false;
 
 	    //needs the same name as metabox nonce
 	    wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );
