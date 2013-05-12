@@ -2,8 +2,8 @@
   <div id="tabs">
 
   <style>
-    #nav-tabs { overflow: hidden; margin: 0 0 -1px 0;} 
-    #nav-tabs li { float: left; margin-bottom: 0;} 
+    #nav-tabs { overflow: hidden; margin: 0 0 -1px 0;}
+    #nav-tabs li { float: left; margin-bottom: 0;}
     .ui-tabs-nav a { color: #aaa;}
     #nav-tabs li.ui-state-active a { border-bottom: 2px solid white; color: #464646; }
     h2.nav-tab-wrapper { margin-bottom: 1em;}
@@ -15,7 +15,7 @@
   <h2><?php _e('Radio Buttons for Taxonomies',"radio-buttons-for-taxonomies");?></h2>
 
   <!-- Beginning of the Plugin Options Form -->
-  <form method="post" action="options.php">
+  <form method="post" action="<?php echo admin_url( 'options.php' );?>">
     <?php settings_fields('radio_button_for_taxonomies_options'); ?>
     <?php $options = get_option('radio_button_for_taxonomies_options');?>
 
@@ -26,7 +26,7 @@
                       <th scope="row"><?php _e('Select Taxonomies');?></th>
                       <td>
 
-                        <?php 
+                        <?php
 
                         $args=array(
                             'public'   => true,
@@ -34,7 +34,7 @@
                             '_builtin' => true
                           );
 
-                        $defaults = get_taxonomies( $args, 'objects' ); 
+                        $defaults = get_taxonomies( $args, 'objects' );
                         ksort( $defaults );
 
 
@@ -44,19 +44,19 @@
                             '_builtin' => false
                           );
 
-                        $custom = get_taxonomies( $args, 'objects' ); 
+                        $custom = get_taxonomies( $args, 'objects' );
                         ksort( $custom );
 
 
                         $taxonomies = array_merge( $defaults , $custom );
 
-                        if( ! is_wp_error( $taxonomies ) ) { 
+                        if( ! is_wp_error( $taxonomies ) ) {
 
-                          foreach ($taxonomies as $i=>$taxonomy)  { ?>                            
+                          foreach ($taxonomies as $i=>$taxonomy)  { ?>
                             <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php checked( isset($options['taxonomies']) && is_array($options['taxonomies']) && in_array($i, $options['taxonomies']), 1 ); ?> /> <?php echo $taxonomy->labels->name; ?><br/>
 
-                          <?php 
-                              } 
+                          <?php
+                              }
 
                         } ?>
 
