@@ -12,7 +12,7 @@
   <!-- Display Plugin Icon, Header, and Description -->
   <?php screen_icon(); ?>
 
-  <h2><?php _e('Radio Buttons for Taxonomies',"radio-buttons-for-taxonomies");?></h2>
+  <h2><?php _e('Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' );?></h2>
 
   <!-- Beginning of the Plugin Options Form -->
   <form method="post" action="<?php echo admin_url( 'options.php' );?>">
@@ -63,7 +63,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><?php _e('Completely remove options on plugin removal');?></th>
+                      <th scope="row"><?php _e('Completely remove options on plugin removal', 'radio-buttons-for-taxonomies' );?></th>
                       <td>
                         <input type="checkbox" name="radio_button_for_taxonomies_options[delete]" value="1" <?php checked( isset( $options['delete'] ) && $options['delete'], 1 );?> />
                       </td>
@@ -73,7 +73,7 @@
       </div>
 
           <p class="submit">
-                <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+                <input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'radio-buttons-for-taxonomies' ) ?>" />
           </p>
     </form>
   </div>
