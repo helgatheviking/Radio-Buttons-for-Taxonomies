@@ -25,6 +25,9 @@ class WordPress_Radio_Taxonomy {
 		//change checkboxes to radios
 		add_filter( 'wp_terms_checklist_args', array( &$this, 'filter_terms_checklist_args' ) );
 
+		// add a null term to metaboxes so users can unset term
+		add_filter( 'get_terms', array( &$this, 'get_terms' ), 10, 3 );
+
 		//Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( &$this, 'ajax_add_term' ) );
 
@@ -227,35 +230,43 @@ class WordPress_Radio_Taxonomy {
 	 	$terms = null;
 
 	  	// OK, we're authenticated: we need to find and save the data
-	  	if ( isset ( $_POST["radio_tax_input"]["{$this->taxonomy}"] ) )  {
+	  	if ( isset ( $_POST["radio_tax_input"]["{$this->taxonomy}"] ) )
 	  		$terms = $_POST["radio_tax_input"]["{$this->taxonomy}"];
-	  	}
 
-	  	// if category and not saving any terms, set to default
-	  	if ( 'category' == $this->taxonomy && is_array( $terms ) && count( $terms ) == 1 && empty( $terms[0] ) ) {
-	  		$terms = intval( get_option( 'default_category' ) );
-	  	// WordPress always saves a zero/null integer which we will want to skip
-	  	} elseif ( is_array( $terms ) ) {
-	  		sort( $terms );
-	  		$terms = array_slice( $terms, 1, 1 ); //make sure we're only saving 1 term, but not index 0
-//die(var_dump($terms));
-	  		//if hierarchical we need to ensure integers!
+
+	  	// should always be an array because WP saves a hidden 0 term
+
+	  if ( is_array( $terms ) ) {
+
+	  		// magically removes "0" terms
+	  		$terms = array_filter( $terms );
+
+	  		// make sure we're only saving 1 term
+	  		$terms = ( array ) array_shift( $terms );
+
+	  		// if hierarchical we need to ensure integers!
 	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) { $terms = array_map( 'intval', $terms ); }
 
 	  	} else {
 
-	  		//if somehow user is saving string of tags, split string and grab first
+	  		// if somehow user is saving string of tags, split string and grab first
 	  		$terms = explode( ',' , $terms ) ;
 		   $terms = array_map( array( $this, 'array_map'), $terms );
 		   $terms = $terms[0];
 
 	  	}
 
-	  	//set the single term
+	  	// if category and not saving any terms, set to default
+	  	if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
+	  		$terms = intval( get_option( 'default_category' ) );
+	  	}
+
+	  	// set the single term
 		wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 
 		return $post_id;
 	}
+
 
 	/**
 	 * Callback for array_map
@@ -266,6 +277,25 @@ class WordPress_Radio_Taxonomy {
 	private function array_map ( $n ) {
 
 		return trim( $n );
+	}
+
+
+	/**
+	 * Add new 0 or null term in metabox and quickedit
+	 * this will allow users to "undo" a term if the taxonomy is not required
+	 *
+	 * @since 1.4
+	 */
+	function get_terms ( $terms, $taxonomies, $args ){
+
+		if ( is_admin() && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->id, array( 'post', 'edit-post' ) ) ) {
+
+			if( ! in_array( 'category', $taxonomies ) ) {
+				$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => 'No term' );
+				$terms['null'] = $uncategorized;
+			}
+		}
+		return $terms;
 	}
 
 	/**
