@@ -34,9 +34,6 @@ class WordPress_Radio_Taxonomy {
 		//add columns to the edit screen
 		add_filter( 'admin_init', array( &$this, 'add_columns_init' ), 20 );
 
-		//filter wp_get_object_terms to only show a single term
-		//add_filter( 'wp_get_object_terms', array( &$this, 'filter_object_terms' ), 10, 4 );
-
 		//never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( &$this, 'save_taxonomy_term' ) );
 
@@ -458,35 +455,6 @@ class WordPress_Radio_Taxonomy {
 			</div>
 		</fieldset>
 		<?php
-	}
-
-	/**
-	 * Filter wp_get_object_terms to only show a single term for radio taxonomies
-	 *
-	 * @since 1.1
-	 */
-	function filter_object_terms( $terms, $object_ids, $taxonomies, $args ) {
-
-		if ( empty ( $terms ) ) return $terms;
-
-		if ( isset ( $args['fields'] ) && in_array( $args['fields'], array( 'all', 'all_with_object_id' ) ) ) {
-
-			//all the terms that are in this tax
-		    $matches = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'and' );
-
-		    //all terms NOT in this tax
-		    $remainder = wp_filter_object_list( $terms, array( 'taxonomy' => $this->taxonomy ), 'not' );
-
-		    //get first term in this tax
-		    $single =  count( $matches ) > 1 ? array_slice( $matches, 0, 1) : $matches;
-
-		    //merge it back together
-		    $terms = array_values($single + $remainder);
-
-		}
-
-		return $terms;
-
 	}
 
 } //end class - do NOT remove or else
