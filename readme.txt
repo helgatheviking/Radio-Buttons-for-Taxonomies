@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.4
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
 == Changelog ==
+
+= 1.4.1 =
+* Fix "No term" option showing in non-radio taxonomies
 
 = 1.4 =
 * Add "No term" option to taxonomy metaboxes
