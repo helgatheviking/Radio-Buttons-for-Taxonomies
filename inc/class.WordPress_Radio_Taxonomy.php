@@ -288,7 +288,7 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function get_terms ( $terms, $taxonomies, $args ){
 
-		if ( is_admin() && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->id, array( 'post', 'edit-post' ) ) ) {
+		if ( is_admin() && function_exists( 'get_current_screen') && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->id, array( 'post', 'edit-post' ) ) ) {
 
 			if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) ) {
 				$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => 'No term' );
