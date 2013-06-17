@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.4.2
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,16 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
+
+add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
+
 == Changelog ==
+
+= 1.4.3 =
+* Fix PHP warning in metabox related to "No term"
+* Fix conditional logic for "No term" option
+* Added filter to disabled "No term"
+* Fixed "Add new" term WPLists markup
 
 = 1.4.2 =
 * Fix fatal error on settings update
