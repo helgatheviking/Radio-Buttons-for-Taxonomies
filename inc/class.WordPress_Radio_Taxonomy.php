@@ -291,7 +291,7 @@ class WordPress_Radio_Taxonomy {
 		if ( is_admin() && function_exists( 'get_current_screen') && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post' ) ) ) {
 
 			if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) ) {
-				$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => __( 'No term', 'radio-buttons-for-taxonomies' ) );
+				$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => __( 'No term', 'radio-buttons-for-taxonomies' ), 'parent' => '0' );
 				$terms['null'] = $uncategorized;
 			}
 		}
