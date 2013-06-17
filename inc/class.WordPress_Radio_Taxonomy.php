@@ -26,7 +26,7 @@ class WordPress_Radio_Taxonomy {
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
 		// add a null term to metaboxes so users can unset term
-		add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
+		if( apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $taxonomy, TRUE ) )add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 		//Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( $this, 'ajax_add_term' ) );
