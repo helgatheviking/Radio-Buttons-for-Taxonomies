@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.5
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,8 +32,23 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 
 Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
 
+== FAQ ==
 
+= Why do the metaboxes have a "No term" radio button!? =
+
+This was a feature added in version 1.4, but due to some faulty logic on my part probably wasn't showing it everywhere that I intended.
+
+It has come to my attention that not everybody likes this feature, so I have enabled an easy way to *disable* it for taxonomies that you wish to make mandatory.  Simply add the following to your theme's functions.php or your site's custom functions plugin.
+
+`
+add_filter("radio-buttons-for-taxonomies-no-term-{$taxonomy}", "__return_FALSE" );
+`
+
+So for example, to disabled the "No term" option on a taxonomy called "genre" you'd do the following:
+
+`
 add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
+`
 
 == Changelog ==
 
