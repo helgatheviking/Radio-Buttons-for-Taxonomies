@@ -29,19 +29,28 @@ class Walker_Category_Radio extends Walker {
     function start_el( &$output, $term, $depth, $args, $id = 0 ) {
         global $post;
 
+        /* $args array includes:
+        taxonomy
+        disabled
+        selected_cats
+        popular_cats
+        has_children
+        */
+
+        //echo '<pre>'; var_dump( $args ); echo '</pre>';
+
         extract($args);
+
         if ( empty($taxonomy) )
             $taxonomy = 'category';
 
         $name = 'radio_tax_input['.$taxonomy.']';
 
-        $checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy) : array();
-
         //get first term object
-        $current_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
+       $current_term = ! empty( $selected_cats ) && ! is_wp_error( $selected_cats ) ? array_pop( $selected_cats ) : false;
 
         // if no term, match the 0 "no term" option
-        $current_id = ( $current_term ) ? $current_term->term_id : 0;
+        $current_id = ( $current_term ) ? $current_term : 0;
 
         //small tweak so that it works for both hierarchical and non-hierarchical tax
         $value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;

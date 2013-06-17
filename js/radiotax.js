@@ -5,6 +5,7 @@
  */
 
 	// taxonomy metaboxes
+	// mimics the category script from /wp-admin/js/post.js
 	$('.radio-buttons-for-taxonomies').each( function(){
 		var this_id = $(this).attr('id'), noSyncChecks = false, syncChecks, catAddAfter, taxonomyParts, taxonomy, settingName;
 
@@ -33,6 +34,13 @@
 
 		// Ajax Cat
 		$('#new' + taxonomy).one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
+
+		$('#new' + taxonomy).keypress( function(event){
+			if( 13 === event.keyCode ) {
+				 event.preventDefault();
+				 $('#' + taxonomy + '-add-submit').click();
+			}
+		});
 		$('#' + taxonomy + '-add-submit').click( function(){ $('#new' + taxonomy).focus(); });
 
 		syncChecks = function() {
@@ -47,6 +55,7 @@
 		catAddBefore = function( s ) {
 			if ( !$('#new'+taxonomy).val() )
 				return false;
+			// disable because we're only allowed the new term to be the set term
 			//s.data += '&' + $( ':checked', '#'+taxonomy+'checklist' ).serialize();
 			$( '#' + taxonomy + '-add-submit' ).prop( 'disabled', true );
 			return s;
