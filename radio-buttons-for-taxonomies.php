@@ -50,7 +50,7 @@ class Radio_Buttons_for_Taxonomies {
 	    register_uninstall_hook( __FILE__, array( __CLASS__,'delete_plugin_options' ) );
 
 	    //load plugin text domain for translations
-	    add_action( 'plugins_loaded', array( &$this,'load_text_domain' ) );
+	    add_action( 'plugins_loaded', array( $this,'load_text_domain' ) );
 
       //create a class property for each taxonomy that we are converting to radio buttons
       //for example: $this->categories
@@ -61,22 +61,22 @@ class Radio_Buttons_for_Taxonomies {
       }
 
 	    //register settings
-	    add_action( 'admin_init', array( &$this,'admin_init' ));
+	    add_action( 'admin_init', array( $this,'admin_init' ));
 
 	    //add plugin options page
-	    add_action( 'admin_menu', array( &$this,'add_options_page' ) );
+	    add_action( 'admin_menu', array( $this,'add_options_page' ) );
 
       //Load admin scripts
-      add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
+      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
 	    //add settings link to plugins page
-	    add_filter( 'plugin_action_links', array( &$this,'add_action_links' ), 10, 2 );
+	    add_filter( 'plugin_action_links', array( $this,'add_action_links' ), 10, 2 );
 
   }
 
 
   // --------------------------------------------------------------------------------------
-  // CALLBACK FUNCTION FOR: register_uninstall_hook(__FILE__,  array(&$this,'delete_plugin_options'))
+  // CALLBACK FUNCTION FOR: register_uninstall_hook(__FILE__,  array($this,'delete_plugin_options'))
   // --------------------------------------------------------------------------------------
 
   // Delete options table entries ONLY when plugin deactivated AND deleted
@@ -86,7 +86,7 @@ class Radio_Buttons_for_Taxonomies {
   }
 
   // ------------------------------------------------------------------------------
-  // CALLBACK FUNCTION FOR: add_action('plugins_loaded', array(&$this,'load_text_domain' ))
+  // CALLBACK FUNCTION FOR: add_action('plugins_loaded', array($this,'load_text_domain' ))
   // ------------------------------------------------------------------------------
 
     function load_text_domain() {
@@ -99,7 +99,7 @@ class Radio_Buttons_for_Taxonomies {
 
   // Init plugin options to white list our options
   function admin_init(){
-    register_setting( 'radio_button_for_taxonomies_options', 'radio_button_for_taxonomies_options', array( &$this,'validate_options' ) );
+    register_setting( 'radio_button_for_taxonomies_options', 'radio_button_for_taxonomies_options', array( $this,'validate_options' ) );
   }
 
 
@@ -109,7 +109,7 @@ class Radio_Buttons_for_Taxonomies {
 
   // Add menu page
   function add_options_page() {
-    add_options_page(__( 'Radio Buttons for Taxonomies Options Page',"radio-buttons-for-taxonomies" ), __( 'Radio Buttons for Taxonomies', "radio-buttons-for-taxonomies" ), 'manage_options', 'radio-buttons-for-taxonomies', array( &$this,'render_form' ) );
+    add_options_page(__( 'Radio Buttons for Taxonomies Options Page',"radio-buttons-for-taxonomies" ), __( 'Radio Buttons for Taxonomies', "radio-buttons-for-taxonomies" ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
   }
 
 
@@ -144,7 +144,7 @@ class Radio_Buttons_for_Taxonomies {
   }
 
   // ------------------------------------------------------------------------------
-  // CALLBACK FUNCTION FOR: add_action( 'admin_enqueue_scripts', array( &$this, 'admin_script' ) );
+  // CALLBACK FUNCTION FOR: add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
   // ------------------------------------------------------------------------------
 
     public function admin_script(){
