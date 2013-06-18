@@ -287,7 +287,7 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function get_terms ( $terms, $taxonomies, $args ){
 
-		if ( is_admin() && function_exists( 'get_current_screen') && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post' ) ) ) {
+		if ( is_admin() && function_exists( 'get_current_screen') && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post', 'edit' ) ) ) {
 
 			if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) ) {
 
@@ -370,7 +370,8 @@ class WordPress_Radio_Taxonomy {
 		if ( isset( $screen->base ) && 'edit' != $screen->base ) return;
 
 		if( isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
-			//add taxonomy columns - does not exist in 3.4.2
+
+			//remove taxonomy columns - does not exist in 3.4.2
 			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array($this,'remove_tax_columns'), 10, 2 );
 
 			//add some hidden data that we'll need for the quickedit
