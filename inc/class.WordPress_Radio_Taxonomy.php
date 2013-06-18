@@ -369,7 +369,12 @@ class WordPress_Radio_Taxonomy {
 
 		if ( isset( $screen->base ) && 'edit' != $screen->base ) return;
 
-		if( isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
+		/*
+		* don't add the column for any taxonomy that
+		* has specifically disabled showing the admin column when registering the taxonomy
+		* also grab all the post types the tax is registered to
+		*/
+		if( $this->tax_obj->show_admin_column && isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
 
 			//remove taxonomy columns - does not exist in 3.4.2
 			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array($this,'remove_tax_columns'), 10, 2 );
@@ -411,7 +416,13 @@ class WordPress_Radio_Taxonomy {
     			$columns = json_decode($json, true);
     			break;
     		default:
-				$columns[ "radio-{$this->taxonomy}"] = $this->tax_obj->labels->name;
+    			// until the manage_taxonomies filter is added, unset from $columns
+    			// only works on columns that are added with default naming convention
+				if( isset( $columns["taxonomy-{$this->taxonomy}"] ) )
+					unset( $columns["taxonomy-{$this->taxonomy}"] );
+
+				$columns["radio-{$this->taxonomy}"] = $this->tax_obj->labels->singular_name;
+				break;
 		}
 		return $columns;
 	}
@@ -453,8 +464,8 @@ class WordPress_Radio_Taxonomy {
 						//redo this when wp 3.5 is available
 						echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
 					} else {
-						/* translators: No 'terms' where %s is the taxonomy name */
-						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->name );
+						/* translators: No 'terms' where %s is the taxonomy singular name */
+						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->singular_name );
 					}
 				break;
 		}
