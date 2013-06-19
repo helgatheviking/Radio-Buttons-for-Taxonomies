@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
 Tested up to: 3.5.1
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,7 @@ Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for
 
 == Frequently Asked Questions ==
 
-= Why do the metaboxes have a "No term" radio button!? =
+= Why do the metaboxes have a "No {$taxonomy}" ( ex: No Genre ) radio button!? =
 
 This was a feature added in version 1.4, but due to some faulty logic on my part probably wasn't showing it everywhere that I intended.
 
@@ -51,6 +51,12 @@ add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.4.5 =
+* Enabled "No {$taxonomy}" in quick edit
+* Changed column headers to use the singular taxonomy label
+* Respect the `show_admin_column` argument when registering taxonomy
+* Automatically unset default taxonomy column (if conventionally named) to prevent duplicate columns
 
 = 1.4.4 =
 * Change generic "No term" to "No {$taxonomy}", ex: "No Genre"
