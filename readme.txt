@@ -3,8 +3,8 @@ Contributors: helgatheviking
 Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.4
-Tested up to: 3.5.1
-Stable tag: 1.4.5
+Tested up to: 3.5.2
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.5 =
+* Move launch of WordPress_Radio_Taxonomy class to init hook
+* Move no-term filter inside get_terms() method which should make the proposed FAQ solution for disabling the "No term" work now
 
 = 1.4.5 =
 * Enabled "No {$taxonomy}" in quick edit
