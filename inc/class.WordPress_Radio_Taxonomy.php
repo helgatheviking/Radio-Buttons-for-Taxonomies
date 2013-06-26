@@ -26,7 +26,7 @@ class WordPress_Radio_Taxonomy {
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
 		// add a null term to metaboxes so users can unset term
-		if( apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $taxonomy, TRUE ) )add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
+		add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 		//Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( $this, 'ajax_add_term' ) );
@@ -287,7 +287,11 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function get_terms ( $terms, $taxonomies, $args ){
 
-		if ( is_admin() && function_exists( 'get_current_screen') && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post', 'edit' ) ) ) {
+		// give users a chance to disable the no term feature
+		if( ! apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $this->taxonomy, TRUE ) )
+			return $terms;
+
+		if ( is_admin() && function_exists( 'get_current_screen' ) && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post', 'edit' ) ) ) {
 
 			if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) ) {
 
@@ -365,16 +369,18 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function add_columns_init() {
 
-		$screen = get_current_screen();
+		if ( function_exists( 'get_current_screen' ) )
+			$screen = get_current_screen();
 
-		if ( isset( $screen->base ) && 'edit' != $screen->base ) return;
+		if ( ! isset( $screen->base ) || 'edit' != $screen->base ) return;
 
-		/*
-		* don't add the column for any taxonomy that
-		* has specifically disabled showing the admin column when registering the taxonomy
-		* also grab all the post types the tax is registered to
-		*/
-		if( $this->tax_obj->show_admin_column && isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
+		// don't add the column for any taxonomy that has specifically
+		// disabled showing the admin column when registering the taxonomy
+		if( ! isset( $this->tax_obj->show_admin_column ) || ! $this->tax_obj->show_admin_column )
+				return;
+
+		// also grab all the post types the tax is registered to
+		if( isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
 
 			//remove taxonomy columns - does not exist in 3.4.2
 			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array($this,'remove_tax_columns'), 10, 2 );

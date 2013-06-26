@@ -47,30 +47,25 @@ class Radio_Buttons_for_Taxonomies {
       include_once( 'inc/class.Walker_Category_Radio.php' );
 
 	    // Set-up Action and Filter Hooks
-	    register_uninstall_hook( __FILE__, array( __CLASS__,'delete_plugin_options' ) );
+	    register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
 
-	    //load plugin text domain for translations
-	    add_action( 'plugins_loaded', array( $this,'load_text_domain' ) );
+	    // load plugin text domain for translations
+	    add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
-      //create a class property for each taxonomy that we are converting to radio buttons
-      //for example: $this->categories
-      $options = get_option( 'radio_button_for_taxonomies_options', true );
+      // launch each taxonomy class on a hook
+      add_action( 'init', array( $this, 'launch' ) );
 
-      if( isset( $options['taxonomies'] ) ) foreach( $options['taxonomies'] as $taxonomy ) {
-         $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
-      }
+	    // register admin settings
+	    add_action( 'admin_init', array( $this, 'admin_init' ));
 
-	    //register settings
-	    add_action( 'admin_init', array( $this,'admin_init' ));
+	    // add plugin options page
+	    add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
-	    //add plugin options page
-	    add_action( 'admin_menu', array( $this,'add_options_page' ) );
-
-      //Load admin scripts
+      // Load admin scripts
       add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
-	    //add settings link to plugins page
-	    add_filter( 'plugin_action_links', array( $this,'add_action_links' ), 10, 2 );
+	    // add settings link to plugins page
+	    add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
 
   }
 
@@ -80,7 +75,7 @@ class Radio_Buttons_for_Taxonomies {
   // --------------------------------------------------------------------------------------
 
   // Delete options table entries ONLY when plugin deactivated AND deleted
-  public static function delete_plugin_options() {
+  function delete_plugin_options() {
     $options = get_option( 'radio_button_for_taxonomies_options', true );
     if( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
   }
@@ -89,9 +84,23 @@ class Radio_Buttons_for_Taxonomies {
   // CALLBACK FUNCTION FOR: add_action('plugins_loaded', array($this,'load_text_domain' ))
   // ------------------------------------------------------------------------------
 
-    function load_text_domain() {
+  function load_text_domain() {
       load_plugin_textdomain( "radio-buttons-for-taxonomies", false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
+
+  // ------------------------------------------------------------------------------
+  // CALLBACK FUNCTION FOR: add_action('init', array( $this, 'launch' ) )
+  // ------------------------------------------------------------------------------
+
+  function launch(){
+      //create a class property for each taxonomy that we are converting to radio buttons
+      //for example: $this->categories
+      $options = get_option( 'radio_button_for_taxonomies_options', true );
+
+      if( isset( $options['taxonomies'] ) ) foreach( $options['taxonomies'] as $taxonomy ) {
+         $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
+      }
+  }
 
   // ------------------------------------------------------------------------------
   // CALLBACK FUNCTION FOR: add_action('admin_init', 'admin_init' )
