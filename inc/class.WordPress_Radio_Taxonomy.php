@@ -369,11 +369,6 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function add_columns_init() {
 
-		if ( function_exists( 'get_current_screen' ) )
-			$screen = get_current_screen();
-
-		if ( ! isset( $screen->base ) || 'edit' != $screen->base ) return;
-
 		// don't add the column for any taxonomy that has specifically
 		// disabled showing the admin column when registering the taxonomy
 		if( ! isset( $this->tax_obj->show_admin_column ) || ! $this->tax_obj->show_admin_column )
