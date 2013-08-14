@@ -23,7 +23,7 @@
         <fieldset>
               <table class="form-table">
                     <tr>
-                      <th scope="row"><?php _e('Select Taxonomies');?></th>
+                      <th scope="row"><?php _e( 'Select Taxonomies',  'radio-buttons-for-taxonomies' );?></th>
                       <td>
 
                         <?php
