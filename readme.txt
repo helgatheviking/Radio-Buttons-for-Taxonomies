@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.5.2 =
+* Fix untranslatable string
+* Add Arabic translation thanks to @hassanhamm
 
 = 1.5.1 =
 * Load admin scripts only where needed, fixes conflict on edit-terms screens
