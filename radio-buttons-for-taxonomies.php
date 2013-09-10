@@ -97,9 +97,18 @@ class Radio_Buttons_for_Taxonomies {
       //for example: $this->categories
       $options = get_option( 'radio_button_for_taxonomies_options', true );
 
-      if( isset( $options['taxonomies'] ) ) foreach( $options['taxonomies'] as $taxonomy ) {
-         $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
+      if( isset( $options['taxonomies'] ) ) {
+
+        foreach( $options['taxonomies'] as $taxonomy ) {
+
+          if ( taxonomy_exists( $taxonomy ) ) {
+            $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
+          }
+
+        }
+
       }
+
   }
 
   // ------------------------------------------------------------------------------
