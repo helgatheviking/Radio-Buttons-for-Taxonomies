@@ -26,7 +26,8 @@ class Walker_Category_Radio extends Walker {
         $output .= "$indent</ul>\n";
     }
 
-    function start_el( &$output, $term, $depth, $args, $id = 0 ) {
+    function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
+
         global $post;
 
         /* $args array includes:

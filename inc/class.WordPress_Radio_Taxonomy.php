@@ -6,8 +6,8 @@ if( ! class_exists( 'WordPress_Radio_Taxonomy' ) ) :
 
 class WordPress_Radio_Taxonomy {
 
-	static $taxonomy = null;
-	static $tax_obj = null;
+	public $taxonomy = null;
+	public $tax_obj = null;
 
 	public function __construct( $taxonomy ){
 
