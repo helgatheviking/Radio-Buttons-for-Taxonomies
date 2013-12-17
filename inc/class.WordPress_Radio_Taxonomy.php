@@ -291,7 +291,7 @@ class WordPress_Radio_Taxonomy {
 		if( ! apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $this->taxonomy, TRUE ) )
 			return $terms;
 
-		if ( is_admin() && function_exists( 'get_current_screen' ) && ! is_wp_error( $screen = get_current_screen() ) && in_array( $screen->base, array( 'post', 'edit-post', 'edit' ) ) ) {
+		if ( is_admin() && function_exists( 'get_current_screen' ) && ! is_wp_error( $screen = get_current_screen() ) && is_object( $screen ) && in_array( $screen->base, array( 'post', 'edit-post', 'edit' ) ) ) {
 
 			if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) ) {
 
