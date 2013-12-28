@@ -53,7 +53,7 @@ class Radio_Buttons_for_Taxonomies {
 	    add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
       // launch each taxonomy class on a hook
-      add_action( 'init', array( $this, 'launch' ) );
+      add_action( 'init', array( $this, 'launch' ), 99 );
 
 	    // register admin settings
 	    add_action( 'admin_init', array( $this, 'admin_init' ));
