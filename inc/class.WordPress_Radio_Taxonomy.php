@@ -449,7 +449,7 @@ class WordPress_Radio_Taxonomy {
 							if ( $this->tax_obj->query_var ) {
 								$posts_in_term_qv[ $this->tax_obj->query_var ] = $t->slug;
 							} else {
-								$posts_in_term_qv['taxonomy'] = $taxonomy;
+								$posts_in_term_qv['taxonomy'] = $t->taxonomy;
 								$posts_in_term_qv['term'] = $t->slug;
 							}
 
