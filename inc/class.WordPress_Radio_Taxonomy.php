@@ -6,41 +6,52 @@ if( ! class_exists( 'WordPress_Radio_Taxonomy' ) ) :
 
 class WordPress_Radio_Taxonomy {
 
+  /**
+   * @var string - taxonomy name
+   * @since 1.0
+   */
 	public $taxonomy = null;
+
+  /**
+   * @var object - the taxonomy object
+   * @since 1.6
+   */
 	public $tax_obj = null;
 
+  /**
+   * Constructor
+   * @access public
+   * @since  1.0
+   */
 	public function __construct( $taxonomy ){
 
 		$this->taxonomy = $taxonomy;
 
-		//get the taxonomy object - need to get it after init but before admin_menu
+		// get the taxonomy object - need to get it after init but before admin_menu
 		add_action( 'wp_loaded', array( $this, 'get_taxonomy' ) );
 
-		//Remove old taxonomy meta box
+		// Remove old taxonomy meta box
 		add_action( 'admin_menu', array( $this, 'remove_meta_box' ) );
 
-		//Add new taxonomy meta box
+		// Add new taxonomy meta box
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 
-		//change checkboxes to radios
+		// change checkboxes to radios
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
 		// add a null term to metaboxes so users can unset term
 		add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
-		//Ajax callback for adding a non-hierarchical term
+		// Ajax callback for adding a non-hierarchical term
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( $this, 'ajax_add_term' ) );
 
-		//disable the UI for non-hierarchical taxonomies that are using radio buttons on EDIT screen - irrelevant in 3.4.2
-		add_action( 'load-edit.php', array( $this, 'disable_ui' ) );
-
-		//add columns to the edit screen
+		// add columns to the edit screen
 		add_filter( 'admin_init', array( $this, 'add_columns_init' ), 20 );
 
-		//never save more than 1 term ( possibly overkill )
+		// never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( $this, 'save_taxonomy_term' ) );
 
-		//add to quick edit - irrelevant for wp 3.4.2
+		// add to quick edit - irrelevant for wp 3.4.2
 		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2);
 
 	}
@@ -49,6 +60,8 @@ class WordPress_Radio_Taxonomy {
 	 * Set up the taxonomy object
 	 * need to do this after all custom taxonomies are registered
 	 *
+	 * @access public
+	 * @return  void
 	 * @since 1.1
 	 */
 	public function get_taxonomy(){
@@ -58,6 +71,8 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Remove the default metabox
 	 *
+	 * @access public
+	 * @return  void
 	 * @since 1.0
 	 */
 	public function remove_meta_box() {
@@ -71,6 +86,8 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Add our new customized metabox
 	 *
+	 * @access public
+	 * @return  void
 	 * @since 1.0
 	 */
 	public function add_meta_box() {
@@ -86,6 +103,10 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Callback to set up the metabox
 	 *
+	 * @access public
+	 * @param  object $post
+	 * @param  array $args
+	 * @return  print HTML
 	 * @since 1.0
 	 */
 	public function metabox( $post, $box ) {
@@ -184,8 +205,11 @@ class WordPress_Radio_Taxonomy {
 	}
 
 	/**
-	 * tell checklist function to use our new Walker
+	 * Tell checklist function to use our new Walker
 	 *
+	 * @access public
+	 * @param  array $args
+	 * @return array
 	 * @since 1.1
 	 */
 	function filter_terms_checklist_args( $args ) {
@@ -200,6 +224,8 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Only ever save a single term
 	 *
+	 * @param  int $post_id
+	 * @return int
 	 * @since 1.1
 	 */
 	function save_taxonomy_term ( $post_id ) {
@@ -272,6 +298,8 @@ class WordPress_Radio_Taxonomy {
 	 * Callback for array_map
 	 * since anonymous function isn't supported until PHP 5.3
 	 *
+	 * @param  array $n
+	 * @return array
 	 * @since 1.1.2
 	 */
 	private function array_map ( $n ) {
@@ -283,9 +311,13 @@ class WordPress_Radio_Taxonomy {
 	 * Add new 0 or null term in metabox and quickedit
 	 * this will allow users to "undo" a term if the taxonomy is not required
 	 *
+	 * @param  array $terms
+	 * @param  array $taxonomies
+	 * @param  array $args
+	 * @return array
 	 * @since 1.4
 	 */
-	function get_terms ( $terms, $taxonomies, $args ){
+	function get_terms( $terms, $taxonomies, $args ){
 
 		// give users a chance to disable the no term feature
 		if( ! apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $this->taxonomy, TRUE ) )
@@ -308,6 +340,7 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Add new term from metabox
 	 *
+	 * @return print HTML
 	 * @since 1.0
 	 */
 	public function ajax_add_term(){
@@ -351,20 +384,9 @@ class WordPress_Radio_Taxonomy {
 	}
 
 	/**
-	 * Disable the UI for radio taxonomies, but only on EDIT screen
-	 * which prevents them from appearing in quick edit
-	 *
-	 * @since 1.1
-	 */
-	public function disable_ui(){
-		global $wp_taxonomies;
-		$wp_taxonomies[$this->taxonomy]->show_ui = FALSE;
-	}
-
-
-	/**
 	 * Add extra columns for radio taxonomies on the edit screen
 	 *
+	 * @return void
 	 * @since 1.1
 	 */
 	function add_columns_init() {
@@ -372,13 +394,10 @@ class WordPress_Radio_Taxonomy {
 		// don't add the column for any taxonomy that has specifically
 		// disabled showing the admin column when registering the taxonomy
 		if( ! isset( $this->tax_obj->show_admin_column ) || ! $this->tax_obj->show_admin_column )
-				return;
+			return;
 
 		// also grab all the post types the tax is registered to
 		if( isset( $this->tax_obj->object_type ) && is_array( $this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ){
-
-			//remove taxonomy columns - does not exist in 3.4.2
-			//add_filter( "manage_taxonomies_for_{$post_type}_columns", array($this,'remove_tax_columns'), 10, 2 );
 
 			//add some hidden data that we'll need for the quickedit
 			add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_tax_columns' ) );
@@ -389,19 +408,10 @@ class WordPress_Radio_Taxonomy {
 	}
 
 	/**
-	 * Remove the existing columns
-	 *
-	 * @since 1.1
-	 * Waiting for manage_taxonomies_for filter in WP 3.5
-	 */
-	function remove_tax_columns( $taxonomies, $post_type ) {
-		unset( $taxonomies[$this->taxonomy] );
-		return $taxonomies;
-	}
-
-	/**
 	 * Add New Custom Columns
 	 *
+	 * @param  array $columns
+	 * @return array
 	 * @since 1.1
 	 */
 	function add_tax_columns( $columns ) {
@@ -409,20 +419,16 @@ class WordPress_Radio_Taxonomy {
 		/* keep trickery for post_tag and category' replacement until WP 3.5 */
 		switch ( $this->taxonomy ) {
 			case 'post_tag' :
-				$json = str_replace("tags", "radio-{$this->taxonomy}" , json_encode($columns));
+				$json = str_replace( "tags", "radio-{$this->taxonomy}" , json_encode($columns));
    				$columns = json_decode($json, true);
 				break;
 			case 'category' :
-				$json = str_replace("categories", "radio-{$this->taxonomy}" , json_encode($columns));
+				$json = str_replace( "categories", "radio-{$this->taxonomy}" , json_encode($columns));
     			$columns = json_decode($json, true);
     			break;
     		default:
-    			// until the manage_taxonomies filter is added, unset from $columns
-    			// only works on columns that are added with default naming convention
-				if( isset( $columns["taxonomy-{$this->taxonomy}"] ) )
-					unset( $columns["taxonomy-{$this->taxonomy}"] );
-
-				$columns["radio-{$this->taxonomy}"] = $this->tax_obj->labels->singular_name;
+				$json = str_replace( "taxonomy-{$this->taxonomy}", "radio-{$this->taxonomy}" , json_encode($columns));
+    			$columns = json_decode($json, true);
 				break;
 		}
 		return $columns;
@@ -430,7 +436,11 @@ class WordPress_Radio_Taxonomy {
 
 	/**
 	 * New Custom Column content
-	 *
+	 *	 
+	 * @param  string $column
+	 * @param  int $post_id
+	 * @return print HTML
+	 * 
 	 * @since 1.1
 	 */
 	function custom_tax_columns( $column, $post_id ) {
@@ -471,11 +481,19 @@ class WordPress_Radio_Taxonomy {
 				break;
 		}
 
+		// Now disable the quickedit for this taxonomy
+		// at the moment, there is no filter, so we have to hack the global variable
+		global $wp_taxonomies;
+		$wp_taxonomies[$this->taxonomy]->show_ui = FALSE;
+
 	}
 
 	/**
 	 * Quick edit form
 	 *
+	 * @param  string $column_name
+	 * @param  object $screen
+	 * @return print HTML
 	 * @since 1.1
 	 */
 	function quick_edit_custom_box( $column_name, $screen ) {

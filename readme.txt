@@ -4,7 +4,7 @@ Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 1.5.6
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,8 +14,13 @@ This plugin lets you switch any taxonomy to a radio-button style metabox, so use
 
 A plugin options page allows the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.
 
-Originally based on the the class by Stephen Harris:
-https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
+Originally based on the the [class by Stephen Harris](https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies)
+
+= Support =
+
+Support is handled in the [WordPress forums](http://wordpress.org/support/plugin/radio-button-for-taxonomies). Please note that support is limited and does not cover any custom implementation of the plugin. 
+
+Please report any bugs, errors, warnings, code problems to [Github](https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues)
 
 == Installation ==
 
@@ -28,10 +33,6 @@ https://github.com/stephenh1988/Radio-Buttons-for-Taxonomies
 1. The settings page where you determine which taxonomies will get radio buttons.
 2. This is what the metabox will look like on the post editor screen.
 
-== Bug Reporting ==
-
-Please report any issues at: https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues
-
 == Frequently Asked Questions ==
 
 = Why do the metaboxes have a "No {$taxonomy}" ( ex: No Genre ) radio button!? =
@@ -41,16 +42,25 @@ This was a feature added in version 1.4, but due to some faulty logic on my part
 It has come to my attention that not everybody likes this feature, so I have enabled an easy way to *disable* it for taxonomies that you wish to make mandatory.  Simply add the following to your theme's functions.php or your site's custom functions plugin.
 
 `
-add_filter("radio-buttons-for-taxonomies-no-term-{$taxonomy}", "__return_FALSE" );
+add_filter( "radio-buttons-for-taxonomies-no-term-{$taxonomy}", "__return_FALSE" );
 `
 
 So for example, to disabled the "No term" option on a taxonomy called "genre" you'd do the following:
 
 `
-add_filter('radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
+add_filter( 'radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.6 =
+* Use later priority (99) to launch the WordPress_Radio_Taxonomy class instances, resolves bug with custom taxonomies
+* Switch to class instance initialization instead of global
+* filtering `"manage_taxonomies_for_{$post_type}_columns"` doesn't do anything to quickedit, so removed
+* removed `disable_ui()` method in favor of adding to `manage_{$post_type}_posts_custom_column` hook
+** this lets us keep the taxonomy columns in their original places, versus adding to end
+** currently no way to remove quick edit without disabling UI in global `$wp_taxonomies` variable
+* better docbloc
 
 = 1.5.6 =
 * fix PHP notice in class.WordPress_Radio_Taxonomy.php
