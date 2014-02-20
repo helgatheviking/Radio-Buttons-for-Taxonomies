@@ -16,7 +16,7 @@ Originally based on the the [class by Stephen Harris](https://github.com/stephen
 
 ## Support
 
-Support is handled in the [WordPress forums](http://wordpress.org/support/plugin/radio-button-for-taxonomies). Please note that support is limited and does not cover any custom implementation of the plugin. 
+Support is handled in the [WordPress forums](http://wordpress.org/support/plugin/radio-button-for-taxonomies). Please note that support is limited and does not cover any custom implementation of the plugin. Before posting a question, read the [FAQ](http://wordpress.org/plugins/nav-menu-roles/faq/) and confirm that the problem still exists with a default theme and with all other plugins disabled. 
 
 Please report any bugs, errors, warnings, code problems to [Github](https://github.com/helgatheviking/Radio-Buttons-for-Taxonomies/issues)
 
