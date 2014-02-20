@@ -158,7 +158,7 @@
  *
  */
 
-	$('#the-list').on('click', '.editinline', function(){
+	$( '#the-list' ).on( 'click', '.editinline', function(){
 
 		// reset
 		inlineEditPost.revert();
@@ -171,6 +171,8 @@
 			taxonomy = $(this).attr('id');
 
 			value = $('.' + taxonomy, '#' + tag_id ).text();
+
+			value = value.trim() !== '' ? value.trim() : '0';
 
 			// protect against multiple taxonomies (which are separated with a comma , )
 			// this should be overkill, but just in case
