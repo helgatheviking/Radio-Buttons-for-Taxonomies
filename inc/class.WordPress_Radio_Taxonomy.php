@@ -448,36 +448,40 @@ class WordPress_Radio_Taxonomy {
 
 		switch ( $column ) {
 			case "radio-{$this->taxonomy}":
-				if ( $terms = wp_get_object_terms( $post_id, $this->taxonomy ) ) {
-						$out = array();
-						$hidden = array();
-						foreach ( $terms as $t ) {
-							if ( count ( $out ) == 1 ) break; //break out of this foreach at 1 term only (is filtering get_the_terms better?
-							$posts_in_term_qv = array();
-							if ( 'post' != $post->post_type )
-								$posts_in_term_qv['post_type'] = $post->post_type;
-							if ( $this->tax_obj->query_var ) {
-								$posts_in_term_qv[ $this->tax_obj->query_var ] = $t->slug;
-							} else {
-								$posts_in_term_qv['taxonomy'] = $t->taxonomy;
-								$posts_in_term_qv['term'] = $t->slug;
-							}
 
-							$out[] = sprintf( '<a href="%s">%s</a>',
-								esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
-								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $this->taxonomy, 'display' ) )
-							);
+				$terms = wp_get_object_terms( $post_id, $this->taxonomy );
 
-							$hidden[] = is_taxonomy_hierarchical( $this->taxonomy ) ? $t->term_id : $t->slug;
-						}
-						/* translators: used between list items, there is a space after the comma */
-						echo join( __( ', ' ), $out );
-						//redo this when wp 3.5 is available
-						echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . join( __( ', ' ), $hidden ) . '</div>';
+				if ( is_array( $terms ) && ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+					
+					$single_term = array_shift( $terms );
+			
+					$posts_in_term_qv = array();
+					if ( 'post' != $post->post_type )
+						$posts_in_term_qv['post_type'] = $post->post_type;
+					if ( $this->tax_obj->query_var ) {
+						$posts_in_term_qv[ $this->tax_obj->query_var ] = $single_term->slug;
 					} else {
-						/* translators: No 'terms' where %s is the taxonomy singular name */
-						printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->singular_name );
+						$posts_in_term_qv['taxonomy'] = $single_term->taxonomy;
+						$posts_in_term_qv['term'] = $single_term->slug;
 					}
+
+					printf( '<a href="%s">%s</a>',
+						esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
+						esc_html( sanitize_term_field( 'name', $single_term->name, $single_term->term_id, $this->taxonomy, 'display' ) )
+					);
+
+					$hidden = is_taxonomy_hierarchical( $this->taxonomy ) ? $single_term->term_id : $single_term->slug;
+
+				} else {
+					/* translators: No 'terms' where %s is the taxonomy singular name */
+					printf( __( 'No %s', 'radio-buttons-for-taxonomies' ) , $this->tax_obj->labels->singular_name );
+
+					$hidden = 0;
+				}
+
+				// add hidden data
+				echo '<div id="' . $this->taxonomy . '-' . $post_id.'" class="hidden radio-value '. $this->taxonomy . '">' . $hidden . '</div>';
+			
 				break;
 		}
 
