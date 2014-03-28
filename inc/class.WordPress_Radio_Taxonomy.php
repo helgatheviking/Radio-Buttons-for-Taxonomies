@@ -54,6 +54,8 @@ class WordPress_Radio_Taxonomy {
 		// add to quick edit - irrelevant for wp 3.4.2
 		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2);
 
+		// save bulk edit
+		add_action( "wp_ajax_save_bulk_edit_{$taxonomy}", array( $this, 'save_bulk_edit' ) );
 	}
 
 	/**
@@ -523,6 +525,29 @@ class WordPress_Radio_Taxonomy {
 			</div>
 		</fieldset>
 		<?php
+	}
+
+	/**
+	 * Save Bulk Edit
+	 *
+	 * @return print HTML
+	 * @since 1.7
+	 */
+	function save_bulk_edit() {
+
+		// get our variables
+		$post_ids = ( isset( $_POST[ 'post_ids' ] ) && ! empty( $_POST[ 'post_ids' ] ) ) ? $_POST[ 'post_ids' ] : array();
+		
+		$term = ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) ? (int) $_POST['term'] : NULL;
+
+		// if everything is in order
+		if ( ! empty( $post_ids ) && is_array( $post_ids ) && ! empty( $term ) ) {
+			foreach( $post_ids as $post_id ) {
+				wp_set_object_terms( $post_id, $term, $this->taxonomy );
+			}
+		}
+
+		die();
 	}
 
 } //end class - do NOT remove or else
