@@ -53,7 +53,7 @@
                         if( ! is_wp_error( $taxonomies ) ) {
 
                           foreach ($taxonomies as $i=>$taxonomy)  { ?>
-                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php checked( isset($options['taxonomies']) && is_array($options['taxonomies']) && in_array($i, $options['taxonomies']), 1 ); ?> /> <?php echo $taxonomy->labels->name; ?><br/>
+                            <label for="taxonomy-<?php echo $i;?>" ><input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" id="taxonomy-<?php echo $i;?>" value="<?php echo $i;?>" <?php checked( isset($options['taxonomies']) && is_array($options['taxonomies']) && in_array($i, $options['taxonomies']), 1 ); ?> /> <?php echo $taxonomy->labels->name; ?></label><br/>
 
                           <?php
                               }
@@ -63,9 +63,15 @@
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><?php _e('Completely remove options on plugin removal', 'radio-buttons-for-taxonomies' );?></th>
+                      <th scope="row"><label for="radio_button_for_taxonomies_options[delete]"><?php _e('Completely remove options on plugin removal', 'radio-buttons-for-taxonomies' );?></label></th>
                       <td>
-                        <input type="checkbox" name="radio_button_for_taxonomies_options[delete]" value="1" <?php checked( isset( $options['delete'] ) && $options['delete'], 1 );?> />
+                        <input type="checkbox" name="radio_button_for_taxonomies_options[delete]" id="radio_button_for_taxonomies_options[delete]" value="1" <?php checked( isset( $options['delete'] ) && $options['delete'], 1 );?> />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label for="radio_button_for_taxonomies_options[show_on_quick_edit]"><?php _e('Show on quick edit?', 'radio-buttons-for-taxonomies' );?></label></th>
+                      <td>
+                        <input type="checkbox" id="radio_button_for_taxonomies_options[show_on_quick_edit]" name="radio_button_for_taxonomies_options[show_on_quick_edit]" value="1" <?php checked( isset( $options['show_on_quick_edit'] ) && $options['show_on_quick_edit'], 1 );?> />
                       </td>
                     </tr>
                   </table>

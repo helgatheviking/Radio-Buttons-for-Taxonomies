@@ -89,30 +89,39 @@ class Radio_Buttons_for_Taxonomies {
    */
   public function __construct(){
 
-	    // Include required files
-	    include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
-      include_once( 'inc/class.Walker_Category_Radio.php' );
+      $options = get_option( 'radio_button_for_taxonomies_options', true );
+      // echo "<pre>".htmlentities(print_r($options,true))."</pre>";
+      
+      // add plugin options page
+      add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
-	    // Set-up Action and Filter Hooks
-	    register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
+      if ($options['show_on_quick_edit'] || !strpos($_SERVER['REQUEST_URI'], 'edit.php')) {
 
-	    // load plugin text domain for translations
-	    add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
+        // Include required files
+        include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
+        include_once( 'inc/class.Walker_Category_Radio.php' );
 
-      // launch each taxonomy class on a hook
-      add_action( 'init', array( $this, 'launch' ), 99 );
+        // Set-up Action and Filter Hooks
+        register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
 
-	    // register admin settings
-	    add_action( 'admin_init', array( $this, 'admin_init' ) );
+        // load plugin text domain for translations
+        add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
-	    // add plugin options page
-	    add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+        // launch each taxonomy class on a hook
+        add_action( 'init', array( $this, 'launch' ), 99 );
 
-      // Load admin scripts
-      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
+        // register admin settings
+        add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-	    // add settings link to plugins page
-	    add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
+
+        // Load admin scripts
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
+
+        // add settings link to plugins page
+        add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
+
+      }
+
 
   }
 
@@ -217,10 +226,12 @@ class Radio_Buttons_for_Taxonomies {
     $taxonomies = get_taxonomies( $args );
 
     if( isset( $input['taxonomies'] ) ) foreach ( $input['taxonomies'] as $tax ){
-    	if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
+      if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
     }
 
     $clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
+    
+    $clean['show_on_quick_edit'] =  isset( $input['show_on_quick_edit'] ) && $input['show_on_quick_edit'] ? 1 : 0 ;  //checkbox
 
     return $clean;
   }
