@@ -47,9 +47,9 @@ class Radio_Buttons_for_Taxonomies {
   protected static $_instance = null;
 
   /**
-   * Main WooCommerce Instance
+   * Main Radio_Buttons_for_Taxonomies Instance
    *
-   * Ensures only one instance of WooCommerce is loaded or can be loaded.
+   * Ensures only one instance of Radio_Buttons_for_Taxonomies is loaded or can be loaded.
    *
    * @since 1.6
    * @static
@@ -289,7 +289,7 @@ endif;
  * Returns the main instance of WC to prevent the need to use globals.
  *
  * @since  1.6
- * @return WooCommerce
+ * @return Radio_Buttons_for_Taxonomies
  */
 function Radio_Buttons_for_Taxonomies() {
   return Radio_Buttons_for_Taxonomies::instance();

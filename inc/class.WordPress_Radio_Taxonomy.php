@@ -51,11 +51,12 @@ class WordPress_Radio_Taxonomy {
 		// never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( $this, 'save_taxonomy_term' ) );
 
-		// add to quick edit - irrelevant for wp 3.4.2
-		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2);
+		// add to quick edit/bulk edit
+		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2 );
 
 		// save bulk edit
 		add_action( "wp_ajax_save_bulk_edit_{$taxonomy}", array( $this, 'save_bulk_edit' ) );
+
 	}
 
 	/**
@@ -215,11 +216,11 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.1
 	 */
 	function filter_terms_checklist_args( $args ) {
-	    if( isset($args['taxonomy']) && $this->taxonomy == $args['taxonomy'] ) {
-	    	$args['walker'] = new Walker_Category_Radio;
-	    	$args['checked_ontop'] = false;
-	    }
-	    return $args;
+		if( isset($args['taxonomy']) && $this->taxonomy == $args['taxonomy'] ) {
+			$args['walker'] = new Walker_Category_Radio;
+			$args['checked_ontop'] = false;
+		}
+		return $args;
 	}
 
 
@@ -233,9 +234,9 @@ class WordPress_Radio_Taxonomy {
 	function save_taxonomy_term ( $post_id ) {
 
 		// make sure we're on a supported post type
-	    if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
+		if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
 
-    	// verify this came from our plugin - one of our nonces must be set
+		// verify this came from our plugin - one of our nonces must be set
 	 	if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) ) return;
 
 	 	// verify the nonce if this is an ajax "add term" action
@@ -244,52 +245,50 @@ class WordPress_Radio_Taxonomy {
 	 	// verify the nonce if we're just saving the post normally
 	 	if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) return;
 
-	  	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-	  	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-	    	return $post_id;
+		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+			return $post_id;
 
-	  	// Check permissions
-	  	if ( 'page' == $_POST['post_type'] ) {
-	    	if ( ! current_user_can( 'edit_page', $post_id ) ) return;
-	  	} else {
-	    	if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-	  	}
+		// Check permissions
+		if ( 'page' == $_POST['post_type'] ) {
+			if ( ! current_user_can( 'edit_page', $post_id ) ) return;
+		} else {
+			if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+		}
 
-	 	$terms = null;
+		$terms = null;
 
-	  	// OK, we're authenticated: we need to find and save the data
-	  	if ( isset ( $_POST["radio_tax_input"]["{$this->taxonomy}"] ) )
-	  		$terms = $_POST["radio_tax_input"]["{$this->taxonomy}"];
+		// OK, we're authenticated: we need to find and save the data
+		if ( isset ( $_POST["radio_tax_input"]["{$this->taxonomy}"] ) )
+			$terms = $_POST["radio_tax_input"]["{$this->taxonomy}"];
 
+		// should always be an array because WP saves a hidden 0 term
+		if ( is_array( $terms ) ) {
 
-	  	// should always be an array because WP saves a hidden 0 term
+			// magically removes "0" terms
+			$terms = array_filter( $terms );
 
-	  if ( is_array( $terms ) ) {
+			// make sure we're only saving 1 term
+			$terms = ( array ) array_shift( $terms ); // why am i casting this to an array?
 
-	  		// magically removes "0" terms
-	  		$terms = array_filter( $terms );
+			// if hierarchical we need to ensure integers!
+			if ( is_taxonomy_hierarchical( $this->taxonomy ) ) { $terms = array_map( 'intval', $terms ); }
 
-	  		// make sure we're only saving 1 term
-	  		$terms = ( array ) array_shift( $terms );
+		} else {
 
-	  		// if hierarchical we need to ensure integers!
-	  		if ( is_taxonomy_hierarchical( $this->taxonomy ) ) { $terms = array_map( 'intval', $terms ); }
+			// if somehow user is saving string of tags, split string and grab first
+			$terms = explode( ',' , $terms ) ;
+			$terms = array_map( array( $this, 'array_map'), $terms );
+			$terms = $terms[0];
 
-	  	} else {
+		}
 
-	  		// if somehow user is saving string of tags, split string and grab first
-	  		$terms = explode( ',' , $terms ) ;
-		   $terms = array_map( array( $this, 'array_map'), $terms );
-		   $terms = $terms[0];
+		// if category and not saving any terms, set to default
+		if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
+			$terms = intval( get_option( 'default_category' ) );
+		}
 
-	  	}
-
-	  	// if category and not saving any terms, set to default
-	  	if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
-	  		$terms = intval( get_option( 'default_category' ) );
-	  	}
-
-	  	// set the single term
+		// set the single term
 		wp_set_object_terms( $post_id, $terms, $this->taxonomy );
 
 		return $post_id;
@@ -418,19 +417,18 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function add_tax_columns( $columns ) {
 
-		/* keep trickery for post_tag and category' replacement until WP 3.5 */
 		switch ( $this->taxonomy ) {
 			case 'post_tag' :
 				$json = str_replace( "tags", "radio-{$this->taxonomy}" , json_encode($columns));
-   				$columns = json_decode($json, true);
+				$columns = json_decode($json, true);
 				break;
 			case 'category' :
 				$json = str_replace( "categories", "radio-{$this->taxonomy}" , json_encode($columns));
-    			$columns = json_decode($json, true);
-    			break;
-    		default:
+				$columns = json_decode($json, true);
+				break;
+			default:
 				$json = str_replace( "taxonomy-{$this->taxonomy}", "radio-{$this->taxonomy}" , json_encode($columns));
-    			$columns = json_decode($json, true);
+				$columns = json_decode($json, true);
 				break;
 		}
 		return $columns;
@@ -507,10 +505,10 @@ class WordPress_Radio_Taxonomy {
 		if ( ! is_array( $this->tax_obj->object_type ) || ! in_array ( $screen, $this->tax_obj->object_type ) || $column_name != 'radio-' . $this->taxonomy )
 			return false;
 
-	    //needs the same name as metabox nonce
-	    wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );
+		//needs the same name as metabox nonce
+		wp_nonce_field( "add-{$this->taxonomy}", "_ajax_nonce-add-{$this->taxonomy}", false );
 
-	    ?>
+		?>
 
 		<fieldset class="inline-edit-col-left inline-edit-categories">
 			<div class="inline-edit-col">
@@ -534,6 +532,8 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7
 	 */
 	function save_bulk_edit() {
+
+		check_admin_referer( 'bulk-posts' );
 
 		// get our variables
 		$post_ids = ( isset( $_POST[ 'post_ids' ] ) && ! empty( $_POST[ 'post_ids' ] ) ) ? $_POST[ 'post_ids' ] : array();
