@@ -538,7 +538,10 @@ class WordPress_Radio_Taxonomy {
 		// get our variables
 		$post_ids = ( isset( $_POST[ 'post_ids' ] ) && ! empty( $_POST[ 'post_ids' ] ) ) ? $_POST[ 'post_ids' ] : array();
 		
-		$term = ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) ? (int) $_POST['term'] : NULL;
+		$term = ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) ? $_POST['term'] : NULL;
+
+		// cast term as integer if taxonomy is hierarchichal
+		$term = is_taxonomy_hierarchical( $this->taxonomy ) ? (int) $term : $term;
 
 		// if everything is in order
 		if ( ! empty( $post_ids ) && is_array( $post_ids ) && ! empty( $term ) ) {
