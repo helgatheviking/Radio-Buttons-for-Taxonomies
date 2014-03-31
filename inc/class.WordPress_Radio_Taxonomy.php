@@ -531,9 +531,9 @@ class WordPress_Radio_Taxonomy {
 	 * @return print HTML
 	 * @since 1.7
 	 */
-	function save_bulk_edit() {
+	function save_bulk_edit() { 
 
-		check_admin_referer( 'bulk-posts' );
+		//check_admin_referer( 'bulk-posts' ); 
 
 		// get our variables
 		$post_ids = ( isset( $_POST[ 'post_ids' ] ) && ! empty( $_POST[ 'post_ids' ] ) ) ? $_POST[ 'post_ids' ] : array();
