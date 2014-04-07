@@ -234,16 +234,16 @@ class WordPress_Radio_Taxonomy {
 	function save_taxonomy_term ( $post_id ) {
 
 		// make sure we're on a supported post type
-		if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return;
+		if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return $post_id;
 
 		// verify this came from our plugin - one of our nonces must be set
-	 	if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) ) return;
+	 	if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) ) return $post_id;
 
-	 	// verify the nonce if this is an ajax "add term" action
-	 	if ( isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return;
+	 	// verify the nonce if this is an ajax "add term" action // is this needed? possibly remove
+	 	if ( isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return $post_id;
 
 	 	// verify the nonce if we're just saving the post normally
-	 	if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) return;
+	 	if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) return $post_id;
 
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
@@ -251,9 +251,9 @@ class WordPress_Radio_Taxonomy {
 
 		// Check permissions
 		if ( 'page' == $_POST['post_type'] ) {
-			if ( ! current_user_can( 'edit_page', $post_id ) ) return;
+			if ( ! current_user_can( 'edit_page', $post_id ) ) return $post_id;
 		} else {
-			if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+			if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;
 		}
 
 		$terms = null;
