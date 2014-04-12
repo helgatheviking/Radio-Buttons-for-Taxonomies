@@ -1,50 +1,42 @@
-# Copyright (C) 2013 Radio Buttons for Taxonomies
+# Copyright (C) 2014 Radio Buttons for Taxonomies
 # This file is distributed under the same license as the Radio Buttons for Taxonomies package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Radio Buttons for Taxonomies 1.5.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/radio-buttons-for-taxonomies\n"
-"POT-Creation-Date: 2013-08-14 11:22:39+00:00\n"
+"Project-Id-Version: Radio Buttons for Taxonomies 1.6.2\n"
+"Report-Msgid-Bugs-To: "
+"http://wordpress.org/support/plugin/radio-buttons-for-taxonomies\n"
+"POT-Creation-Date: 2014-04-12 14:42:10+00:00\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: inc/class.WordPress_Radio_Taxonomy.php:112
+#: inc/class.WordPress_Radio_Taxonomy.php:136
 msgid "Most Used"
 msgstr ""
 
+#: inc/class.WordPress_Radio_Taxonomy.php:187
 #. translators: %s: add new taxonomy label
-
-#: inc/class.WordPress_Radio_Taxonomy.php:163
 msgid "+ %s"
 msgstr ""
 
+#: inc/class.WordPress_Radio_Taxonomy.php:331
+#: inc/class.WordPress_Radio_Taxonomy.php:477
 #. translators: No 'terms' where %s is the taxonomy singular name
-
-#: inc/class.WordPress_Radio_Taxonomy.php:298
-#: inc/class.WordPress_Radio_Taxonomy.php:469
 msgid "No %s"
 msgstr ""
 
-#. translators: used between list items, there is a space after the comma
-
-#: inc/class.WordPress_Radio_Taxonomy.php:464
-#: inc/class.WordPress_Radio_Taxonomy.php:466
-msgid ", "
-msgstr ""
-
-#: inc/class.WordPress_Radio_Taxonomy.php:494
+#: inc/class.WordPress_Radio_Taxonomy.php:516
 msgid "[more]"
 msgstr ""
 
-#: inc/class.WordPress_Radio_Taxonomy.php:495
+#: inc/class.WordPress_Radio_Taxonomy.php:517
 msgid "[less]"
 msgstr ""
 
-#: inc/plugin-options.php:15 radio-buttons-for-taxonomies.php:121
+#. Plugin Name of the plugin/theme
 msgid "Radio Buttons for Taxonomies"
 msgstr ""
 
@@ -60,15 +52,16 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: radio-buttons-for-taxonomies.php:121
+#: radio-buttons-for-taxonomies.php:72 radio-buttons-for-taxonomies.php:81
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: radio-buttons-for-taxonomies.php:200
 msgid "Radio Buttons for Taxonomies Options Page"
 msgstr ""
 
-#: radio-buttons-for-taxonomies.php:181
+#: radio-buttons-for-taxonomies.php:279
 msgid "Settings"
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "Radio Buttons for Taxonomies"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
