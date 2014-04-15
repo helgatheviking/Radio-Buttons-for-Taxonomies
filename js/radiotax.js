@@ -163,21 +163,21 @@
 		// reset
 		inlineEditPost.revert();
 
-		tag_id = $(this).parents('tr').attr('id');
+		post_row = $(this).parents('tr').attr('id');
 
 		// for each checklist get the value and check the correct input
 		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () {
 
 			taxonomy = $(this).attr('id');
 
-			value = $('.' + taxonomy, '#' + tag_id ).text();
+			value = $('.' + taxonomy, '#' + post_row ).text();
 
-			value = value.trim() !== '' ? value.trim() : '0';
+			value = value.trim() !== '' ? value.trim() : 0;
 
 			// protect against multiple taxonomies (which are separated with a comma , )
 			// this should be overkill, but just in case
-			taxonomies = value.split(",");
-			taxonomy = taxonomies ? taxonomies[0] : taxonomy;
+			terms = value.split(",");
+			taxonomy = terms ? terms[0] : taxonomy;
 
 			//uses :radio so doesn't need any other special selector
 			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
