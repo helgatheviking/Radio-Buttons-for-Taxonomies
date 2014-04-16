@@ -47,6 +47,16 @@ class Radio_Buttons_for_Taxonomies {
   protected static $_instance = null;
 
   /**
+   * @var non_hier_terms An array of the terms for each non-hierarchical taxonomy. Arrays inside keyed on taxonomy name, with values for term_id, slug, and name.
+   */
+  private $non_hier_terms = array();
+
+  /**
+   * @var taxonomies WordPress_Radio_Taxonomy instances as an array, keyed on taxonomy name.
+   */
+  private $taxonomies = array();
+
+  /**
    * Main Radio_Buttons_for_Taxonomies Instance
    *
    * Ensures only one instance of Radio_Buttons_for_Taxonomies is loaded or can be loaded.
@@ -109,7 +119,7 @@ class Radio_Buttons_for_Taxonomies {
 	    add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
       // Load admin scripts
-      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
+      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ), 10000 );
 
 	    // add settings link to plugins page
 	    add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
@@ -165,7 +175,7 @@ class Radio_Buttons_for_Taxonomies {
         foreach( $options['taxonomies'] as $taxonomy ) {
 
           if ( taxonomy_exists( $taxonomy ) ) {
-            $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
+            $this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
           }
 
         }
@@ -256,6 +266,33 @@ class Radio_Buttons_for_Taxonomies {
         if ( ! is_wp_error( $screen ) && in_array( $screen->base, array( 'edit', 'post' ) ) )
 
           wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true );
+
+        // non-hierarchical taxonomies will need values from which to make radio input elements on the front end
+        // we'll pass these to the browser for JS to build by localizing the plugin
+        foreach( $this->taxonomies as $taxonomy ){
+          if( $taxonomy->tax_obj->hierarchical ) continue;
+
+          $term_array = array();
+
+          // slim down the taxonomy object into a new array to reduce bandwidth
+          if( !empty( ( $terms = get_terms( $taxonomy->tax_obj->name ) ) ) ){
+            foreach( $terms as $term ){
+              $term_array[] = array(
+                  'name' => $term->name,
+                  'term_id' => $term->term_id,
+                  'slug' => $term->slug,
+              );
+            }
+          }
+          $this->non_hier_terms[$taxonomy->tax_obj->name] = $term_array;
+        }
+
+          // pass the relevant settings for radio button taxonomies to the front end. other JS config could go here.
+          $localization = array(
+            'taxonomies' => $options['taxonomies'],
+            'non_hier_terms' => $this->non_hier_terms,
+          );
+          wp_localize_script( 'radiotax', 'radiotaxdata', $localization );
 
       }
 

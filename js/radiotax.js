@@ -157,31 +157,95 @@
  * EDIT POST SCREEN
  * Quick Edit
  */
+ 	// modify the selected taxonomies of the #inlineedit template to use radio buttons 
+ 	$('#inlineedit').find('.inline-edit-categories').find('.cat-checklist').each( function(){  
+
+		var $ul = $(this);
+
+		// extract the taxonomy name from the element
+		var tax = $(this).attr("class").match(/ ([\w]+)-checklist/); 
+
+		// check to see if this taxonomy is a radio button taxonomy, from "localized" global variable radiotaxdata
+		if( tax && tax.length > 1 && $.inArray( tax[1], radiotaxdata['taxonomies'] ) ) {
+
+			// if so, change the markup to suit
+			$ul.addClass("radio-checklist").attr("id", tax[1]);
+			var input = $("input[name='tax_input\[" + tax[1] + "\]\[\]']")
+			input.attr("name", "radio_tax_input[" + tax[1] + "][]");
+
+		}
+	});
+
+	$('#inlineedit').find('.inline-edit-tags').find('textarea').each( function(){
+
+		var $textarea = $(this);
+
+		// extract the taxonomy name from the element
+		var tax = $textarea.attr("class").match(/tax_input_([\w]+)/);
+
+		// check to see if this taxonomy is a radio button taxonomy, from "localized" global variable radiotaxdata
+		// if there are no terms for this taxonomy, we leave the existing textarea alone.
+		if( tax && tax.length > 1 
+			&& $.inArray( tax[1], radiotaxdata['taxonomies'] ) != -1 
+			&& tax[1] in radiotaxdata['non_hier_terms']
+			&& radiotaxdata['non_hier_terms'][tax[1]].length > 0
+		) {
+
+			// if so, change the markup to suit
+			var label = $textarea.prev().text();
+			var terms = radiotaxdata['non_hier_terms'][tax[1]];
+			var post_id = '';
+
+			// Build the HTML. this could be templated if we want to include a JS templating library, but that may be overkill. 
+			var fieldset = '<fieldset class="inline-edit-col-left inline-edit-categories"><div class="inline-edit-col">';
+			fieldset	+= '<div class="inline-edit-col">';
+			fieldset	+= '<span class="title inline-edit-categories-label">' + label;
+			fieldset 	+= '<span class="catshow">[more]</span><span class="cathide" style="display:none;">[less]</span>';
+			fieldset 	+= '</span>'
+			fieldset 	+= '<input type="hidden" name="radio_tax_input[' + tax[1] + '][]" value="0">';
+			fieldset	+= '<ul id="' + tax[1] + '" class="radio-checklist cat-checklist ' + tax[1] + '-checklist">';
+			for( i = 0; terms.length > i; i++ ) {
+				fieldset += '<li id="' + tax[1] + '-library" class="popular-category"><label class="selectit">';
+				fieldset += '<input id="in-' + tax[1] + '-' + terms[i]['term_id'] +'" type="radio" name="radio_tax_input[' + tax[1] + '][]" value="' + terms[i]['slug'] + '">';
+				fieldset += terms[i]['name'];
+				fieldset += '</label></li>';
+			};
+			fieldset	+= '</ul></div></fieldset>';
+
+			// insert the HTML
+			$textarea.parent().after(fieldset);
+
+			// remove the WordPress-generated markup for this taxonomy entirely
+			$textarea.parent().remove();
+		}
+	});
+
+
 
 	$( '#the-list' ).on( 'click', '.editinline', function(){
 
 		// reset
 		inlineEditPost.revert();
 
-		post_row = $(this).parents('tr').attr('id');
+		var post_id = $(this).parents('tr').attr('id').match(/post-([\d]+)/)[1];
 
 		// for each checklist get the value and check the correct input
 		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () {
+			
+			var taxonomy = $(this).attr('id');
+			
+			var value = $( '#' + taxonomy + '_' + post_id ).text();
 
-			taxonomy = $(this).attr('id');
-
-			value = $('.' + taxonomy, '#' + post_row ).text();
-
-			value = value.trim() !== '' ? value.trim() : 0;
+			term_id = value.trim() !== '' ? value.trim() : "0";
 
 			// protect against multiple taxonomies (which are separated with a comma , )
-			// this should be overkill, but just in case
-			terms = value.split(",");
-			taxonomy = terms ? terms[0] : taxonomy;
+			// this should be overkill, but just in case			
+			if( typeof value === "string" && value.indexOf(",") > 0 ){
+				term_id = term_id.split(",")[0];
+			}
 
 			//uses :radio so doesn't need any other special selector
-			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
-
+			$( this ).find( ":radio[value="+term_id+"]" ).prop( 'checked', true );
 		});
 
 
