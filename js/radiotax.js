@@ -157,31 +157,48 @@
  * EDIT POST SCREEN
  * Quick Edit
  */
+ 	// modify the selected taxonomies of the #inlineedit template to use radio buttons 
+	$('#inlineedit').find('.inline-edit-categories').find('.cat-checklist').each( function(){  
+		var ul = this;
+
+		// extract the taxonomy name from the element
+		var tax = $(this).attr("class").match(/ ([a-z]+)-checklist/); 
+
+		// check to see if this taxonomy is a radio button taxonomy, from "localized" global variable radiotaxdata
+		if( tax && tax.length > 1 && $.inArray( tax[1], radiotaxdata['taxonomies'] ) ) {
+
+			// if so, change the markup to suit
+			$(ul).addClass("radio-checklist").attr("id", tax[1]);
+			var input = $("input[name='tax_input\[" + tax[1] + "\]\[\]']")
+			input.attr("name", "radio_tax_input[" + tax[1] + "][]");
+
+		}
+	});
 
 	$( '#the-list' ).on( 'click', '.editinline', function(){
 
 		// reset
 		inlineEditPost.revert();
 
-		post_row = $(this).parents('tr').attr('id');
+		var post_id = $(this).parents('tr').attr('id').match(/post-([\d]+)/)[1];
 
 		// for each checklist get the value and check the correct input
 		$( 'ul.radio-checklist', '.quick-edit-row' ).each( function () {
+			
+			var taxonomy = $(this).attr('id');
+			
+			var value = $( '#' + taxonomy + '_' + post_id ).text();
 
-			taxonomy = $(this).attr('id');
-
-			value = $('.' + taxonomy, '#' + post_row ).text();
-
-			value = value.trim() !== '' ? value.trim() : 0;
+			term_id = value.trim() !== '' ? value.trim() : "0";
 
 			// protect against multiple taxonomies (which are separated with a comma , )
-			// this should be overkill, but just in case
-			terms = value.split(",");
-			taxonomy = terms ? terms[0] : taxonomy;
+			// this should be overkill, but just in case			
+			if( typeof value === "string" && value.indexOf(",") > 0 ){
+				term_id = term_id.split(",")[0];
+			}
 
 			//uses :radio so doesn't need any other special selector
-			$( this ).find( ":radio[value="+taxonomy+"]" ).prop( 'checked', true );
-
+			$( this ).find( ":radio[value="+term_id+"]" ).prop( 'checked', true );
 		});
 
 

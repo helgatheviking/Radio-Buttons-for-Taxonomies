@@ -109,7 +109,7 @@ class Radio_Buttons_for_Taxonomies {
 	    add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
       // Load admin scripts
-      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
+      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ), 10000 );
 
 	    // add settings link to plugins page
 	    add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
@@ -256,6 +256,12 @@ class Radio_Buttons_for_Taxonomies {
         if ( ! is_wp_error( $screen ) && in_array( $screen->base, array( 'edit', 'post' ) ) )
 
           wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true );
+
+          // pass the taxonomies using radio button taxonomies to the front end. other JS config could go here.
+          $localization = array(
+            'taxonomies' => $options['taxonomies']
+          );
+          wp_localize_script( 'radiotax', 'radiotaxdata', $localization );
 
       }
 

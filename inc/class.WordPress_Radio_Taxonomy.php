@@ -46,13 +46,13 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'wp_ajax_radio_tax_add_taxterm', array( $this, 'ajax_add_term' ) );
 
 		// add columns to the edit screen
-		add_filter( 'admin_init', array( $this, 'add_columns_init' ), 20 );
+//		add_filter( 'admin_init', array( $this, 'add_columns_init' ), 20 );
 
 		// never save more than 1 term ( possibly overkill )
 		add_action( 'save_post', array( $this, 'save_taxonomy_term' ) );
 
 		// add to quick edit/bulk edit
-		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2 );
+//		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_custom_box' ), 10, 2 );
 
 		// save bulk edit
 		add_action( "wp_ajax_save_bulk_edit_{$taxonomy}", array( $this, 'save_bulk_edit' ) );
@@ -237,13 +237,13 @@ class WordPress_Radio_Taxonomy {
 		if ( is_array( $this->tax_obj->object_type ) && isset( $_POST['post_type'] ) && ! in_array ( $_POST['post_type'], $this->tax_obj->object_type ) ) return $post_id;
 
 		// verify this came from our plugin - one of our nonces must be set
-	 	if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) ) return $post_id;
+//	 	if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) ) return $post_id;
 
 	 	// verify the nonce if this is an ajax "add term" action // is this needed? possibly remove
-	 	if ( isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return $post_id;
+//	 	if ( isset( $_POST["_ajax_nonce-add-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_ajax_nonce-add-{$this->taxonomy}"], "add-{$this->taxonomy}" ) ) return $post_id;
 
 	 	// verify the nonce if we're just saving the post normally
-	 	if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) return $post_id;
+//	 	if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_POST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) return $post_id;
 
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
@@ -394,6 +394,8 @@ class WordPress_Radio_Taxonomy {
 
 		// don't add the column for any taxonomy that has specifically
 		// disabled showing the admin column when registering the taxonomy
+		// note that taxonomies never have the property 'show_admin_column'
+		// this would work if we needed it: ! empty( wp_filter_object_list( array($this->tax_obj), array( 'show_admin_column' => true ), 'and', 'name' ) )
 		if( ! isset( $this->tax_obj->show_admin_column ) || ! $this->tax_obj->show_admin_column )
 			return;
 
