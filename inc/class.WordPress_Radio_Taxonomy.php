@@ -325,6 +325,10 @@ class WordPress_Radio_Taxonomy {
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 			return $post_id;
 
+		// prevent weirdness with multisite
+		if( function_exists( 'ms_is_switched' ) && ms_is_switched() )
+			return $post_id;
+
 		// make sure we're on a supported post type
 		if ( is_array( $this->tax_obj->object_type ) && isset( $_REQUEST['post_type'] ) && ! in_array ( $_REQUEST['post_type'], $this->tax_obj->object_type ) ) 
 			return $post_id;
