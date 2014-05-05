@@ -56,8 +56,8 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ) );
 
 		// never save more than 1 term
-		add_action( 'save_post', array( $this, 'single_taxonomy_term' ) );
-		add_action( 'edit_attachment', array( $this, 'single_taxonomy_term' ) );
+		add_action( 'save_post', array( $this, 'save_single_term' ) );
+		add_action( 'edit_attachment', array( $this, 'save_single_term' ) );
 
 		// hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
@@ -319,7 +319,7 @@ class WordPress_Radio_Taxonomy {
 	 * @return int
 	 * @since 1.1.0
 	 */
-	function single_taxonomy_term( $post_id ) {
+	function save_single_term( $post_id ) {
 
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
