@@ -57,6 +57,7 @@ class WordPress_Radio_Taxonomy {
 
 		// never save more than 1 term
 		add_action( 'save_post', array( $this, 'single_taxonomy_term' ) );
+		add_action( 'edit_attachment', array( $this, 'single_taxonomy_term' ) );
 
 		// hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
