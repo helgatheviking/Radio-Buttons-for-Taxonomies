@@ -66,10 +66,7 @@ class Walker_Category_Radio extends Walker {
 		if ( empty($taxonomy) )
 			$taxonomy = 'category';
 
-		if ( $taxonomy == 'category' )
-			$name = 'post_category';
-		else
-			$name = 'tax_input['.$taxonomy.']';
+		$name = 'radio_tax_input['.$taxonomy.']';
 
 		//get first term object
 		$current_term = ! empty( $selected_cats ) && ! is_wp_error( $selected_cats ) ? array_pop( $selected_cats ) : false;
@@ -77,8 +74,8 @@ class Walker_Category_Radio extends Walker {
 		// if no term, match the 0 "no term" option
 		$current_id = ( $current_term ) ? $current_term : 0;
 
-		//small tweak so that it works for both hierarchical and non-hierarchical tax
-		$value = is_taxonomy_hierarchical( $taxonomy ) ? $category->term_id : $category->slug;
+		// switching radio tags to "hierarchical" so we'll always use ID
+		$value = $category->term_id;
 
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
 

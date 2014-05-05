@@ -9,20 +9,20 @@ Author: Kathy Darling
 Author URI: http://www.kathyisawesome.com
 License: GPL2
 
-    Copyright 2012  Kathy Darling  (email: kathy.darling@gmail.com)
+Copyright 2012  Kathy Darling  (email: kathy.darling@gmail.com)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
-    published by the Free Software Foundation.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
@@ -40,245 +40,242 @@ if ( ! class_exists( 'Radio_Buttons_for_Taxonomies' ) ) :
 
 class Radio_Buttons_for_Taxonomies {
 
-  /**
-   * @var Radio_Buttons_for_Taxonomies The single instance of the class
-   * @since 1.6
-   */
-  protected static $_instance = null;
+	/**
+	 * @var Radio_Buttons_for_Taxonomies The single instance of the class
+	 * @since 1.6
+	 */
+	protected static $_instance = null;
 
-  /**
-   * Main Radio_Buttons_for_Taxonomies Instance
-   *
-   * Ensures only one instance of Radio_Buttons_for_Taxonomies is loaded or can be loaded.
-   *
-   * @since 1.6
-   * @static
-   * @see Radio_Buttons_for_Taxonomies()
-   * @return Radio_Buttons_for_Taxonomies - Main instance
-   */
-  public static function instance() {
-    if ( is_null( self::$_instance ) ) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
+	/**
+	 * @var version
+	 * @since 1.7.0
+	 */
+	static $version = '1.7.0';
 
-  /**
-   * Cloning is forbidden.
-   *
-   * @since 1.6
-   */
-  public function __clone() {
-    _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.6' );
-  }
+	/**
+	 * @var plugin options
+	 * @since 1.7.0
+	 */
+	public $options = array();
 
-  /**
-   * Unserializing instances of this class is forbidden.
-   *
-   * @since 1.6
-   */
-  public function __wakeup() {
-    _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.6' );
-  }
+	/**
+	 * @var taxonomies WordPress_Radio_Taxonomy instances as an array, keyed on taxonomy name.
+	 * @since 1.7.0
+	 */
+	public $taxonomies = array();
 
-  /**
-   * Radio_Buttons_for_Taxonomies Constructor.
-   * @access public
-   * @return Radio_Buttons_for_Taxonomies
-   * @since  1.0
-   */
-  public function __construct(){
+	/**
+	 * Main Radio_Buttons_for_Taxonomies Instance
+	 *
+	 * Ensures only one instance of Radio_Buttons_for_Taxonomies is loaded or can be loaded.
+	 *
+	 * @since 1.6
+	 * @static
+	 * @see Radio_Buttons_for_Taxonomies()
+	 * @return Radio_Buttons_for_Taxonomies - Main instance
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
-	    // Include required files
-	    include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
-      include_once( 'inc/class.Walker_Category_Radio.php' );
+	/**
+	 * Cloning is forbidden.
+	 *
+	 * @since 1.6
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
+	}
 
-	    // Set-up Action and Filter Hooks
-	    register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
+	/**
+	 * Unserializing instances of this class is forbidden.
+	 *
+	 * @since 1.6
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
+	}
 
-	    // load plugin text domain for translations
-	    add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
+	/**
+	 * Radio_Buttons_for_Taxonomies Constructor.
+	 * @access public
+	 * @return Radio_Buttons_for_Taxonomies
+	 * @since  1.0
+	 */
+	public function __construct(){
 
-      // launch each taxonomy class on a hook
-      add_action( 'init', array( $this, 'launch' ), 99 );
+			// Include required files
+			include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
+			include_once( 'inc/class.Walker_Category_Radio.php' );
 
-	    // register admin settings
-	    add_action( 'admin_init', array( $this, 'admin_init' ) );
+			$this->options = get_option( 'radio_button_for_taxonomies_options', true );
 
-	    // add plugin options page
-	    add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+			// Set-up Action and Filter Hooks
+			register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
 
-      // Load admin scripts
-      add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
+			// load plugin text domain for translations
+			add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
-	    // add settings link to plugins page
-	    add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
+			// launch each taxonomy class when tax is registered
+			add_action( 'registered_taxonomy', array( $this, 'launch' ) );
 
-  }
+			// register admin settings
+			add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-  /**
-   * Auto-load in-accessible properties on demand.
-   *
-   * @param mixed $key
-   * @return mixed
-   */
-  public function __get( $key ) {
-    if ( isset( $this->$key ) ) {
-      return $this->$key ; 
-    }
-  }
+			// add plugin options page
+			add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
-  /**
-   * Delete options table entries ONLY when plugin deactivated AND deleted
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function delete_plugin_options() {
-    $options = get_option( 'radio_button_for_taxonomies_options', true );
-    if( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
-  }
+			// Load admin scripts
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
+			// add settings link to plugins page
+			add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
 
-  /**
-   * Make plugin translation-ready
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function load_text_domain() {
-      load_plugin_textdomain( "radio-buttons-for-taxonomies", false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-  }
+	}
 
-  /**
-   * Create a class property for each taxonomy that we are converting to radio buttons, ex: $this->categories
-   * @access public
-   * @return object
-   * @since  1.0
-   */
-  public function launch(){
-      
-      $options = get_option( 'radio_button_for_taxonomies_options', true );
+	/**
+	 * Auto-load in-accessible properties on demand. @TODO: REMOVE?
+	 *
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		if ( isset( $this->$key ) ) {
+			return $this->$key ; 
+		}
+	}
 
-      if( isset( $options['taxonomies'] ) ) {
-
-        foreach( $options['taxonomies'] as $taxonomy ) {
-
-          if ( taxonomy_exists( $taxonomy ) ) {
-            $this->{$taxonomy} = new WordPress_Radio_Taxonomy( $taxonomy );
-          }
-
-        }
-
-      }
-
-  }
-
-  // ------------------------------------------------------------------------------
-  // Admin options
-  // ------------------------------------------------------------------------------
-
-  /**
-   * Whitelist plugin options
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function admin_init(){
-    register_setting( 'radio_button_for_taxonomies_options', 'radio_button_for_taxonomies_options', array( $this,'validate_options' ) );
-  }
+	/**
+	 * Delete options table entries ONLY when plugin deactivated AND deleted
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function delete_plugin_options() {
+		$options = get_option( 'radio_button_for_taxonomies_options', true );
+		if( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
+	}
 
 
-  /**
-   * Add plugin's options page
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function add_options_page() {
-    add_options_page(__( 'Radio Buttons for Taxonomies Options Page',"radio-buttons-for-taxonomies" ), __( 'Radio Buttons for Taxonomies', "radio-buttons-for-taxonomies" ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
-  }
+	/**
+	 * Make plugin translation-ready
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function load_text_domain() {
+		load_plugin_textdomain( "radio-buttons-for-taxonomies", false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
 
-  /**
-   * Render the Plugin options form
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function render_form(){
-    include( 'inc/plugin-options.php' );
-  }
+	/**
+	 * For each taxonomy that we are converting to radio buttons, store in taxonomies class property, ex: $this->taxonomies[categories]
+	 * @access public
+	 * @return object
+	 * @since  1.0
+	 */
+	public function launch( $taxonomy ){
+		if( isset( $this->options['taxonomies'] ) && in_array( $taxonomy, (array) $this->options['taxonomies'] ) ) {
+			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
+		}
+	}
 
-  /**
-   * Sanitize and validate options
-   * @access public
-   * @param  array $input
-   * @return array
-   * @since  1.0
-   */
-  public function validate_options( $input ){
+	// ------------------------------------------------------------------------------
+	// Admin options
+	// ------------------------------------------------------------------------------
 
-    $clean = array();
+	/**
+	 * Whitelist plugin options
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function admin_init(){
+		register_setting( 'radio_button_for_taxonomies_options', 'radio_button_for_taxonomies_options', array( $this,'validate_options' ) );
+	}
 
-    //probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying
-    $args = array(
-      'public'   => true,
-      'show_ui' => true
-    );
 
-    $taxonomies = get_taxonomies( $args );
+	/**
+	 * Add plugin's options page
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function add_options_page() {
+		add_options_page(__( 'Radio Buttons for Taxonomies Options Page',"radio-buttons-for-taxonomies" ), __( 'Radio Buttons for Taxonomies', "radio-buttons-for-taxonomies" ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
+	}
 
-    if( isset( $input['taxonomies'] ) ) foreach ( $input['taxonomies'] as $tax ){
-    	if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
-    }
+	/**
+	 * Render the Plugin options form
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function render_form(){
+		include( 'inc/plugin-options.php' );
+	}
 
-    $clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
+	/**
+	 * Sanitize and validate options
+	 * @access public
+	 * @param  array $input
+	 * @return array
+	 * @since  1.0
+	 */
+	public function validate_options( $input ){
 
-    return $clean;
-  }
+		$clean = array();
 
-  /**
-   * Enqueue Scripts
-   * @access public
-   * @return void
-   * @since  1.0
-   */
-  public function admin_script(){
+		//probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying
+		$args = array(
+			'public'   => true,
+			'show_ui' => true
+		);
 
-      $options = get_option( 'radio_button_for_taxonomies_options', true );
+		$taxonomies = get_taxonomies( $args );
 
-      if( ! isset( $options['taxonomies'] ) ) return;
+		if( isset( $input['taxonomies'] ) ) foreach ( $input['taxonomies'] as $tax ){
+			if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
+		}
 
-      if ( function_exists( 'get_current_screen' ) ){
+		$clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
 
-        $screen = get_current_screen();
+		return $clean;
+	}
 
-        if ( ! is_wp_error( $screen ) && in_array( $screen->base, array( 'edit', 'post' ) ) )
+	/**
+	 * Enqueue Scripts
+	 * @access public
+	 * @return void
+	 * @since  1.0
+	 */
+	public function admin_script( $hook ){
+		if( 'edit.php' == $hook ){
+			$suffix = defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ? '' : '.min';
+			wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
+		}
+	}
 
-          wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax.js', __FILE__ ), array( 'jquery' ), null, true );
+	/**
+	 * Display a Settings link on the main Plugins page
+	 * @access public
+	 * @param  array $links
+	 * @param  string $file
+	 * @return array
+	 * @since  1.0
+	 */
+	public function add_action_links( $links, $file ) {
 
-      }
+		if ( $file == plugin_basename( __FILE__ ) ) {
+			$plugin_link = '<a href="'.admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . __( 'Settings' , 'radio-buttons-for-taxonomies' ) . '</a>';
+			// make the 'Settings' link appear first
+			array_unshift( $links, $plugin_link );
+		}
 
-    }
-
-  /**
-   * Display a Settings link on the main Plugins page
-   * @access public
-   * @param  array $links
-   * @param  string $file
-   * @return array
-   * @since  1.0
-   */
-  public function add_action_links( $links, $file ) {
-
-    if ( $file == plugin_basename( __FILE__ ) ) {
-      $plugin_link = '<a href="'.admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . __( 'Settings' ) . '</a>';
-      // make the 'Settings' link appear first
-      array_unshift( $links, $plugin_link );
-    }
-
-    return $links;
-  }
+		return $links;
+	}
 
 } // end class
 endif;
@@ -292,8 +289,9 @@ endif;
  * @return Radio_Buttons_for_Taxonomies
  */
 function Radio_Buttons_for_Taxonomies() {
-  return Radio_Buttons_for_Taxonomies::instance();
+	return Radio_Buttons_for_Taxonomies::instance();
 }
 
 // Global for backwards compatibility.
 $GLOBALS['Radio_Buttons_for_Taxonomies'] = Radio_Buttons_for_Taxonomies();
+
