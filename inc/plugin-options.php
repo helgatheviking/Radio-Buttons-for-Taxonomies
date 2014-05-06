@@ -18,7 +18,7 @@
 			<legend><?php esc_html_e( 'Taxonomies', 'radio-buttons-for-taxonomies' ); ?></legend>
 
 			<?php
-			$taxonomies = rbt_get_all_taxonomies();
+			$taxonomies = Radio_Buttons_for_Taxonomies()->get_all_taxonomies();
 
 			if ( ! empty ( $taxonomies ) ) {
 
@@ -63,22 +63,3 @@
 		</p>
 	</form>
 </div>
-<?php
-function rbt_get_all_taxonomies() {
-
-	$args = array (
-		'public'   => true,
-		'show_ui'  => true,
-		'_builtin' => true
-	);
-
-	$defaults = get_taxonomies( $args, 'objects' );
-	ksort( $defaults );
-
-	$args['_builtin'] = false;
-
-	$custom = get_taxonomies( $args, 'objects' );
-	ksort( $custom );
-
-	return array_merge( $defaults, $custom );
-}

@@ -277,6 +277,37 @@ class Radio_Buttons_for_Taxonomies {
 		return $links;
 	}
 
+
+	// ------------------------------------------------------------------------------
+	// Helper Functions
+	// ------------------------------------------------------------------------------
+
+	/**
+	 * Get all taxonomies - for plugin options checklist
+	 * @access public
+	 * @return array
+	 * @since  1.7
+	 */
+	function get_all_taxonomies() {
+
+		$args = array (
+			'public'   => true,
+			'show_ui'  => true,
+			'_builtin' => true
+		);
+
+		$defaults = get_taxonomies( $args, 'objects' );
+		ksort( $defaults );
+
+		$args['_builtin'] = false;
+
+		$custom = get_taxonomies( $args, 'objects' );
+		ksort( $custom );
+
+		return array_merge( $defaults, $custom );
+	}
+
+
 } // end class
 endif;
 
