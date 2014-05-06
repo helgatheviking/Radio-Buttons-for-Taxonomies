@@ -57,9 +57,13 @@
 								  1,
 								  false
 							  );
+							  $id = "rbt_$i";
 							  ?>
 
-                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php echo $checked; ?> /> <?php echo $taxonomy->labels->name; ?><br/>
+							  <label for="<?php echo $id; ?>">
+                            	<input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php echo $checked; ?> id="<?php echo $id; ?>" />
+							  <?php echo $taxonomy->labels->name; ?>
+							  </label><br/>
 
                           <?php
                               }
