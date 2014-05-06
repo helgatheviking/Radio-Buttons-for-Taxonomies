@@ -15,7 +15,7 @@
 		<?php $options = get_option( 'radio_button_for_taxonomies_options' ); ?>
 
 		<fieldset>
-			<legend><?php esc_html_e( 'Taxonomies', 'radio-buttons-for-taxonomies' ); ?></legend>
+			<legend><?php esc_html_e( 'Select taxonomies to convert to radio buttons', 'radio-buttons-for-taxonomies' ); ?></legend>
 
 			<?php
 			$taxonomies = Radio_Buttons_for_Taxonomies()->get_all_taxonomies();
