@@ -51,8 +51,15 @@
 
                         if( ! is_wp_error( $taxonomies ) ) {
 
-                          foreach ($taxonomies as $i=>$taxonomy)  { ?>
-                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php checked( isset($options['taxonomies']) && is_array($options['taxonomies']) && in_array($i, $options['taxonomies']), 1 ); ?> /> <?php echo $taxonomy->labels->name; ?><br/>
+                          foreach ($taxonomies as $i=>$taxonomy)  {
+							  $checked = checked(
+								  isset($options['taxonomies']) && is_array($options['taxonomies']) && in_array($i, $options['taxonomies']),
+								  1,
+								  false
+							  );
+							  ?>
+
+                            <input type="checkbox" name="radio_button_for_taxonomies_options[taxonomies][]" value="<?php echo $i;?>" <?php echo $checked; ?> /> <?php echo $taxonomy->labels->name; ?><br/>
 
                           <?php
                               }
