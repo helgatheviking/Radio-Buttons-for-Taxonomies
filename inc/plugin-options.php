@@ -9,8 +9,7 @@
     h2.nav-tab-wrapper { margin-bottom: 1em;}
   </style>
 
-  <!-- Display Plugin Icon, Header, and Description -->
-  <?php screen_icon(); ?>
+  <!-- Display Header, and Description -->
 
   <h2><?php _e('Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' );?></h2>
 
