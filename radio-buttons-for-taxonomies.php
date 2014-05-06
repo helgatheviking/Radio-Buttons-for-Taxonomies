@@ -134,6 +134,7 @@ class Radio_Buttons_for_Taxonomies {
 			// add settings link to plugins page
 			add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
 
+			add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 	}
 
 
@@ -294,6 +295,28 @@ class Radio_Buttons_for_Taxonomies {
 		ksort( $custom );
 
 		return array_merge( $defaults, $custom );
+	}
+
+	/**
+	 * Make sure Multilingual Press shows the correct user interface.
+	 *
+	 * This method is called after switch_to_blog(), so we have to fetch the
+	 * options separately.
+	 *
+	 * @wp-hook mlp_mutually_exclusive_taxonomies
+	 * @param array $taxonomies
+	 * @return array
+	 */
+	public function multilingualpress_support( Array $taxonomies ) {
+
+		$remote_options = get_option( 'radio_button_for_taxonomies_options', array() );
+
+		if ( empty ( $remote_options['taxonomies'] ) )
+			return $taxonomies;
+
+		$all_taxonomies = array_merge( (array) $remote_options['taxonomies'], $taxonomies );
+
+		return array_unique( $all_taxonomies );
 	}
 
 
