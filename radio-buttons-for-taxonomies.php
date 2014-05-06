@@ -136,17 +136,6 @@ class Radio_Buttons_for_Taxonomies {
 
 	}
 
-	/**
-	 * Auto-load in-accessible properties on demand. @TODO: REMOVE?
-	 *
-	 * @param mixed $key
-	 * @return mixed
-	 */
-	public function __get( $key ) {
-		if ( isset( $this->$key ) ) {
-			return $this->$key ; 
-		}
-	}
 
 	/**
 	 * Delete options table entries ONLY when plugin deactivated AND deleted
