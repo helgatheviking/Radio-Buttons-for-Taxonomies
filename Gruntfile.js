@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-    	gitcreds: grunt.file.readJSON('gitcreds.json'),
+    	gitcreds: grunt.file.readJSON('.gitcreds'),
 		uglify: {
 			options: {
 				compress: {
@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 					'!Gruntfile.js',
 					'!package.json',
           			'!gitcreds.json',
+          			'!.transifexrc',
 					'!.gitignore',
 					'!.gitmodules',
 					'!**/*.sublime-workspace',
@@ -93,6 +94,16 @@ module.exports = function(grunt) {
 					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					type: 'wp-plugin' // Type of project (wp-plugin or wp-theme).
+				}
+			}
+		},
+
+		transifex: {
+			"rb4t": {
+				options: {
+					targetDir: "languages",     // download all available resources in all languages
+					mode: "file"
+
 				}
 			}
 		},
