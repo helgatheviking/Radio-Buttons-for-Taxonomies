@@ -99,13 +99,13 @@ module.exports = function(grunt) {
 		},
 
 		transifex: {
-			"rb4t": {
-				options: {
-					targetDir: "languages",     // download all available resources in all languages
-					mode: "file"
-
-				}
-			}
+			"radio-buttons-for-taxonomies": {
+                options: {
+                    targetDir: "languages",     
+                    mode: "file",
+                    filename : "_resource_-_lang_.po",
+                }
+            }
 		},
 
 		// Create .mo files for existing .po
