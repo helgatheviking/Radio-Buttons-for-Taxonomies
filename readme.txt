@@ -3,8 +3,8 @@ Contributors: helgatheviking
 Donate link: https://inspirepay.com/pay/helgatheviking ‎
 Tags: taxonomy, admin, interface, ui, post, radio
 Requires at least: 3.8
-Tested up to: 3.8
-Stable tag: 1.6.1
+Tested up to: 3.9.1
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,15 @@ add_filter( 'radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.7.0 =
+* Add support for bulk-edit
+* more quick edit fixes
+* save tax terms for attachments
+* switch ajax callback for adding non-hierarchical terms
+* use default JS scripts on post.php page
+* remove filtering of columns via `manage_{$post_type}_posts_custom_column`, etc
+* switch all taxonomies to "hierarchical" on edit.php so quick edit is automatically switched to radio buttons
 
 = 1.6.1 =
 * Bug-fix for quick-edit

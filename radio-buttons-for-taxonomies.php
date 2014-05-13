@@ -3,7 +3,7 @@
 Plugin Name: Radio Buttons for Taxonomies
 Plugin URI: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
 Description: Use radio buttons for any taxonomy
-Version: 1.6.1
+Version: 1.7.0
 Text Domain: radio-buttons-for-taxonomies
 Author: Kathy Darling
 Author URI: http://www.kathyisawesome.com
@@ -42,7 +42,7 @@ class Radio_Buttons_for_Taxonomies {
 
 	/**
 	 * @var Radio_Buttons_for_Taxonomies The single instance of the class
-	 * @since 1.6
+	 * @since 1.6.0
 	 */
 	protected static $_instance = null;
 
@@ -69,7 +69,7 @@ class Radio_Buttons_for_Taxonomies {
 	 *
 	 * Ensures only one instance of Radio_Buttons_for_Taxonomies is loaded or can be loaded.
 	 *
-	 * @since 1.6
+	 * @since 1.6.0
 	 * @static
 	 * @see Radio_Buttons_for_Taxonomies()
 	 * @return Radio_Buttons_for_Taxonomies - Main instance
@@ -84,7 +84,7 @@ class Radio_Buttons_for_Taxonomies {
 	/**
 	 * Cloning is forbidden.
 	 *
-	 * @since 1.6
+	 * @since 1.6.0
 	 */
 	public function __clone() {
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
@@ -93,7 +93,7 @@ class Radio_Buttons_for_Taxonomies {
 	/**
 	 * Unserializing instances of this class is forbidden.
 	 *
-	 * @since 1.6
+	 * @since 1.6.0
 	 */
 	public function __wakeup() {
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
