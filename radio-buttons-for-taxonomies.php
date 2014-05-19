@@ -287,15 +287,16 @@ class Radio_Buttons_for_Taxonomies {
 		);
 
 		$defaults = get_taxonomies( $args, 'objects' );
-		ksort( $defaults );
 
 		$args['_builtin'] = false;
 
 		$custom = get_taxonomies( $args, 'objects' );
-		ksort( $custom );
 
-		return apply_filters( 'radio_buttons_for_taxonomies_taxonomies', array_merge( $defaults, $custom ) );
+		$taxonomies = apply_filters( 'radio_buttons_for_taxonomies_taxonomies', array_merge( $defaults, $custom ) );
 
+		ksort( $taxonomies );
+
+		return $taxonomies;
 	}
 
 	/**
