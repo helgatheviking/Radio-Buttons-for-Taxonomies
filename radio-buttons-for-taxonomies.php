@@ -294,7 +294,8 @@ class Radio_Buttons_for_Taxonomies {
 		$custom = get_taxonomies( $args, 'objects' );
 		ksort( $custom );
 
-		return array_merge( $defaults, $custom );
+		return apply_filters( 'radio_buttons_for_taxonomies_taxonomies', array_merge( $defaults, $custom ) );
+
 	}
 
 	/**
