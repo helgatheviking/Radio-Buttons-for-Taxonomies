@@ -36,7 +36,7 @@
 								   name="radio_button_for_taxonomies_options[taxonomies][]"
 								   value="<?php echo $i; ?>" <?php echo $checked; ?>
 								   id="<?php echo $id; ?>"/>
-							<?php echo $taxonomy->labels->name; ?>
+							<?php printf( '%s <small>(%s)</small>', $taxonomy->labels->name, $i ); ?>
 						</label>
 					</p>
 				<?php
