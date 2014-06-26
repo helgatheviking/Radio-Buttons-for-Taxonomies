@@ -31,11 +31,10 @@ Please report any bugs, errors, warnings, code problems to [Github](https://gith
 ## Screenshots ##
 
 ### 1. The settings page where you determine which taxonomies will get radio buttons. ###
-![The settings page where you determine which taxonomies will get radio buttons.](http://s.wordpress.org/extend/plugins/radio-buttons-for-taxonomies/screenshot-1.png)
+![The settings page where you determine which taxonomies will get radio buttons.](http://plugins.svn.wordpress.org/radio-buttons-for-taxonomies/screenshot-1.png)
 
 ### 2. This is what the metabox will look like on the post editor screen. ###
-![This is what the metabox will look like on the post editor screen.](http://s.wordpress.org/extend/plugins/radio-buttons-for-taxonomies/screenshot-2.png)
-
+![This is what the metabox will look like on the post editor screen.](http://plugins.svn.wordpress.org/radio-buttons-for-taxonomies/screenshot-2.png)
 
 ## Frequently Asked Questions ##
 
