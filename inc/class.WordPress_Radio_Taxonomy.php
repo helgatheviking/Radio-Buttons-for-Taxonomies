@@ -92,8 +92,8 @@ class WordPress_Radio_Taxonomy {
 	public function add_meta_box() {
 		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ):
 			$label = $this->tax_obj->labels->name;
-			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-'.$this->taxonomy : 'radio-' .$this->taxonomy .'div' ;
-			add_meta_box( $id, $label ,array( $this,'metabox' ), $post_type ,'side','core', array( 'taxonomy'=>$this->taxonomy ) );
+			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
+			add_meta_box( $id, $label ,array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=>$this->taxonomy ) );
 		endforeach;
 	}
 
