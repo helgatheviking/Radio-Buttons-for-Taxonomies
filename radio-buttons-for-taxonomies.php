@@ -242,8 +242,8 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since  1.0
 	 */
 	public function admin_script( $hook ){
-		if( 'edit.php' == $hook ){
-			$suffix = defined( 'WP_SCRIPT_DEBUG' ) && WP_SCRIPT_DEBUG ? '' : '.min';
+		if( in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) ){
+			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
 		}
 	}

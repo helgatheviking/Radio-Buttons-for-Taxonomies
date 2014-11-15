@@ -29,7 +29,7 @@
 
 			taxonomy = $(this).attr('id').replace('_'+post_id, '');
 
-			$('li#'+taxonomy+'-'+term_id ).first().find('input:radio').prop('checked', true );
+			$('li#'+taxonomy+'-'+term_id ).find('input:radio').first().prop('checked', true );
 
 		});
 
@@ -50,5 +50,29 @@
 			});
 		} 
 	});
+
+
+	/*
+	 * SINGLE POST SCREEN
+	 */
+
+	// taxonomy metaboxes
+	$('.radio-buttons-for-taxonomies').each( function(){
+		var this_id = $(this).attr('id'), taxonomyParts, taxonomy;
+
+		taxonomyParts = this_id.split('-');
+		taxonomyParts.shift();
+		taxonomy = taxonomyParts.join('-');
+
+		//fix for radio buttons- if click on popular select on all and vice versa
+        $('#' + taxonomy + '-all li :radio, #' + taxonomy + '-pop li :radio').on('click', function(){
+            var t = $(this), c = t.is(':checked'), id = t.val();
+            $('#' + taxonomy + '-all li :radio, #' + taxonomy + '-pop li :radio').prop('checked',false);
+            $('#' + taxonomy + '-all li :radio[value="'+id+'"], #' + taxonomy + '-pop li :radio[value="'+id+'"]').prop( 'checked', c );
+	    });  //end on radio click
+
+	}); // end taxonomy metaboxes
+
+
 
 })(jQuery);
