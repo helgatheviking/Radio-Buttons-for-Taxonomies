@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 					'**',
 					'!node_modules/**',
 					'!build/**',
+					'!wp-assets/**',
 					'!.git/**',
 					'!Gruntfile.js',
 					'!package.json',
