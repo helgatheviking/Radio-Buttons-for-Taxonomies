@@ -54,7 +54,7 @@ add_filter( 'radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 == Changelog ==
 
 = 1.7.4 =
-* Add German translation. props @lchski
+* Add German translation. props @carstingaxion
 
 = 1.7.3 =
 * Use "singular" label for metabox. props @lchski
