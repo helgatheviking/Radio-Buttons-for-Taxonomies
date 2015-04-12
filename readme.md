@@ -3,14 +3,14 @@
 **Donate link:** https://inspirepay.com/pay/helgatheviking ‎  
 **Tags:** taxonomy, admin, interface, ui, post, radio  
 **Requires at least:** 3.8  
-**Tested up to:** 4.1  
-**Stable tag:** 1.7.3  
+**Tested up to:** 4.2  
+**Stable tag:** 1.7.4  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 ## Description ##
 
-This plugin lets you switch any taxonomy to a radio-button style metabox, so users can only select 1 term at a time.
+This plugin lets you switch any taxonomy to a radio-button style metabox, so users can Replace the default taxonomy boxes with a custom metabox that uses radio buttons... effectively limiting each post to a single term in that taxonomy. 
 
 A plugin options page allows the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.
 

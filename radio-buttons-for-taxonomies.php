@@ -2,14 +2,14 @@
 /*
 Plugin Name: Radio Buttons for Taxonomies
 Plugin URI: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
-Description: Use radio buttons for any taxonomy
-Version: 1.7.3
+Description: Use radio buttons for any taxonomy so users can only select 1 term at a time
+Version: 1.7.4
 Text Domain: radio-buttons-for-taxonomies
 Author: Kathy Darling
 Author URI: http://www.kathyisawesome.com
 License: GPL2
 
-Copyright 2012  Kathy Darling  (email: kathy.darling@gmail.com)
+Copyright 2015  Kathy Darling  (email: kathy.darling@gmail.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
