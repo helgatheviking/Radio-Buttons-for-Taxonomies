@@ -47,12 +47,15 @@ module.exports = function(grunt) {
 				src: [
 					'**',
 					'!node_modules/**',
+					'!readme.md/**',
+					'!composer.json/**',
 					'!build/**',
 					'!wp-assets/**',
 					'!.git/**',
 					'!Gruntfile.js',
 					'!package.json',
           			'!gitcreds.json',
+          			'!.gitcreds',
           			'!.transifexrc',
 					'!.gitignore',
 					'!.gitmodules',
@@ -154,6 +157,35 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// bump version numbers
+		replace: {
+			Version: {
+				src: [
+					'readme.txt',
+					'readme.md',
+					'<%= pkg.name %>.php'
+				],
+				overwrite: true,
+				replacements: [
+					{
+						from: /Stable tag:.*$/m,
+						to: "Stable tag: <%= pkg.version %>"
+					},
+					{ 
+						from: /Version:.*$/m,
+						to: "Version: <%= pkg.version %>"
+					},
+					{ 
+						from: /public \$version = \'.*.'/m,
+						to: "public $version = '<%= pkg.version %>'"
+					},
+					{ 
+						from: /static \$version = \'.*.'/m,
+						to: "static $version = '<%= pkg.version %>'"
+					}
+				]
+			}
+		},
 		// # Deploy to WordPress
 
 		wp_deploy: {
@@ -176,7 +208,9 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('test', ['jshint', 'addtextdomain']);
 
-	grunt.registerTask('build', ['test', 'newer:uglify', 'makepot', 'newer:po2mo', 'wp_readme_to_markdown', 'clean', 'copy']);
+	grunt.registerTask('docs', ['wp_readme_to_markdown']);
+
+	grunt.registerTask('build', ['test', 'replace', 'newer:uglify', 'makepot', 'newer:po2mo', 'wp_readme_to_markdown', 'clean', 'copy']);
 
 	grunt.registerTask('deploy', ['checkbranch:master', 'checkrepo:deploy', 'build', 'release', 'wp_deploy', 'clean']);
 
