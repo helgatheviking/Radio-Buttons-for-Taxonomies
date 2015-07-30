@@ -1,16 +1,16 @@
 # Radio Buttons for Taxonomies #
 **Contributors:** helgatheviking  
 **Donate link:** https://inspirepay.com/pay/helgatheviking ‎  
-**Tags:** taxonomy, admin, interface, ui, post, radio  
+**Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 3.8  
 **Tested up to:** 4.2  
-**Stable tag:** 1.7.4  
+**Stable tag: 1.7.5
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 ## Description ##
 
-This plugin lets you switch any taxonomy to a radio-button style metabox, so users can Replace the default taxonomy boxes with a custom metabox that uses radio buttons... effectively limiting each post to a single term in that taxonomy. 
+Replace the default taxonomy boxes with a custom metabox that uses radio buttons... effectively limiting each post to a single term in that taxonomy. 
 
 A plugin options page allows the user can select which taxonomies she'd like to switch to using the custom radio-button style metabox.
 
@@ -31,10 +31,11 @@ Please report any bugs, errors, warnings, code problems to [Github](https://gith
 ## Screenshots ##
 
 ### 1. The settings page where you determine which taxonomies will get radio buttons. ###
-![The settings page where you determine which taxonomies will get radio buttons.](http://plugins.svn.wordpress.org/radio-buttons-for-taxonomies/screenshot-1.png)
+![The settings page where you determine which taxonomies will get radio buttons.](http://s.wordpress.org/extend/plugins/radio-buttons-for-taxonomies/screenshot-1.png)
 
 ### 2. This is what the metabox will look like on the post editor screen. ###
-![This is what the metabox will look like on the post editor screen.](http://plugins.svn.wordpress.org/radio-buttons-for-taxonomies/screenshot-2.png)
+![This is what the metabox will look like on the post editor screen.](http://s.wordpress.org/extend/plugins/radio-buttons-for-taxonomies/screenshot-2.png)
+
 
 ## Frequently Asked Questions ##
 
@@ -55,6 +56,22 @@ add_filter( 'radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
 `
 
 ## Changelog ##
+
+### 1.7.5 ###
+* Add Dutch translation. props @maarten00
+* Add Persian translation. props @Ghaem
+
+### 1.7.4 ###
+* Add German translation. props @carstingaxion
+
+### 1.7.3 ###
+* Use "singular" label for metabox. props @lchski
+
+### 1.7.2 ###
+* Fixes popular terms
+
+### 1.7.1 ###
+* add minified script to svn repo
 
 ### 1.7.0 ###
 * Add support for bulk-edit
