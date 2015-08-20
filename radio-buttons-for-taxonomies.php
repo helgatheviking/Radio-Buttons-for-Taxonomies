@@ -219,15 +219,14 @@ class Radio_Buttons_for_Taxonomies {
 		$clean = array();
 
 		//probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying
-		$args = array(
-			'public'   => true,
-			'show_ui' => true
-		);
+		$taxonomies = $this->get_all_taxonomies();
 
-		$taxonomies = get_taxonomies( $args );
-
-		if( isset( $input['taxonomies'] ) ) foreach ( $input['taxonomies'] as $tax ){
-			if( in_array( $tax,$taxonomies ) ) $clean['taxonomies'][] = $tax;
+    if( isset( $input['taxonomies'] ) ) {
+      foreach ( $input['taxonomies'] as $tax ){
+        if( array_key_exists( $tax, $taxonomies ) ) {
+          $clean['taxonomies'][] = $tax;
+        }
+      }
 		}
 
 		$clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
