@@ -6,7 +6,6 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-    	gitcreds: grunt.file.readJSON('.gitcreds'),
 		uglify: {
 			options: {
 				compress: {
