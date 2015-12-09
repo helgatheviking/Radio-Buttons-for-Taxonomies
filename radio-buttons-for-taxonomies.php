@@ -109,7 +109,12 @@ class Radio_Buttons_for_Taxonomies {
 
 			// Include required files
 			include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
-			include_once( 'inc/class.Walker_Category_Radio.php' );
+			
+			if( ! $this->is_version('4.4.0') ){
+				include_once( 'inc/class.Walker_Category_Radio.php' );
+			} else {
+				include_once( 'inc/class.Walker_Category_Radio_old.php' );
+			}
 
 			$this->options = get_option( 'radio_button_for_taxonomies_options', true );
 
@@ -320,6 +325,21 @@ class Radio_Buttons_for_Taxonomies {
 		return array_unique( $all_taxonomies );
 	}
 
+
+	/**
+	 * Test WordPress current version
+	 *
+	 * @wp-hook mlp_mutually_exclusive_taxonomies
+	 * @param array $version
+	 * @return bool
+	 */
+	public function is_version( $version = '4.4.0' ) {
+		global $wp_version;
+		if ( version_compare( $wp_version, $version, '>=' ) ) {
+			return false;
+		}
+		return true;
+	}
 
 } // end class
 endif;

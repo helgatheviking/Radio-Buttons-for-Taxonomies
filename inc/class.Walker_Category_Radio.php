@@ -1,20 +1,17 @@
 <?php
-//
-// Category Radio Lists
-//
-
 /**
- * Walker to output an unordered list of category radio <input> elements.
- * Mimics Walker_Category_Checklist excerpt for the radio input
+ * Core walker class to output an unordered list of category radio input elements.
+ * Mimics Walker_Category_Checklist excerpt for the radio input /wp-admin/includes/class-walker-category-checklist.php from WordPress 4.4.0
+ *
+ * @since 1.0.0
  *
  * @see Walker
  * @see wp_category_checklist()
  * @see wp_terms_checklist()
- * @since 2.5.1
  */
 class Walker_Category_Radio extends Walker {
-	var $tree_type = 'category';
-	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
+	public $tree_type = 'category';
+	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
 
 	/**
 	 * Starts the list before the elements are added.
@@ -27,7 +24,7 @@ class Walker_Category_Radio extends Walker {
 	 * @param int    $depth  Depth of category. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent<ul class='children'>\n";
 	}
@@ -43,7 +40,7 @@ class Walker_Category_Radio extends Walker {
 	 * @param int    $depth  Depth of category. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 	}
@@ -61,36 +58,51 @@ class Walker_Category_Radio extends Walker {
 	 * @param array  $args     An array of arguments. @see wp_terms_checklist()
 	 * @param int    $id       ID of the current term.
 	 */
-	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
-		extract($args);
-		if ( empty($taxonomy) )
+	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+		if ( empty( $args['taxonomy'] ) ) {
 			$taxonomy = 'category';
+		} else {
+			$taxonomy = $args['taxonomy'];
+		}
 
+		/* RB4T mod: Replace default $name variable */
 		$name = 'radio_tax_input['.$taxonomy.']';
+		/* end */
 
-		//get first term object
-		$current_term = ! empty( $selected_cats ) && ! is_wp_error( $selected_cats ) ? array_pop( $selected_cats ) : false;
+		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];
+		$class = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
+
+		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
+
+		/* RB4T mod: get first term object */
+		$selected_term = ! empty( $args['selected_cats'] ) && ! is_wp_error( $args['selected_cats'] ) ? array_pop( $args['selected_cats'] ) : false;
 
 		// if no term, match the 0 "no term" option
-		$current_id = ( $current_term ) ? $current_term : 0;
+		$selected_id = ( $selected_term ) ? $selected_term : 0;
+		/* end */
 
-		// switching radio tags to "hierarchical" so we'll always use ID
-		$value = $category->term_id;
+		if ( ! empty( $args['list_only'] ) ) {
+			$aria_cheched = 'false';
+			$inner_class = 'category';
 
-		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
+			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
+				$inner_class .= ' selected';
+				$aria_cheched = 'true';
+			}
 
-		$output .= sprintf( "\n" . '<li id="%1$s-%2$s" %3$s><label class="selectit"><input id="%4$s" type="radio" name="%5$s" value="%6$s" %7$s %8$s/> %9$s</label>' ,
-			$taxonomy, //1
-			$value, //2
-			$class, //3
-			"in-{$taxonomy}-{$category->term_id}", //4
-			$name . '[]', //5
-			esc_attr( trim( $value ) ), //6
-			checked( $current_id, $category->term_id, false ), //7
-			disabled( empty( $args['disabled'] ), false, false ), //8
-			esc_html( apply_filters( 'the_category', $category->name ) ) //9
-		);
-
+			/** This filter is documented in wp-includes/category-template.php */
+			$output .= "\n" . '<li' . $class . '>' .
+				'<div class="' . $inner_class . '" data-term-id=' . $category->term_id .
+				' tabindex="0" role="radio" aria-checked="' . $aria_cheched . '">' .
+				esc_html( apply_filters( 'the_category', $category->name ) ) . '</div>';
+		} else {
+			/** This filter is documented in wp-includes/category-template.php */
+			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
+				'<label class="selectit"><input value="' . $category->term_id . '" type="radio" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
+				checked( $category->term_id, $selected_id, false ) .
+				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
+		}
 	}
 
 	/**
@@ -105,7 +117,7 @@ class Walker_Category_Radio extends Walker {
 	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
 	 * @param array  $args     An array of arguments. @see wp_terms_checklist()
 	 */
-	function end_el( &$output, $term, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $category, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
 	}
 }
