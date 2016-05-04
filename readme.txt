@@ -5,8 +5,8 @@ Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 3.8
 Tested up to: 4.4.0
 Stable tag: 1.7.7
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == Description ==
 
