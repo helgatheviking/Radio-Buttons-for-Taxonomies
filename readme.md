@@ -3,7 +3,7 @@
 **Donate link:** https://inspirepay.com/pay/helgatheviking ‎  
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 3.8  
-**Tested up to:** 4.4.0  
+**Tested up to:** 4.5.1  
 **Stable tag:** 1.7.7  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
