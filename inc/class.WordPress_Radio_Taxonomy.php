@@ -22,7 +22,7 @@ class WordPress_Radio_Taxonomy {
 	* @var boolean - whether to filter get_terms() or not
 	* @since 1.7.0
 	*/
-	public $set;
+	private $set = true;
 
 	/**
 	* @var boolean - whether to print Nonce or not
@@ -210,7 +210,7 @@ class WordPress_Radio_Taxonomy {
 		if( isset( $args['taxonomy']) && $this->taxonomy == $args['taxonomy'] ) {
 
 			// add a filter to get_terms() but only for radio lists
-			$this->switch_terms_filter(1);
+			$this->set_terms_filter( true );
 			add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 			$args['walker'] = new Walker_Category_Radio;
@@ -229,10 +229,39 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	private function switch_terms_filter( $_set = NULL ) {
+		_deprecated_function( __FUNCTION__, '1.8.0', 'WordPress_Radio_Taxonomy::set_terms_filter() or WordPress_Radio_Taxonomy::get_terms_filter()' );
+
 		if ( ! is_null( $_set ) ) $this->set = $_set;
 
 		// give users a chance to disable the no term feature
 		return apply_filters( 'radio-buttons-for-taxonomies-no-term-' . $this->taxonomy, $this->set );
+	}
+
+	/**
+	 * Turn on/off the terms filter.
+	 * 
+	 * Only filter get_terms() in the wp_terms_checklist() function
+	 *
+	 * @access public
+	 * @param  bool $_set
+	 * @return bool
+	 * @since 1.7.0
+	 */
+	private function set_terms_filter( $_set = true ) {
+		$this->set = boolval( $_set );
+	}
+
+	/**
+	 * Only filter get_terms() in the wp_terms_checklist() function
+	 *
+	 * @access public
+	 * @param  bool $_set
+	 * @return bool
+	 * @since 1.7.0
+	 */
+	private function get_terms_filter() {
+		// give users a chance to disable the no term feature
+		return apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $this->taxonomy, $this->set );
 	}
 
 
@@ -250,13 +279,13 @@ class WordPress_Radio_Taxonomy {
 
 		// only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
 		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
-			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->switch_terms_filter() === 1 ){
+			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->get_terms_filter() ){
 
 			// remove filter after 1st run
 			remove_filter( current_filter(), __FUNCTION__, 10, 3 );
 
 			// turn the switch OFF
-			$this->switch_terms_filter(0); 
+			$this->set_terms_filter( false ); 
 
 			$no_term = sprintf( __( apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', 'No %s' ), 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
 
