@@ -223,9 +223,9 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Only filter get_terms() in the wp_terms_checklist() function
 	 *
-	 * @access public
-	 * @param  array $args
-	 * @return array
+	 * @access private
+	 * @param  bool $_set
+	 * @return bool
 	 * @since 1.7.0
 	 */
 	private function switch_terms_filter( $_set = NULL ) {
