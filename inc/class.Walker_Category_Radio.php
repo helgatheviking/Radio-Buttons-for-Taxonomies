@@ -1,7 +1,7 @@
 <?php
 /**
  * Core walker class to output an unordered list of category radio input elements.
- * Mimics Walker_Category_Checklist excerpt for the radio input /wp-admin/includes/class-walker-category-checklist.php from WordPress 4.4.0
+ * Mimics Walker_Category_Checklist except for the radio input /wp-admin/includes/class-walker-category-checklist.php from WordPress 4.4.0
  *
  * @since 1.0.0
  *
