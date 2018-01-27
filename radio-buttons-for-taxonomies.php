@@ -287,7 +287,7 @@ class Radio_Buttons_for_Taxonomies {
 	*/
 	public function add_meta_links( $plugin_meta, $plugin_file ) {
 		if( $plugin_file == plugin_basename(__FILE__) ){
-			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'simple-user-listing' ) . '</a>';
+			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'radio-buttons-for-taxonomies' ) . '</a>';
 		}
 		return $plugin_meta;
 	}
