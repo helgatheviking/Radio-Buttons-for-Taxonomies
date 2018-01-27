@@ -28,7 +28,7 @@ class WordPress_Radio_Taxonomy {
 	* @var boolean - whether to print Nonce or not
 	* @since 1.7.0
 	*/
-	public $printNonce = true;
+	private $printNonce = true;
 
 	/**
 	* Constructor
