@@ -214,7 +214,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('docs', ['wp_readme_to_markdown']);
 
-	grunt.registerTask('build', ['test', 'replace', 'newer:uglify', 'makepot', 'newer:po2mo', 'wp_readme_to_markdown', 'clean', 'copy']);
+	grunt.registerTask('build', ['test', 'replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown', 'clean', 'copy']);
 
 	grunt.registerTask('deploy', ['checkbranch:master', 'checkrepo:deploy', 'build', 'release', 'wp_deploy', 'clean']);
 
