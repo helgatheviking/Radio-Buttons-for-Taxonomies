@@ -1,9 +1,9 @@
 === Radio Buttons for Taxonomies ===
 Contributors: helgatheviking
-Donate link: https://inspirepay.com/pay/helgatheviking ‎
+Donate link: https://www.youcaring.com/wnt-residency
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
-Requires at least: 3.8
-Tested up to: 4.7.0
+Requires at least: 4.5.0
+Tested up to: 4.9.2
 Stable tag: 1.7.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -42,16 +42,25 @@ This was a feature added in version 1.4, but due to some faulty logic on my part
 It has come to my attention that not everybody likes this feature, so I have enabled an easy way to *disable* it for taxonomies that you wish to make mandatory.  Simply add the following to your theme's functions.php or your site's custom functions plugin.
 
 `
-add_filter( "radio-buttons-for-taxonomies-no-term-{$taxonomy}", "__return_FALSE" );
+add_filter( "radio_buttons_for_taxonomies_no_term_{$taxonomy}", "__return_FALSE" );
 `
 
 So for example, to disabled the "No term" option on a taxonomy called "genre" you'd do the following:
 
 `
-add_filter( 'radio-buttons-for-taxonomies-no-term-genre', '__return_FALSE' );
+add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 1.7.9 =
+* Compatibility with WordPress 4.9.2
+* Update donation link
+* Add radio_buttons_for_taxonomies_no_term_selected_text filter to allow for custom "No Genre" texts. props @hokoo 
+
+= 1.7.8 =
+* Compatibility with WordPress 4.8.3
+* Update donation link
 
 = 1.7.7 =
 * Compatibility with WordPress 4.4
