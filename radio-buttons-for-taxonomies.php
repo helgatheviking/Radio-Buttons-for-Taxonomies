@@ -122,7 +122,7 @@ class Radio_Buttons_for_Taxonomies {
 			register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
 
 			// load plugin text domain for translations
-			add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
+			add_action( 'init', array( $this, 'load_text_domain' ) );
 
 			// launch each taxonomy class when tax is registered
 			add_action( 'registered_taxonomy', array( $this, 'launch' ) );
