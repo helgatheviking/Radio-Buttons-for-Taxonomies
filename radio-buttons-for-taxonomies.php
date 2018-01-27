@@ -137,7 +137,7 @@ class Radio_Buttons_for_Taxonomies {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
 			// add settings link to plugins page
-			add_filter( 'plugin_action_links', array( $this, 'add_action_links' ), 10, 2 );
+			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_links' ), 10, 2 );
 
 			add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 	}
@@ -262,12 +262,10 @@ class Radio_Buttons_for_Taxonomies {
 	 */
 	public function add_action_links( $links, $file ) {
 
-		if ( $file == plugin_basename( __FILE__ ) ) {
-			$plugin_link = '<a href="'.admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . __( 'Settings' , 'radio-buttons-for-taxonomies' ) . '</a>';
-			// make the 'Settings' link appear first
-			array_unshift( $links, $plugin_link );
-		}
-
+		$plugin_link = '<a href="'.admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . __( 'Settings' , 'radio-buttons-for-taxonomies' ) . '</a>';
+		// make the 'Settings' link appear first
+		array_unshift( $links, $plugin_link );
+		
 		return $links;
 	}
 
