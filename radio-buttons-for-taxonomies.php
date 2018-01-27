@@ -41,6 +41,12 @@ if ( ! class_exists( 'Radio_Buttons_for_Taxonomies' ) ) :
 class Radio_Buttons_for_Taxonomies {
 
 	/**
+	* @constant string donate url
+	* @since 1.7.8
+	*/
+	CONST DONATE_URL = "https://www.youcaring.com/wnt-residency";
+
+	/**
 	 * @var Radio_Buttons_for_Taxonomies The single instance of the class
 	 * @since 1.6.0
 	 */
@@ -138,6 +144,9 @@ class Radio_Buttons_for_Taxonomies {
 
 			// add settings link to plugins page
 			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_links' ), 10, 2 );
+
+			// Add Donate link to plugin.
+			add_filter( 'plugin_row_meta', array( $this, 'add_meta_links' ), 10, 2 );
 
 			add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 	}
@@ -269,6 +278,19 @@ class Radio_Buttons_for_Taxonomies {
 		return $links;
 	}
 
+
+	/**
+	* Add donation link
+	* @param array $plugin_meta
+	* @param string $plugin_file
+	* @since 1.7.8
+	*/
+	public function add_meta_links( $plugin_meta, $plugin_file ) {
+		if( $plugin_file == plugin_basename(__FILE__) ){
+			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'simple-user-listing' ) . '</a>';
+		}
+		return $plugin_meta;
+	}
 
 	// ------------------------------------------------------------------------------
 	// Helper Functions
