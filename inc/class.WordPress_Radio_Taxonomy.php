@@ -258,7 +258,7 @@ class WordPress_Radio_Taxonomy {
 			// turn the switch OFF
 			$this->switch_terms_filter(0); 
 
-			$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
+			$no_term = sprintf( __( apply_filters( 'radio_taxonomy_no_term_selected_text', 'No %s' ), 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
 
 			$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => $no_term, 'parent' => '0' );
 
