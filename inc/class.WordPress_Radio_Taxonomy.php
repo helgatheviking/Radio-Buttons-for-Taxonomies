@@ -248,7 +248,7 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	private function set_terms_filter( $_set = true ) {
-		$this->set = boolval( $_set );
+		$this->set = (bool) $_set;
 	}
 
 	/**
