@@ -102,23 +102,22 @@ module.exports = function(grunt) {
 			}
 		},
 
-		transifex: {
-			"radio-buttons-for-taxonomies": {
-                options: {
-                    targetDir: "languages",     
-                    mode: "file",
-                    filename : "_resource_-_lang_.po",
-                }
-            }
-		},
-
 		// Create .mo files for existing .po
-		po2mo: {
-			files: {
-				src: 'languages/*.po',
-				expand: true,
-			},
-		},
+		potomo: {
+		    dist: {
+		      options: {
+		        poDel: false
+		      },
+		      files: [{
+		        expand: true,
+		        cwd: 'languages',
+		        src: ['*.po'],
+		        dest: 'languages',
+		        ext: '.mo',
+		        nonull: true
+		      }]
+		    }
+		 },
 
 		// # Check some git repo settings
 		checkrepo: {
