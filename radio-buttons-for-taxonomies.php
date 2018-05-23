@@ -93,7 +93,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since 1.6.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.' , 'radio-buttons-for-taxonomies' ), '1.6' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since 1.6.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' , 'radio-buttons-for-taxonomies' ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.' , 'radio-buttons-for-taxonomies' ), '1.6' );
 	}
 
 	/**
