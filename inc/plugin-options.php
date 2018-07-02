@@ -10,7 +10,7 @@
 	<h2><?php _e( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ); ?></h2>
 
 	<!-- Beginning of the Plugin Options Form -->
-	<form method="post" action="<?php echo admin_url( 'options.php' ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
 		<?php settings_fields( 'radio_button_for_taxonomies_options' ); ?>
 		<?php $options = get_option( 'radio_button_for_taxonomies_options' ); ?>
 
@@ -23,20 +23,16 @@
 			if ( ! empty ( $taxonomies ) ) {
 
 				foreach ( $taxonomies as $i => $taxonomy ) {
-					$checked = checked(
-						isset( $options[ 'taxonomies' ] ) && is_array( $options[ 'taxonomies' ] ) && in_array( $i, $options[ 'taxonomies' ] ),
-						1,
-						false
-					);
+					$is_checked = isset( $options[ 'taxonomies' ] ) && is_array( $options[ 'taxonomies' ] ) && in_array( $i, $options[ 'taxonomies' ] );
 					$id = "rbt_$i";
 					?>
 					<p>
-						<label for="<?php echo $id; ?>">
+						<label for="<?php echo esc_attr( $id ); ?>">
 							<input type="checkbox"
 								   name="radio_button_for_taxonomies_options[taxonomies][]"
-								   value="<?php echo $i; ?>" <?php echo $checked; ?>
-								   id="<?php echo $id; ?>"/>
-							<?php printf( '%s <small>(%s)</small>', $taxonomy->labels->name, $i ); ?>
+								   value="<?php echo esc_attr( $i ); ?>" <?php checked( $is_checked, 1 ); ?>
+								   id="<?php echo esc_attr( $id ); ?>"/>
+							<?php printf( '%s <small>(%s)</small>', esc_html( $taxonomy->labels->name ), esc_html( $i ) ); ?>
 						</label>
 					</p>
 				<?php
@@ -59,7 +55,7 @@
 
 		<p class="submit">
 			<input type="submit" class="button-primary"
-				   value="<?php _e( 'Save Changes', 'radio-buttons-for-taxonomies' ) ?>"/>
+				   value="<?php esc_attr_e( 'Save Changes', 'radio-buttons-for-taxonomies' ) ?>"/>
 		</p>
 	</form>
 </div>
