@@ -82,23 +82,23 @@ class Walker_Category_Radio extends Walker {
 		/* end */
 
 		if ( ! empty( $args['list_only'] ) ) {
-			$aria_cheched = 'false';
+			$aria_checked = 'false';
 			$inner_class = 'category';
 
 			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
 				$inner_class .= ' selected';
-				$aria_cheched = 'true';
+				$aria_checked = 'true';
 			}
 
 			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n" . '<li' . $class . '>' .
-				'<div class="' . $inner_class . '" data-term-id=' . $category->term_id .
-				' tabindex="0" role="radio" aria-checked="' . $aria_cheched . '">' .
+				'<div class="' . esc_attr( $inner_class ) . '" data-term-id=' . intval( $category->term_id ) .
+				' tabindex="0" role="radio" aria-checked="' . esc_attr( $aria_checked ) . '">' .
 				esc_html( apply_filters( 'the_category', $category->name ) ) . '</div>';
 		} else {
 			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
-				'<label class="selectit"><input value="' . $category->term_id . '" type="radio" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
+				'<label class="selectit"><input value="' . intval( $category->term_id ) . '" type="radio" name="'.esc_attr( $name ).'[]" id="in-'.esc_attr( $taxonomy ).'-' . intval( $category->term_id ) . '"' .
 				checked( $category->term_id, $selected_id, false ) .
 				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
 				esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
