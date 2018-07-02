@@ -80,11 +80,11 @@ class Walker_Category_Radio extends Walker {
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
 
 		$output .= sprintf( "\n" . '<li id="%1$s-%2$s" %3$s><label class="selectit"><input id="%4$s" type="radio" name="%5$s" value="%6$s" %7$s %8$s/> %9$s</label>' ,
-			$taxonomy, //1
-			$value, //2
+			esc_attr( $taxonomy ), //1
+			esc_attr( $value ), //2
 			$class, //3
-			"in-{$taxonomy}-{$category->term_id}", //4
-			$name . '[]', //5
+			esc_attr( "in-{$taxonomy}-{$category->term_id}" ), //4
+			esc_attr( $name ) . '[]', //5
 			esc_attr( trim( $value ) ), //6
 			checked( $current_id, $category->term_id, false ), //7
 			disabled( empty( $args['disabled'] ), false, false ), //8
