@@ -117,7 +117,7 @@ class WordPress_Radio_Taxonomy {
 			$args = array();
 		else
 			$args = $box['args'];
-		extract( wp_parse_args($args, $defaults), EXTR_SKIP );
+		extract( wp_parse_args($args, $defaults), EXTR_SKIP ); // TODO: Remove extract call
 
 		//get current terms
 		$checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy ) : array();
@@ -127,16 +127,16 @@ class WordPress_Radio_Taxonomy {
 		$single_term_id = $single_term ? (int) $single_term->term_id : 0;
 
 		?>
-		<div id="taxonomy-<?php echo $taxonomy; ?>" class="radio-buttons-for-taxonomies categorydiv form-no-clear">
-			<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
-				<li class="tabs"><a href="#<?php echo $taxonomy; ?>-all" tabindex="3"><?php echo $this->tax_obj->labels->all_items; ?></a></li>
-				<li class="hide-if-no-js"><a href="#<?php echo $taxonomy; ?>-pop" tabindex="3"><?php _e( 'Most Used' , 'radio-buttons-for-taxonomies' ); ?></a></li>
+		<div id="taxonomy-<?php echo esc_attr( $taxonomy ); ?>" class="radio-buttons-for-taxonomies categorydiv form-no-clear">
+			<ul id="<?php echo esc_attr( $taxonomy ); ?>-tabs" class="category-tabs">
+				<li class="tabs"><a href="#<?php echo esc_attr( $taxonomy ); ?>-all" tabindex="3"><?php echo esc_html( $this->tax_obj->labels->all_items ); ?></a></li>
+				<li class="hide-if-no-js"><a href="#<?php echo esc_attr( $taxonomy ); ?>-pop" tabindex="3"><?php esc_html_e( 'Most Used' , 'radio-buttons-for-taxonomies' ); ?></a></li>
 			</ul>
 
 			<?php wp_nonce_field( 'radio_nonce-' . $taxonomy, '_radio_nonce-' . $taxonomy ); ?>
 
-			<div id="<?php echo $taxonomy; ?>-pop" class="tabs-panel" style="display: none;">
-				<ul id="<?php echo $taxonomy; ?>checklist-pop" class="categorychecklist form-no-clear" >
+			<div id="<?php echo esc_attr( $taxonomy ); ?>-pop" class="tabs-panel" style="display: none;">
+				<ul id="<?php echo esc_attr( $taxonomy ); ?>checklist-pop" class="categorychecklist form-no-clear" >
 					<?php $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 
 						if ( ! current_user_can($this->tax_obj->cap->assign_terms) )
@@ -154,40 +154,40 @@ class WordPress_Radio_Taxonomy {
 							$id = 'popular-'.$taxonomy.'-'.$term->term_id;
 
 							echo "<li id='$id'><label class='selectit'>";
-							echo "<input type='radio' id='in-{$id}'" . checked( $single_term_id, $term->term_id, false ) . " value='{$value}' {$disabled} />&nbsp;{$term->name}<br />";
+							echo "<input type='radio' id='in-".intval( $id )."'" . checked( $single_term_id, $term->term_id, false ) . " value='".esc_attr( $value )."' ".$disabled." />&nbsp;".esc_html( $term->name )."<br />";
 
 							echo "</label></li>";
 						} ?>
 				</ul>
 			</div>
 
-			<div id="<?php echo $taxonomy; ?>-all" class="tabs-panel">
-				<ul id="<?php echo $taxonomy; ?>checklist" data-wp-lists="list:<?php echo $taxonomy?>" class="categorychecklist form-no-clear">
+			<div id="<?php echo esc_attr( $taxonomy ); ?>-all" class="tabs-panel">
+				<ul id="<?php echo esc_attr( $taxonomy ); ?>checklist" data-wp-lists="list:<?php echo esc_attr( $taxonomy ); ?>" class="categorychecklist form-no-clear">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
 				</ul>
 			</div>
 		<?php if ( current_user_can( $this->tax_obj->cap->edit_terms ) ) : ?>
-				<div id="<?php echo $taxonomy; ?>-adder" class="wp-hidden-children">
+				<div id="<?php echo esc_attr( $taxonomy ); ?>-adder" class="wp-hidden-children">
 					<h4>
-						<a id="<?php echo $taxonomy; ?>-add-toggle" href="#<?php echo $taxonomy; ?>-add" class="hide-if-no-js">
+						<a id="<?php echo esc_attr( $taxonomy ); ?>-add-toggle" href="#<?php echo esc_attr( $taxonomy ); ?>-add" class="hide-if-no-js">
 							<?php
 								/* translators: %s: add new taxonomy label */
-								printf( __( '+ %s' , 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->add_new_item );
+								printf( __( '+ %s' , 'radio-buttons-for-taxonomies' ), esc_html( $this->tax_obj->labels->add_new_item ) );
 							?>
 						</a>
 					</h4>
-					<p id="<?php echo $taxonomy; ?>-add" class="category-add wp-hidden-child">
-						<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>"><?php echo $this->tax_obj->labels->add_new_item; ?></label>
-						<input type="text" name="new<?php echo $taxonomy; ?>" id="new<?php echo $taxonomy; ?>" class="form-required" value="<?php echo esc_attr( $this->tax_obj->labels->new_item_name ); ?>" aria-required="true"/>
-						<label class="screen-reader-text" for="new<?php echo $taxonomy; ?>_parent">
-							<?php echo $this->tax_obj->labels->parent_item_colon; ?>
+					<p id="<?php echo esc_attr( $taxonomy ); ?>-add" class="category-add wp-hidden-child">
+						<label class="screen-reader-text" for="new<?php echo esc_attr( $taxonomy ); ?>"><?php echo esc_html( $this->tax_obj->labels->add_new_item ); ?></label>
+						<input type="text" name="new<?php echo esc_attr( $taxonomy ); ?>" id="new<?php echo esc_attr( $taxonomy ); ?>" class="form-required" value="<?php echo esc_attr( $this->tax_obj->labels->new_item_name ); ?>" aria-required="true"/>
+						<label class="screen-reader-text" for="new<?php echo esc_attr( $taxonomy ); ?>_parent">
+							<?php echo esc_html( $this->tax_obj->labels->parent_item_colon ); ?>
 						</label>
 						<?php if( is_taxonomy_hierarchical( $taxonomy) ) {
 							wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $this->tax_obj->labels->parent_item . ' &mdash;' ) );
 						} ?>
-						<input type="button" id="<?php echo $taxonomy; ?>-add-submit" data-wp-lists="add:<?php echo $taxonomy ?>checklist:<?php echo $taxonomy ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $this->tax_obj->labels->add_new_item ); ?>" tabindex="3" />
+						<input type="button" id="<?php echo esc_attr( $taxonomy ); ?>-add-submit" data-wp-lists="add:<?php echo esc_attr( $taxonomy ); ?>checklist:<?php echo esc_attr( $taxonomy ); ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $this->tax_obj->labels->add_new_item ); ?>" tabindex="3" />
 						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy ); ?>
-						<span id="<?php echo $taxonomy; ?>-ajax-response"></span>
+						<span id="<?php echo esc_attr( $taxonomy ); ?>-ajax-response"></span>
 					</p>
 				</div>
 			<?php endif; ?>
@@ -328,7 +328,11 @@ class WordPress_Radio_Taxonomy {
 			else if ( is_array( $cat_id ) )
 				$cat_id = $cat_id['term_id'];
 
-			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>', $taxonomy->name, $cat_id, $cat_name );
+			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
+				esc_attr( $taxonomy->name ),
+				intval( $cat_id ),
+				esc_html( $cat_name )
+			);
 
 			$add = array(
 				'what' => $taxonomy->name,
