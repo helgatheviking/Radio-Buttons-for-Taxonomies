@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 					'!node_modules/**',
 					'!readme.md/**',
 					'!composer.json',
+					'!package-lock.json',
 					'!build/**',
 					'!readme.md',
 					'!wp-assets/**',
