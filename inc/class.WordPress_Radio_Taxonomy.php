@@ -103,7 +103,7 @@ class WordPress_Radio_Taxonomy {
 
 	/**
 	 * Callback to set up the metabox
-	 * Mimims the traditional hierarchical term metabox, but modified with our nonces 
+	 * Mimicks the traditional hierarchical term metabox, but modified with our nonces 
 	 *
 	 * @access public
 	 * @param  object $post
