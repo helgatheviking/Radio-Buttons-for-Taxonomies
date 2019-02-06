@@ -257,7 +257,6 @@ class WordPress_Radio_Taxonomy {
 			add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 			$args['walker'] = new Walker_Category_Radio;
-			$args['checked_ontop'] = false;
 		}
 		return $args;
 	}
