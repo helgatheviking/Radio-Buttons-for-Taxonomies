@@ -4,7 +4,7 @@
 	 * Quick Edit
 	 */
 
-	$( '#the-list' ).on( 'click', 'a.editinline', function(){
+	$( '#the-list' ).on( 'click', 'button.editinline', function(){
 
 		// reset
 		inlineEditPost.revert();
