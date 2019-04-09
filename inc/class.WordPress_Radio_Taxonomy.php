@@ -117,6 +117,9 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function metabox( $post, $box ) {
+
+		wp_enqueue_script( 'radiotax' );
+
 		$defaults = array( 'taxonomy' => 'category' );
 		if ( ! isset( $box['args'] ) || ! is_array( $box['args'] ) ) {
 			$args = array();
@@ -480,6 +483,9 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	public function quick_edit_nonce() {
+		
+		wp_enqueue_script( 'radiotax' );
+
 		if ( $this->printNonce ) {
 			$this->printNonce = FALSE;
 			wp_nonce_field( 'radio_nonce-' . $this->taxonomy, '_radio_nonce-' . $this->taxonomy );

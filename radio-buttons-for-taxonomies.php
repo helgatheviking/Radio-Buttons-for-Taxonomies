@@ -255,10 +255,8 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since  1.0
 	 */
 	public function admin_script( $hook ){
-		if( in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) ){
-			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-			wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
-		}
+		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+		wp_register_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
 	}
 
 	/**
