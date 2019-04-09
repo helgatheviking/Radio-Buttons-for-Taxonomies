@@ -136,6 +136,7 @@ class Radio_Buttons_for_Taxonomies {
 			// Add Donate link to plugin.
 			add_filter( 'plugin_row_meta', array( $this, 'add_meta_links' ), 10, 2 );
 
+			// Multilingualpress support.
 			add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 	}
 
