@@ -1,37 +1,25 @@
 <?php
 /*
-Plugin Name: Radio Buttons for Taxonomies
-Plugin URI: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
-Description: Use radio buttons for any taxonomy so users can only select 1 term at a time
-Version: 1.8.3
-Text Domain: radio-buttons-for-taxonomies
-Author: Kathy Darling
-Author URI: http://www.kathyisawesome.com
-License: GPL2
-Text Domain: radio-buttons-for-taxonomies
-
-Copyright 2015  Kathy Darling  (email: kathy.darling@gmail.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-/*
-This is a plugin implementation of the wp.tuts+ tutorial: http://wp.tutsplus.com/tutorials/creative-coding/how-to-use-radio-buttons-with-taxonomies/ by Stephen Harris
-Stephen Harris http://profiles.wordpress.org/stephenh1988/
-
-To use this plugin, just activate it and go to the settings page.  Then Check the taxonomies that you'd like to switch to using Radio Buttons and save the settings.
-*/
+ * Plugin Name: 	  Radio Buttons for Taxonomies
+ * Plugin URI: 		  http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
+ * Description: 	  Use radio buttons for any taxonomy so users can only select 1 term at a time
+ * Version:           2.0.0
+ * Author:            helgatheviking
+ * Author URI:        https://www.kathyisawesome.com
+ * Requires at least: 5.0
+ * Tested up to:      5.1
+ *
+ * Text Domain:       radio-buttons-for-taxonomies
+ * Domain Path:       /languages/
+ *
+ * @package           Radio Buttons for Taxonomies
+ * @author            Kathy Darling
+ * @copyright         Copyright (c) 2019, Kathy Darling
+ * @license           http://opensource.org/licenses/gpl-3.0.php GNU Public License
+ *
+ * Props to by Stephen Harris http://profiles.wordpress.org/stephenh1988/
+ * For his wp.tuts+ tutorial: http://wp.tutsplus.com/tutorials/creative-coding/how-to-use-radio-buttons-with-taxonomies/ 
+ */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -235,12 +223,12 @@ class Radio_Buttons_for_Taxonomies {
 		//probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying
 		$taxonomies = $this->get_all_taxonomies();
 
-    if( isset( $input['taxonomies'] ) ) {
-      foreach ( $input['taxonomies'] as $tax ){
-        if( array_key_exists( $tax, $taxonomies ) ) {
-          $clean['taxonomies'][] = $tax;
-        }
-      }
+		if( isset( $input['taxonomies'] ) ) {
+			foreach ( $input['taxonomies'] as $tax ){
+				if( array_key_exists( $tax, $taxonomies ) ) {
+					$clean['taxonomies'][] = $tax;
+				}
+			}
 		}
 
 		$clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
