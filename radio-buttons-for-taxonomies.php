@@ -130,6 +130,9 @@ class Radio_Buttons_for_Taxonomies {
 			// Load admin scripts
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
+			// Load Gutenberg sidebar scripts
+			add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+
 			// add settings link to plugins page
 			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_links' ), 10, 2 );
 
@@ -246,6 +249,19 @@ class Radio_Buttons_for_Taxonomies {
 	public function admin_script( $hook ){
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 		wp_register_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
+	}
+
+	/**
+	 * Load Gutenberg Sidebar Scripts
+	 * @access public
+	 * @return void
+	 * @since  2.0
+	 */
+	public function block_editor_assets(){
+		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'build/index.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), time() );
+
+		$i18n = array( 'radio_taxonomies' => (array) $this->options['taxonomies'] );
+		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
 	}
 
 	/**
