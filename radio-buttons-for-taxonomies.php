@@ -32,7 +32,7 @@ class Radio_Buttons_for_Taxonomies {
 	* @constant string donate url
 	* @since 1.7.8
 	*/
-	CONST DONATE_URL = "https://www.youcaring.com/wnt-residency";
+	CONST DONATE_URL = "https://www.paypal.com/fundraiser/charity/1451316";
 
 	/**
 	 * @var Radio_Buttons_for_Taxonomies The single instance of the class
