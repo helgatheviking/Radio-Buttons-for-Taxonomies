@@ -51,12 +51,10 @@ class WordPress_Radio_Taxonomy {
 		// change checkboxes to radios & trigger get_terms() filter
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
-		// Switch ajax callback for adding a non-hierarchical term
-			remove_action( 'wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term' );
-			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ) );			
+		// Add ajax callback for adding a non-hierarchical term
 		if( Radio_Buttons_for_Taxonomies()->is_wp_version_gte('4.4.0') ){
+			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ), 5 );	
 		}
-	
 
 		// never save more than 1 term
 		add_action( 'save_post', array( $this, 'save_single_term' ) );
@@ -349,8 +347,16 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	public function add_non_hierarchical_term(){
-		$action = $_POST['action'];
-		$taxonomy = get_taxonomy(substr($action, 4));
+		$action = $_POST[ 'action' ];
+		$tax_name = substr( $action, 4 );
+
+		// If Hierarchical, pass-through to core callback.
+		if( is_taxonomy_hierarchical( $tax_name ) ) {
+			return false;
+		}
+
+		// Non-Hierarchical "Terms".
+		$taxonomy = get_taxonomy( $tax_name );
 		check_ajax_referer( $action, '_ajax_nonce-add-' . $taxonomy->name );
 		if ( !current_user_can( $taxonomy->cap->edit_terms ) )
 			wp_die( -1 );
