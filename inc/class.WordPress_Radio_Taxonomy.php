@@ -368,23 +368,28 @@ class WordPress_Radio_Taxonomy {
 		// Non-Hierarchical "Terms".
 		$taxonomy = get_taxonomy( $tax_name );
 		check_ajax_referer( $action, '_ajax_nonce-add-' . $taxonomy->name );
-		if ( !current_user_can( $taxonomy->cap->edit_terms ) )
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
 			wp_die( -1 );
-		$names = explode(',', $_POST['new'.$taxonomy->name]);
+		}
+		$names = explode( ',', $_POST['new'.$taxonomy->name] );
 
 		foreach ( $names as $cat_name ) {
 			$cat_name = trim($cat_name);
 			$category_nicename = sanitize_title($cat_name);
-			if ( '' === $category_nicename )
+			if ( '' === $category_nicename ){
 				continue;
+			}
 
-			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name ) )
+			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name ) ) {
 				$cat_id = wp_insert_term( $cat_name, $taxonomy->name );
+			}
 				
-			if ( is_wp_error( $cat_id ) )
+			if ( is_wp_error( $cat_id ) ) {
 				continue;
-			else if ( is_array( $cat_id ) )
+			}
+			else if ( is_array( $cat_id ) ) {
 				$cat_id = $cat_id['term_id'];
+			}
 
 			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
 				esc_attr( $taxonomy->name ),
