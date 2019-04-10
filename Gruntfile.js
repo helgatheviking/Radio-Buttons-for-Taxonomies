@@ -120,17 +120,6 @@ module.exports = function(grunt) {
 		    }
 		 },
 
-		// # Check some git repo settings
-		checkrepo: {
-			deploy: {
-				tag: {
-					eq: '<%= pkg.version %>', // Check if highest repo tag is equal to pkg.version
-				},
-				tagged: false, // Check if last repo commit (HEAD) is not tagged
-				clean: true, // Check if the repo working directory is clean
-			}
-		},
-
     	// # Check the plugin, package & readme files have same version 
 		checkwpversion: {
 			plugin_equals_stable: {
@@ -216,6 +205,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', ['test', 'replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown', 'clean', 'copy']);
 
-	grunt.registerTask('deploy', ['checkbranch:master', 'checkrepo:deploy', 'build', 'release', 'wp_deploy', 'clean']);
+	grunt.registerTask('deploy', ['checkbranch:master', 'build', 'release', 'wp_deploy', 'clean']);
 
 };
