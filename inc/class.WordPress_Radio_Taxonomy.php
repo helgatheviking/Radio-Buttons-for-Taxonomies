@@ -78,8 +78,8 @@ class WordPress_Radio_Taxonomy {
 	 */
 	public function remove_meta_box() {
 		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) {
-			foreach ( $this->tax_obj->object_type as $post_type ) { error_log( $post_type );
-				if( ! use_block_editor_for_post_type( $post_type ) ) { error_log( 'not using block editor' );
+			foreach ( $this->tax_obj->object_type as $post_type ) {
+				if( ! use_block_editor_for_post_type( $post_type ) ) {
 					$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
 					remove_meta_box( $id, $post_type, 'side' );
 				}
