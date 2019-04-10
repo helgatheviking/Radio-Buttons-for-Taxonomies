@@ -383,6 +383,8 @@ class RadioTermSelector extends Component {
 		);
 		const showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
 
+		const showParentSelect = this.props.taxonomy.hierarchical; // @helgatheviking
+
 		return [
 			showFilter && <label
 				key="filter-label"
@@ -433,7 +435,7 @@ class RadioTermSelector extends Component {
 						onChange={ this.onChangeFormName }
 						required
 					/>
-					{ !! availableTerms.length &&
+					{ showParentSelect && !! availableTerms.length && // @helgatheviking
 						<TreeSelect
 							label={ parentSelectLabel }
 							noOptionLabel={ noParentOption }
