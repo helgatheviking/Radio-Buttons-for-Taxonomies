@@ -1,3 +1,7 @@
+/*
+ * Modified version of https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/post-taxonomies/hierarchical-term-selector.js
+ */
+
 /**
  * External dependencies
  */
@@ -55,14 +59,10 @@ class RadioTermSelector extends Component {
 		};
 	}
 
-	onChange( event ) {
-		const { onUpdateTerms, terms = [], taxonomy } = this.props;
+	onChange( event ) { // @helgatheviking
+		const { onUpdateTerms, taxonomy } = this.props;
 		const termId = parseInt( event.target.value, 10 );
-		const hasTerm = terms.indexOf( termId ) !== -1;
-		const newTerms = hasTerm ?
-			without( terms, termId ) :
-			[ ...terms, termId ];
-		onUpdateTerms( newTerms, taxonomy.rest_base );
+		onUpdateTerms( [ termId ], taxonomy.rest_base );
 	}
 
 	onChangeFormName( event ) {
@@ -100,7 +100,7 @@ class RadioTermSelector extends Component {
 		if ( existingTerm ) {
 			// if the term we are adding exists but is not selected select it
 			if ( ! some( terms, ( term ) => term === existingTerm.id ) ) {
-				onUpdateTerms( [ ...terms, existingTerm.id ], taxonomy.rest_base );
+				onUpdateTerms( [ existingTerm.id ], taxonomy.rest_base ); // @helgatheviking
 			}
 			this.setState( {
 				formName: '',
@@ -160,7 +160,7 @@ class RadioTermSelector extends Component {
 					availableTerms: newAvailableTerms,
 					availableTermsTree: this.sortBySelected( buildTermsTree( newAvailableTerms ) ),
 				} );
-				onUpdateTerms( [ ...terms, term.id ], taxonomy.rest_base );
+				onUpdateTerms( [ term.id ], taxonomy.rest_base ); // @helgatheviking
 			}, ( xhr ) => {
 				if ( xhr.statusText === 'abort' ) {
 					return;
@@ -314,19 +314,21 @@ class RadioTermSelector extends Component {
 	}
 
 	renderTerms( renderedTerms ) {
-		const { terms = [] } = this.props;
+		const { terms = [], taxonomy } = this.props; // @helgatheviking
+		const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
+
 		return renderedTerms.map( ( term ) => {
-			const id = `editor-post-taxonomies-hierarchical-term-${ term.id }`;
+			const id = `editor-post-taxonomies-${ klass }-term-${ term.id }`; // @helgatheviking
 			return (
 				<div key={ term.id } className="editor-post-taxonomies__hierarchical-terms-choice">
 					<input
 						id={ id } 
 						className="editor-post-taxonomies__hierarchical-terms-input"
 						type="radio" // @helgatheviking
-						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
 						checked={ terms.indexOf( term.id ) !== -1 }
 						value={ term.id }
 						onChange={ this.onChange }
+						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
 					/>
 					<label htmlFor={ id }>{ unescapeString( term.name ) }</label>
 					{ !! term.children.length && (
@@ -341,6 +343,7 @@ class RadioTermSelector extends Component {
 
 	render() {
 		const { slug, taxonomy, instanceId, hasCreateAction, hasAssignAction } = this.props;
+		const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
 
 		if ( ! hasAssignAction ) {
 			return null;
@@ -369,8 +372,8 @@ class RadioTermSelector extends Component {
 		);
 		const noParentOption = `— ${ parentSelectLabel } —`;
 		const newTermSubmitLabel = newTermButtonLabel;
-		const inputId = `editor-post-taxonomies__hierarchical-terms-input-${ instanceId }`;
-		const filterInputId = `editor-post-taxonomies__hierarchical-terms-filter-${ instanceId }`;
+		const inputId = `editor-post-taxonomies__${ klass }-terms-input-${ instanceId }`; // @helgatheviking			
+		const filterInputId = `editor-post-taxonomies__${ klass }-terms-filter-${ instanceId }`; // @helgatheviking
 		const filterLabel = get(
 			this.props.taxonomy,
 			[ 'labels', 'search_items' ],
@@ -382,8 +385,6 @@ class RadioTermSelector extends Component {
 			__( 'Terms' )
 		);
 		const showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
-
-		const showParentSelect = this.props.taxonomy.hierarchical; // @helgatheviking
 
 		return [
 			showFilter && <label
@@ -420,7 +421,7 @@ class RadioTermSelector extends Component {
 				</Button>
 			),
 			showForm && (
-				<form onSubmit={ this.onAddTerm } key="hierarchical-terms-form">
+				<form onSubmit={ this.onAddTerm } key={ klass + '-terms-form' }>
 					<label
 						htmlFor={ inputId }
 						className="editor-post-taxonomies__hierarchical-terms-label"
@@ -435,7 +436,7 @@ class RadioTermSelector extends Component {
 						onChange={ this.onChangeFormName }
 						required
 					/>
-					{ showParentSelect && !! availableTerms.length && // @helgatheviking
+					{ taxonomy.hierarchical && !! availableTerms.length && // @helgatheviking
 						<TreeSelect
 							label={ parentSelectLabel }
 							noOptionLabel={ noParentOption }
