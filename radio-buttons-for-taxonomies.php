@@ -258,7 +258,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since  2.0
 	 */
 	public function block_editor_assets(){
-		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'js/dist/index.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), time() );
+		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'js/dist/index.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), self::$version );
 
 		$i18n = array( 'radio_taxonomies' => (array) $this->options['taxonomies'] );
 		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
