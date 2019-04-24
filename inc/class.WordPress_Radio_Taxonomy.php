@@ -51,12 +51,10 @@ class WordPress_Radio_Taxonomy {
 		// change checkboxes to radios & trigger get_terms() filter
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
-		// Switch ajax callback for adding a non-hierarchical term
-		if( ! Radio_Buttons_for_Taxonomies()->is_version('4.4.0') ){
-			remove_action( 'wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term' );
-			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ) );			
+		// Add ajax callback for adding a non-hierarchical term
+		if( Radio_Buttons_for_Taxonomies()->is_wp_version_gte('4.4.0') ){
+			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ), 5 );	
 		}
-	
 
 		// never save more than 1 term
 		add_action( 'save_post', array( $this, 'save_single_term' ) );
@@ -79,10 +77,14 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function remove_meta_box() {
-		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) foreach ( $this->tax_obj->object_type as $post_type ):
-			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
-	   		remove_meta_box( $id, $post_type, 'side' );
-	   	endforeach;
+		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) {
+			foreach ( $this->tax_obj->object_type as $post_type ) {
+				if( ! use_block_editor_for_post_type( $post_type ) ) {
+					$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
+					remove_meta_box( $id, $post_type, 'side' );
+				}
+			}
+		}
 	}
 
 	/**
@@ -93,17 +95,20 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function add_meta_box() {
-		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) foreach ( $this->tax_obj->object_type as $post_type ):
-			$label = $this->tax_obj->labels->singular_name;
-			$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
-			add_meta_box( $id, $label ,array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=>$this->taxonomy ) );
-		endforeach;
+		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) {
+			foreach ( $this->tax_obj->object_type as $post_type ) {
+				if( ! use_block_editor_for_post_type( $post_type ) ) {
+					$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
+					add_meta_box( $id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
+				}
+			}
+		}
 	}
 
 
 	/**
 	 * Callback to set up the metabox
-	 * Mimims the traditional hierarchical term metabox, but modified with our nonces 
+	 * Mimicks the traditional hierarchical term metabox, but modified with our nonces 
 	 *
 	 * @access public
 	 * @param  object $post
@@ -112,85 +117,134 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function metabox( $post, $box ) {
-		$defaults = array('taxonomy' => 'category');
-		if ( !isset($box['args']) || !is_array($box['args']) )
+
+		wp_enqueue_script( 'radiotax' );
+
+		$defaults = array( 'taxonomy' => 'category' );
+		if ( ! isset( $box['args'] ) || ! is_array( $box['args'] ) ) {
 			$args = array();
-		else
+		} else {
 			$args = $box['args'];
-		extract( wp_parse_args($args, $defaults), EXTR_SKIP ); // TODO: Remove extract call
+		}
 
-		//get current terms
-		$checked_terms = $post->ID ? get_the_terms( $post->ID, $taxonomy ) : array();
+		$r = wp_parse_args( $args, $defaults );
+		$tax_name = esc_attr( $r['taxonomy'] );
+		$taxonomy = get_taxonomy( $r['taxonomy'] );
 
-		//get first term object
+		// Get current terms.
+		$checked_terms = isset( $post->ID ) ? get_the_terms( $post->ID, $tax_name ) : array();
+
+		// Get first term, a single term.
 		$single_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
 		$single_term_id = $single_term ? (int) $single_term->term_id : 0;
 
+		wp_nonce_field( 'radio_nonce-' . $tax_name, '_radio_nonce-' . $tax_name );
+
 		?>
-		<div id="taxonomy-<?php echo esc_attr( $taxonomy ); ?>" class="radio-buttons-for-taxonomies categorydiv form-no-clear">
-			<ul id="<?php echo esc_attr( $taxonomy ); ?>-tabs" class="category-tabs">
-				<li class="tabs"><a href="#<?php echo esc_attr( $taxonomy ); ?>-all" tabindex="3"><?php echo esc_html( $this->tax_obj->labels->all_items ); ?></a></li>
-				<li class="hide-if-no-js"><a href="#<?php echo esc_attr( $taxonomy ); ?>-pop" tabindex="3"><?php esc_html_e( 'Most Used' , 'radio-buttons-for-taxonomies' ); ?></a></li>
+		<div id="taxonomy-<?php echo $tax_name; ?>" class="radio-buttons-for-taxonomies categorydiv">
+			<ul id="<?php echo $tax_name; ?>-tabs" class="category-tabs">
+				<li class="tabs"><a href="#<?php echo $tax_name; ?>-all"><?php echo $taxonomy->labels->all_items; ?></a></li>
+				<li class="hide-if-no-js"><a href="#<?php echo $tax_name; ?>-pop"><?php echo esc_html( $taxonomy->labels->most_used ); ?></a></li>
 			</ul>
+		
+			<div id="<?php echo $tax_name; ?>-pop" class="tabs-panel" style="display: none;">
+				<ul id="<?php echo $tax_name; ?>checklist-pop" class="categorychecklist form-no-clear" >
+					<?php 
 
-			<?php wp_nonce_field( 'radio_nonce-' . $taxonomy, '_radio_nonce-' . $taxonomy ); ?>
+						$popular_terms = get_terms( $tax_name, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
+						$popular_ids = array(); 
 
-			<div id="<?php echo esc_attr( $taxonomy ); ?>-pop" class="tabs-panel" style="display: none;">
-				<ul id="<?php echo esc_attr( $taxonomy ); ?>checklist-pop" class="categorychecklist form-no-clear" >
-					<?php $popular = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
-
-						if ( ! current_user_can($this->tax_obj->cap->assign_terms) )
-							$disabled = 'disabled="disabled"';
-						else
-							$disabled = '';
-
-						$popular_ids = array(); ?>
-
-						<?php foreach( $popular as $term ){
+						foreach( $popular_terms as $term ){
 
 							$popular_ids[] = $term->term_id;
-
-							$value = is_taxonomy_hierarchical( $taxonomy ) ? $term->term_id : $term->slug;
-							$id = 'popular-'.$taxonomy.'-'.$term->term_id;
-
-							echo "<li id='$id'><label class='selectit'>";
-							echo "<input type='radio' id='in-".intval( $id )."'" . checked( $single_term_id, $term->term_id, false ) . " value='".esc_attr( $value )."' ".$disabled." />&nbsp;".esc_html( $term->name )."<br />";
-
-							echo "</label></li>";
-						} ?>
-				</ul>
-			</div>
-
-			<div id="<?php echo esc_attr( $taxonomy ); ?>-all" class="tabs-panel">
-				<ul id="<?php echo esc_attr( $taxonomy ); ?>checklist" data-wp-lists="list:<?php echo esc_attr( $taxonomy ); ?>" class="categorychecklist form-no-clear">
-					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $taxonomy, 'popular_cats' => $popular_ids ) ) ?>
-				</ul>
-			</div>
-		<?php if ( current_user_can( $this->tax_obj->cap->edit_terms ) ) : ?>
-				<div id="<?php echo esc_attr( $taxonomy ); ?>-adder" class="wp-hidden-children">
-					<h4>
-						<a id="<?php echo esc_attr( $taxonomy ); ?>-add-toggle" href="#<?php echo esc_attr( $taxonomy ); ?>-add" class="hide-if-no-js">
-							<?php
-								/* translators: %s: add new taxonomy label */
-								printf( __( '+ %s' , 'radio-buttons-for-taxonomies' ), esc_html( $this->tax_obj->labels->add_new_item ) );
+							$value = is_taxonomy_hierarchical( $tax_name ) ? $term->term_id : $term->slug;
+							$id = 'popular-' . $tax_name . '-' . $term->term_id;
+							$checked = checked( $single_term_id, $term->term_id, false );
 							?>
-						</a>
-					</h4>
-					<p id="<?php echo esc_attr( $taxonomy ); ?>-add" class="category-add wp-hidden-child">
-						<label class="screen-reader-text" for="new<?php echo esc_attr( $taxonomy ); ?>"><?php echo esc_html( $this->tax_obj->labels->add_new_item ); ?></label>
-						<input type="text" name="new<?php echo esc_attr( $taxonomy ); ?>" id="new<?php echo esc_attr( $taxonomy ); ?>" class="form-required" value="<?php echo esc_attr( $this->tax_obj->labels->new_item_name ); ?>" aria-required="true"/>
-						<label class="screen-reader-text" for="new<?php echo esc_attr( $taxonomy ); ?>_parent">
-							<?php echo esc_html( $this->tax_obj->labels->parent_item_colon ); ?>
-						</label>
-						<?php if( is_taxonomy_hierarchical( $taxonomy) ) {
-							wp_dropdown_categories( array( 'taxonomy' => $taxonomy, 'hide_empty' => 0, 'name' => 'new'.$taxonomy.'_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $this->tax_obj->labels->parent_item . ' &mdash;' ) );
-						} ?>
-						<input type="button" id="<?php echo esc_attr( $taxonomy ); ?>-add-submit" data-wp-lists="add:<?php echo esc_attr( $taxonomy ); ?>checklist:<?php echo esc_attr( $taxonomy ); ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $this->tax_obj->labels->add_new_item ); ?>" tabindex="3" />
-						<?php wp_nonce_field( 'add-'.$taxonomy, '_ajax_nonce-add-'.$taxonomy ); ?>
-						<span id="<?php echo esc_attr( $taxonomy ); ?>-ajax-response"></span>
-					</p>
-				</div>
-			<?php endif; ?>
+
+							<li id="<?php echo $id; ?>" class="popular-category">
+								<label class="selectit">
+									<input id="in-<?php echo $id; ?>" type="radio" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" <?php disabled( ! current_user_can( $taxonomy->cap->assign_terms ) ); ?> />
+										<?php
+										/** This filter is documented in wp-includes/category-template.php */
+										echo esc_html( apply_filters( 'the_category', $term->name, '', '' ) );
+										?>
+								</label>
+							</li>
+
+					<?php } ?>
+				</ul>
+			</div>
+
+			<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
+				<ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
+					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'popular_cats' => $popular_ids, 'selected_cats' => array( $single_term_id ) ) ); ?>
+				</ul>
+			</div>
+			
+	<?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
+			<div id="<?php echo $tax_name; ?>-adder" class="wp-hidden-children">
+				<a id="<?php echo $tax_name; ?>-add-toggle" href="#<?php echo $tax_name; ?>-add" class="hide-if-no-js taxonomy-add-new">
+					<?php
+						/* translators: %s: add new taxonomy label */
+						printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
+					?>
+				</a>
+				<p id="<?php echo $tax_name; ?>-add" class="category-add wp-hidden-child">
+					<label class="screen-reader-text" for="new<?php echo $tax_name; ?>"><?php echo $taxonomy->labels->add_new_item; ?></label>
+					<input type="text" name="new<?php echo $tax_name; ?>" id="new<?php echo $tax_name; ?>" class="form-required form-input-tip" value="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" aria-required="true"/>
+					<label class="screen-reader-text" for="new<?php echo $tax_name; ?>_parent">
+						<?php echo $taxonomy->labels->parent_item_colon; ?>
+					</label>
+					<?php
+
+					// Only add parent option for hierarchical taxonomies.
+					if( is_taxonomy_hierarchical( $tax_name ) ) {
+						$parent_dropdown_args = array(
+							'taxonomy'         => $tax_name,
+							'hide_empty'       => 0,
+							'name'             => 'new' . $tax_name . '_parent',
+							'orderby'          => 'name',
+							'hierarchical'     => 1,
+							'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
+						);
+
+						/**
+						 * Filters the arguments for the taxonomy parent dropdown on the Post Edit page.
+						 *
+						 * @since 4.4.0
+						 *
+						 * @param array $parent_dropdown_args {
+						 *     Optional. Array of arguments to generate parent dropdown.
+						 *
+						 *     @type string   $taxonomy         Name of the taxonomy to retrieve.
+						 *     @type bool     $hide_if_empty    True to skip generating markup if no
+						 *                                      categories are found. Default 0.
+						 *     @type string   $name             Value for the 'name' attribute
+						 *                                      of the select element.
+						 *                                      Default "new{$tax_name}_parent".
+						 *     @type string   $orderby          Which column to use for ordering
+						 *                                      terms. Default 'name'.
+						 *     @type bool|int $hierarchical     Whether to traverse the taxonomy
+						 *                                      hierarchy. Default 1.
+						 *     @type string   $show_option_none Text to display for the "none" option.
+						 *                                      Default "&mdash; {$parent} &mdash;",
+						 *                                      where `$parent` is 'parent_item'
+						 *                                      taxonomy label.
+						 * }
+						 */
+						$parent_dropdown_args = apply_filters( 'post_edit_category_parent_dropdown_args', $parent_dropdown_args );
+
+						wp_dropdown_categories( $parent_dropdown_args );
+
+					}
+					?>
+					<input type="button" id="<?php echo $tax_name; ?>-add-submit" data-wp-lists="add:<?php echo $tax_name; ?>checklist:<?php echo $tax_name; ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $taxonomy->labels->add_new_item ); ?>" />
+					<?php wp_nonce_field( 'add-' . $tax_name, '_ajax_nonce-add-' . $tax_name, false ); ?>
+					<span id="<?php echo $tax_name; ?>-ajax-response"></span>
+				</p>
+			</div>
+		<?php endif; ?>	
 		</div>
 	<?php
 	}
@@ -214,7 +268,6 @@ class WordPress_Radio_Taxonomy {
 			add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 			$args['walker'] = new Walker_Category_Radio;
-			$args['checked_ontop'] = false;
 		}
 		return $args;
 	}
@@ -307,26 +360,39 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	public function add_non_hierarchical_term(){
-		$action = $_POST['action'];
-		$taxonomy = get_taxonomy(substr($action, 4));
+		$action = $_POST[ 'action' ];
+		$tax_name = substr( $action, 4 );
+
+		// If Hierarchical, pass-through to core callback.
+		if( is_taxonomy_hierarchical( $tax_name ) ) {
+			return false;
+		}
+
+		// Non-Hierarchical "Terms".
+		$taxonomy = get_taxonomy( $tax_name );
 		check_ajax_referer( $action, '_ajax_nonce-add-' . $taxonomy->name );
-		if ( !current_user_can( $taxonomy->cap->edit_terms ) )
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
 			wp_die( -1 );
-		$names = explode(',', $_POST['new'.$taxonomy->name]);
+		}
+		$names = explode( ',', $_POST['new'.$taxonomy->name] );
 
 		foreach ( $names as $cat_name ) {
 			$cat_name = trim($cat_name);
 			$category_nicename = sanitize_title($cat_name);
-			if ( '' === $category_nicename )
+			if ( '' === $category_nicename ){
 				continue;
+			}
 
-			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name ) )
+			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name ) ) {
 				$cat_id = wp_insert_term( $cat_name, $taxonomy->name );
+			}
 				
-			if ( is_wp_error( $cat_id ) )
+			if ( is_wp_error( $cat_id ) ) {
 				continue;
-			else if ( is_array( $cat_id ) )
+			}
+			else if ( is_array( $cat_id ) ) {
 				$cat_id = $cat_id['term_id'];
+			}
 
 			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
 				esc_attr( $taxonomy->name ),
@@ -417,6 +483,9 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.7.0
 	 */
 	public function quick_edit_nonce() {
+		
+		wp_enqueue_script( 'radiotax' );
+
 		if ( $this->printNonce ) {
 			$this->printNonce = FALSE;
 			wp_nonce_field( 'radio_nonce-' . $this->taxonomy, '_radio_nonce-' . $this->taxonomy );

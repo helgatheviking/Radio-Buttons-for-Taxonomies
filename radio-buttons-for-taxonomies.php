@@ -1,37 +1,25 @@
 <?php
 /*
-Plugin Name: Radio Buttons for Taxonomies
-Plugin URI: http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
-Description: Use radio buttons for any taxonomy so users can only select 1 term at a time
-Version: 1.8.3
-Text Domain: radio-buttons-for-taxonomies
-Author: Kathy Darling
-Author URI: http://www.kathyisawesome.com
-License: GPL2
-Text Domain: radio-buttons-for-taxonomies
-
-Copyright 2015  Kathy Darling  (email: kathy.darling@gmail.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-/*
-This is a plugin implementation of the wp.tuts+ tutorial: http://wp.tutsplus.com/tutorials/creative-coding/how-to-use-radio-buttons-with-taxonomies/ by Stephen Harris
-Stephen Harris http://profiles.wordpress.org/stephenh1988/
-
-To use this plugin, just activate it and go to the settings page.  Then Check the taxonomies that you'd like to switch to using Radio Buttons and save the settings.
-*/
+ * Plugin Name: 	  Radio Buttons for Taxonomies
+ * Plugin URI: 		  http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
+ * Description: 	  Use radio buttons for any taxonomy so users can only select 1 term at a time
+ * Version:           2.0.0
+ * Author:            helgatheviking
+ * Author URI:        https://www.kathyisawesome.com
+ * Requires at least: 5.0
+ * Tested up to:      5.1
+ *
+ * Text Domain:       radio-buttons-for-taxonomies
+ * Domain Path:       /languages/
+ *
+ * @package           Radio Buttons for Taxonomies
+ * @author            Kathy Darling
+ * @copyright         Copyright (c) 2019, Kathy Darling
+ * @license           http://opensource.org/licenses/gpl-3.0.php GNU Public License
+ *
+ * Props to by Stephen Harris http://profiles.wordpress.org/stephenh1988/
+ * For his wp.tuts+ tutorial: http://wp.tutsplus.com/tutorials/creative-coding/how-to-use-radio-buttons-with-taxonomies/ 
+ */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -44,7 +32,7 @@ class Radio_Buttons_for_Taxonomies {
 	* @constant string donate url
 	* @since 1.7.8
 	*/
-	CONST DONATE_URL = "https://www.youcaring.com/wnt-residency";
+	CONST DONATE_URL = "https://www.paypal.com/fundraiser/charity/1451316";
 
 	/**
 	 * @var Radio_Buttons_for_Taxonomies The single instance of the class
@@ -116,7 +104,7 @@ class Radio_Buttons_for_Taxonomies {
 			// Include required files
 			include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
 			
-			if( ! $this->is_version('4.4.0') ){
+			if( $this->is_wp_version_gte('4.4.0') ){
 				include_once( 'inc/class.Walker_Category_Radio.php' );
 			} else {
 				include_once( 'inc/class.Walker_Category_Radio_old.php' );
@@ -142,12 +130,16 @@ class Radio_Buttons_for_Taxonomies {
 			// Load admin scripts
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
+			// Load Gutenberg sidebar scripts
+			add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+
 			// add settings link to plugins page
 			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_links' ), 10, 2 );
 
 			// Add Donate link to plugin.
 			add_filter( 'plugin_row_meta', array( $this, 'add_meta_links' ), 10, 2 );
 
+			// Multilingualpress support.
 			add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 	}
 
@@ -235,12 +227,12 @@ class Radio_Buttons_for_Taxonomies {
 		//probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying
 		$taxonomies = $this->get_all_taxonomies();
 
-    if( isset( $input['taxonomies'] ) ) {
-      foreach ( $input['taxonomies'] as $tax ){
-        if( array_key_exists( $tax, $taxonomies ) ) {
-          $clean['taxonomies'][] = $tax;
-        }
-      }
+		if( isset( $input['taxonomies'] ) ) {
+			foreach ( $input['taxonomies'] as $tax ){
+				if( array_key_exists( $tax, $taxonomies ) ) {
+					$clean['taxonomies'][] = $tax;
+				}
+			}
 		}
 
 		$clean['delete'] =  isset( $input['delete'] ) && $input['delete'] ? 1 : 0 ;  //checkbox
@@ -255,10 +247,21 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since  1.0
 	 */
 	public function admin_script( $hook ){
-		if( in_array( $hook, array( 'edit.php', 'post.php', 'post-new.php' ) ) ){
-			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-			wp_enqueue_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
-		}
+		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+		wp_register_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
+	}
+
+	/**
+	 * Load Gutenberg Sidebar Scripts
+	 * @access public
+	 * @return void
+	 * @since  2.0
+	 */
+	public function block_editor_assets(){
+		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'js/dist/index.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), time() );
+
+		$i18n = array( 'radio_taxonomies' => (array) $this->options['taxonomies'] );
+		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
 	}
 
 	/**
@@ -349,16 +352,26 @@ class Radio_Buttons_for_Taxonomies {
 	/**
 	 * Test WordPress current version
 	 *
-	 * @wp-hook mlp_mutually_exclusive_taxonomies
+	 * @deprecated
+	 *
 	 * @param array $version
 	 * @return bool
 	 */
 	public function is_version( $version = '4.4.0' ) {
+		_deprecated_function( __FUNCTION__, '2.0.0', 'Radio_Buttons_for_Taxonomies::is_wp_version_gte()' );
+		return ! $this->is_wp_version_gte( $version );
+	}
+
+	/**
+	 * Test WordPress current version
+	 *
+	 * @wp-hook mlp_mutually_exclusive_taxonomies
+	 * @param array $version
+	 * @return bool
+	 */
+	public function is_wp_version_gte( $version = '4.4.0' ) {
 		global $wp_version;
-		if ( version_compare( $wp_version, $version, '>=' ) ) {
-			return false;
-		}
-		return true;
+		return version_compare( $wp_version, $version, '>=' );
 	}
 
 } // end class
