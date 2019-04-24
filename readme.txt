@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+= 2.0.0 =
+* Gutenberg compatibility! Props @5ally and @leymannx
+
 = 1.8.3 =
 * Escape all the inputs. Props @tomjn and @rtCamp
 
