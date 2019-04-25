@@ -44,7 +44,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @var version
 	 * @since 1.7.0
 	 */
-	static $version = '1.7.7';
+	static $version = '2.0.0';
 
 	/**
 	 * @var plugin options
