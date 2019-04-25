@@ -6,8 +6,8 @@
  * Version:           2.0.0
  * Author:            helgatheviking
  * Author URI:        https://www.kathyisawesome.com
- * Requires at least: 5.0
- * Tested up to:      5.1
+ * Requires at least: 4.5.0
+ * Tested up to:      5.1.1
  *
  * Text Domain:       radio-buttons-for-taxonomies
  * Domain Path:       /languages/
@@ -44,7 +44,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @var version
 	 * @since 1.7.0
 	 */
-	static $version = '2.0.0';
+	static $version = '2.0.1';
 
 	/**
 	 * @var plugin options
