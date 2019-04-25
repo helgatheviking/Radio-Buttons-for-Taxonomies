@@ -168,9 +168,9 @@ module.exports = function(grunt) {
 						from: /Version:.\d+(\.\d+)+/,
 						to: "Version: <%= pkg.version %>"
 					},
-					{ 
-						from: /public \$version = \'.*/,
-						to: "public $version = '<%= pkg.version %>';"
+					{
+						from: /static \$version = \'.*.'/m,
+						to: "static $version = '<%= pkg.version %>'"
 					},
 					{
 						from: /CONST VERSION = \'.*/,
