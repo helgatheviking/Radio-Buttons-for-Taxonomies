@@ -131,7 +131,7 @@ class Radio_Buttons_for_Taxonomies {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
 
 			// Load Gutenberg sidebar scripts
-			add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ), 99 );
 
 			// add settings link to plugins page
 			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_links' ), 10, 2 );
