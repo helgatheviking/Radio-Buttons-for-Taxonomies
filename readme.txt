@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/fundraiser/charity/1451316
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 4.5.0
 Tested up to: 5.1.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 2.0.2 =
+* Update from [Gutenberg source](https://github.com/WordPress/gutenberg/pull/14786)
 
 = 2.0.1 =
 * Fix: Fatal error use_block_editor_for_post_type() undefined in WP 4.x
