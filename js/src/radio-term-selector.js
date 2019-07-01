@@ -478,5 +478,5 @@ export default compose( [
 	} ) ),
 	withSpokenMessages,
 	withInstanceId,
-	//withFilters( 'editor.PostTaxonomyType' ), // intionally commented out
+	//withFilters( 'editor.PostTaxonomyType' ), // intentionally commented out
 ] )( RadioTermSelector );
