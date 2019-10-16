@@ -50,6 +50,8 @@ module.exports = function(grunt) {
 					'!composer.json',
 					'!package-lock.json',
 					'!build/**',
+					'!license.txt',
+					'!js\dist\index.deps.json',
 					'!readme.md',
 					'!wp-assets/**',
 					'!.git/**',
@@ -156,25 +158,21 @@ module.exports = function(grunt) {
 				],
 				overwrite: true,
 				replacements: [
-					{ 
-						from: /\*\*Stable tag:\*\* .*/,
-						to: "**Stable tag:** <%= pkg.version %>  "
-					},
 					{
-						from: /Stable tag: .*/,
+						from: /Stable tag:.*$/m,
 						to: "Stable tag: <%= pkg.version %>"
 					},
-					{ 
-						from: /Version:.\d+(\.\d+)+/,
-						to: "Version: <%= pkg.version %>"
+					{
+						from: /Version:.*$/m,
+						to: "Version:           <%= pkg.version %>"
 					},
 					{
-						from: /static \$version = \'.*.'/m,
-						to: "static $version = '<%= pkg.version %>'"
+						from: /public static \$version = \'.*.'/m,
+						to: "public static $version = '<%= pkg.version %>'"
 					},
 					{
-						from: /CONST VERSION = \'.*/,
-						to: "CONST VERSION = '<%= pkg.version %>';"
+						from: /public \$version      = \'.*.'/m,
+						to: "public $version      = '<%= pkg.version %>'"
 					}
 				]
 			}
