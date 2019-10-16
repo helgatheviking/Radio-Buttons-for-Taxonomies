@@ -51,7 +51,7 @@ class Radio_Buttons_For_Taxonomies {
 	/* @var str $version */
 	public static $version = '2.0.3';
 
-	/* @var array $options - The plugin's options.
+	/* @var array $options - The plugin's options. */
 	public $options = array();
 
 	/* @var WordPress_Radio_Taxonomy[] - Array of WordPress_Radio_Taxonomy instances as an array, keyed on taxonomy name. */
@@ -80,7 +80,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since 1.6.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'radio-buttons-for-taxonomies' ) ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'radio-buttons-for-taxonomies' ), '1.6' );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since 1.6.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'radio-buttons-for-taxonomies' ) ), '1.6' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'radio-buttons-for-taxonomies' ), '1.6' );
 	}
 
 	/**
