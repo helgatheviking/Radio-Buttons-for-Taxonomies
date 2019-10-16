@@ -351,29 +351,6 @@ class Radio_Buttons_For_Taxonomies {
 	}
 
 	/**
-	 * Make sure Multilingual Press shows the correct user interface.
-	 *
-	 * This method is called after switch_to_blog(), so we have to fetch the
-	 * options separately.
-	 *
-	 * @wp-hook mlp_mutually_exclusive_taxonomies
-	 * @param array $taxonomies
-	 * @return array
-	 */
-	public function multilingualpress_support( Array $taxonomies ) {
-
-		$remote_options = get_option( 'radio_button_for_taxonomies_options', array() );
-
-		if ( empty ( $remote_options['taxonomies'] ) )
-			return $taxonomies;
-
-		$all_taxonomies = array_merge( (array) $remote_options['taxonomies'], $taxonomies );
-
-		return array_unique( $all_taxonomies );
-	}
-
-
-	/**
 	 * Test WordPress current version
 	 *
 	 * @deprecated
@@ -423,6 +400,32 @@ class Radio_Buttons_For_Taxonomies {
 		} else {
 			return $this->options;
 		}
+	}
+
+	// ------------------------------------------------------------------------------
+	// Compatibility
+	// ------------------------------------------------------------------------------
+
+	/**
+	 * Make sure Multilingual Press shows the correct user interface.
+	 *
+	 * This method is called after switch_to_blog(), so we have to fetch the
+	 * options separately.
+	 *
+	 * @wp-hook mlp_mutually_exclusive_taxonomies
+	 * @param array $taxonomies
+	 * @return array
+	 */
+	public function multilingualpress_support( Array $taxonomies ) {
+
+		$remote_options = get_option( 'radio_button_for_taxonomies_options', array() );
+
+		if ( empty( $remote_options['taxonomies'] ) )
+			return $taxonomies;
+
+		$all_taxonomies = array_merge( (array) $remote_options['taxonomies'], $taxonomies );
+
+		return array_unique( $all_taxonomies );
 	}
 
 } // end class
