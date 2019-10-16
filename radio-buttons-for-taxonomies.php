@@ -427,10 +427,9 @@ endif;
  * @since  1.6
  * @return Radio_Buttons_for_Taxonomies
  */
-function Radio_Buttons_for_Taxonomies() {
+function radio_buttons_for_taxonomies() {
 	return Radio_Buttons_for_Taxonomies::instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['Radio_Buttons_for_Taxonomies'] = Radio_Buttons_for_Taxonomies();
-
+$GLOBALS['Radio_Buttons_for_Taxonomies'] = radio_buttons_for_taxonomies();
