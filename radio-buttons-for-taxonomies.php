@@ -103,14 +103,12 @@ class Radio_Buttons_for_Taxonomies {
 
 			// Include required files
 			include_once( 'inc/class.WordPress_Radio_Taxonomy.php' );
-			
+
 			if( $this->is_wp_version_gte('4.4.0') ){
 				include_once( 'inc/class.Walker_Category_Radio.php' );
 			} else {
 				include_once( 'inc/class.Walker_Category_Radio_old.php' );
 			}
-
-			$this->options = get_option( 'radio_button_for_taxonomies_options', true );
 
 			// Set-up Action and Filter Hooks
 			register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
@@ -173,7 +171,7 @@ class Radio_Buttons_for_Taxonomies {
 	 * @since  1.0
 	 */
 	public function launch( $taxonomy ){
-		if( isset( $this->options['taxonomies'] ) && in_array( $taxonomy, (array) $this->options['taxonomies'] ) ) {
+		if( in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) ) ) {
 			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
 		}
 	}
@@ -277,7 +275,7 @@ class Radio_Buttons_for_Taxonomies {
 	public function block_editor_assets(){
 		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'js/dist/index.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), self::$version );
 
-		$i18n = array( 'radio_taxonomies' => (array) $this->options['taxonomies'] );
+		$i18n = array( 'radio_taxonomies' => (array) $this->get_options( 'taxonomies' ) );
 		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
 	}
 
@@ -389,6 +387,33 @@ class Radio_Buttons_for_Taxonomies {
 	public function is_wp_version_gte( $version = '4.4.0' ) {
 		global $wp_version;
 		return version_compare( $wp_version, $version, '>=' );
+	}
+
+	/**
+	 * Get the plugin options
+	 *
+	 * @since 2.0.3
+	 *
+	 * @param string $option - A specific plugin option to retrieve.
+	 * @param mixed
+	 * @return bool
+	 */
+	public function get_options( $option = false) {
+		if( ! $this->options ) {
+
+			$defaults = array(
+				'taxonomies' => array(),
+				'delete'     => 0,
+			);
+			$this->options = wp_parse_args( get_option( 'radio_button_for_taxonomies_options', true ), $defaults );
+
+		}
+
+		if( $option && isset( $this->options[ $option ] ) ) {
+			return $this->options[ $option ];
+		} else {
+			return $this->options;
+		}
 	}
 
 } // end class
