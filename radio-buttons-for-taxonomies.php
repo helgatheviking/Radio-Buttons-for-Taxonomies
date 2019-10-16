@@ -24,7 +24,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
-if ( ! class_exists( 'Radio_Buttons_for_Taxonomies' ) ) :
+if ( class_exists( 'Radio_Buttons_for_Taxonomies' ) ) {
+	return;
+}
 
 class Radio_Buttons_for_Taxonomies {
 
