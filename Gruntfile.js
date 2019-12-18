@@ -105,49 +105,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Create .mo files for existing .po
-		potomo: {
-		    dist: {
-		      options: {
-		        poDel: false
-		      },
-		      files: [{
-		        expand: true,
-		        cwd: 'languages',
-		        src: ['*.po'],
-		        dest: 'languages',
-		        ext: '.mo',
-		        nonull: true
-		      }]
-		    }
-		 },
-
-    	// # Check the plugin, package & readme files have same version 
-		checkwpversion: {
-			plugin_equals_stable: {
-				version1: 'plugin',
-				version2: 'readme',
-				compare: '==',
-			},
-			plugin_equals_package: {
-				version1: 'plugin',
-				version2: '<%= pkg.version %>',
-				compare: '==',
-			},
-		},
-
-		// # version bump, commit, tag & push in git
-		release: {
-			options: {
-				push: true,
-				github: {
-					repo: '<%= pkg.repository.url %>', //put your user/repo here
-					usernameVar: '<%= gitcreds.username %>', //ENVIRONMENT VARIABLE that contains Github username 
-					passwordVar: '<%= gitcreds.password %>' //ENVIRONMENT VARIABLE that contains Github password
-				}
-			}
-		},
-
 		// bump version numbers
 		replace: {
 			Version: {
@@ -176,18 +133,7 @@ module.exports = function(grunt) {
 					}
 				]
 			}
-		},
-		// # Deploy to WordPress
-
-		wp_deploy: {
-			deploy: {
-				options: {
-					svn_user: '<%= pkg.author %>',
-					plugin_slug: '<%= pkg.name %>',
-					build_dir: 'build/'
-				},
-			}
-		},
+		}
 
 	});
 
@@ -202,7 +148,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['wp_readme_to_markdown']);
 
 	grunt.registerTask('build', ['replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown', 'clean', 'copy']);
-
-	grunt.registerTask('deploy', ['checkbranch:master', 'build', 'release', 'wp_deploy', 'clean']);
 
 };
