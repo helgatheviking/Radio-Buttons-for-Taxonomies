@@ -320,10 +320,10 @@ class RadioTermSelector extends Component {
 		return renderedTerms.map( ( term ) => {
 			const id = `editor-post-taxonomies-${ klass }-term-${ term.id }`; // @helgatheviking
 			return (
-				<div key={ term.id } className="editor-post-taxonomies__hierarchical-terms-choice">
+				<div key={ term.id } className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
 					<input
 						id={ id } 
-						className="editor-post-taxonomies__hierarchical-terms-input"
+						className={ 'editor-post-taxonomies__' + klass + '-terms-input ' }
 						type="radio" // @helgatheviking
 						checked={ terms.indexOf( term.id ) !== -1 }
 						value={ term.id }
@@ -332,7 +332,7 @@ class RadioTermSelector extends Component {
 					/>
 					<label htmlFor={ id }>{ unescapeString( term.name ) }</label>
 					{ !! term.children.length && (
-						<div className="editor-post-taxonomies__hierarchical-terms-subchoices">
+						<div className={ 'editor-post-taxonomies__' + klass + '-terms-subchoices ' }>
 							{ this.renderTerms( term.children ) }
 						</div>
 					) }
