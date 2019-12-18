@@ -26,9 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( class_exists( 'Radio_Buttons_for_Taxonomies' ) ) {
-	return;
-}
 
 /**
  * Main plugin class.
