@@ -425,8 +425,7 @@ class Radio_Buttons_For_Taxonomies {
 		return array_unique( $all_taxonomies );
 	}
 
-} // end class
-endif;
+} // End class.
 
 
 /**
