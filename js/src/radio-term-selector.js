@@ -446,7 +446,7 @@ class RadioTermSelector extends Component {
 						/>
 					}
 					<Button
-						isDefault
+						isSecondary
 						type="submit"
 						className="editor-post-taxonomies__hierarchical-terms-submit"
 					>
@@ -455,7 +455,6 @@ class RadioTermSelector extends Component {
 				</form>
 			),
 		];
-		/* eslint-enable jsx-a11y/no-onchange */
 	}
 }
 
