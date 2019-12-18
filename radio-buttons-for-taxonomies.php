@@ -40,7 +40,7 @@ class Radio_Buttons_For_Taxonomies {
 	* @constant string donate url
 	* @since 1.7.8
 	*/
-	const DONATE_URL = "https://www.paypal.com/fundraiser/charity/1451316";
+	const DONATE_URL = 'https://www.paypal.com/fundraiser/charity/1451316';
 
 	/* @var obj $instance The single instance of Radio_Buttons_for_Taxonomies.*/
 	protected static $_instance = null;
@@ -95,7 +95,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return Radio_Buttons_for_Taxonomies
 	 * @since  1.0
 	 */
-	public function __construct(){
+	public function __construct() {
 
 		// Include required files.
 		include_once 'inc/class.WordPress_Radio_Taxonomy.php';
@@ -198,7 +198,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since  1.0
 	 */
 	public function add_options_page() {
-		add_options_page(__( 'Radio Buttons for Taxonomies Options Page',"radio-buttons-for-taxonomies" ), __( 'Radio Buttons for Taxonomies', "radio-buttons-for-taxonomies" ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
+		add_options_page(__( 'Radio Buttons for Taxonomies Options Page', 'radio-buttons-for-taxonomies' ), __( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
 	}
 
 	/**
