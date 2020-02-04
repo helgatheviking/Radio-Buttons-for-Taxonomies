@@ -296,7 +296,7 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function add_action_links( $links, $file ) {
 
-		$plugin_link = '<a href="' . admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . esc_html_e( 'Settings', 'radio-buttons-for-taxonomies' ) . '</a>';
+		$plugin_link = '<a href="' . admin_url( 'options-general.php?page=radio-buttons-for-taxonomies' ) . '">' . esc_html__( 'Settings', 'radio-buttons-for-taxonomies' ) . '</a>';
 		// make the 'Settings' link appear first
 		array_unshift( $links, $plugin_link );
 
