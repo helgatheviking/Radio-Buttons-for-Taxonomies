@@ -451,8 +451,9 @@ class WordPress_Radio_Taxonomy {
 			$single_term = intval( array_shift( $terms ) );
 
 			// set the single terms
-			if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) 
+			if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {
 				wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
+			}
 
 		}		
 
