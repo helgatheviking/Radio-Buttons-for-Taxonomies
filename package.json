@@ -17,9 +17,9 @@
   },
   "entry point": "build/index.js",
   "devDependencies": {
-    "@wordpress/scripts": "6.0.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-react": "^7.17.0",
+    "@wordpress/scripts": "7.1.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0",
     "grunt": "^1.0.4",
     "grunt-checkbranch": "~1.0.4",
     "grunt-contrib-clean": "~2.0.0",
