@@ -1,7 +1,7 @@
 {
   "name": "radio-buttons-for-taxonomies",
   "author": "helgatheviking",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Use radio buttons for any taxonomy so users can only select 1 term at a time",
   "repository": {
     "type": "git",

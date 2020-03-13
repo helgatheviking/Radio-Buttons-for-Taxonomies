@@ -3,8 +3,8 @@
 **Donate link:** https://www.paypal.com/fundraiser/charity/1451316  
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
-**Tested up to:** 5.1.1  
-**Stable tag:** 2.0.3  
+**Tested up to:** 5.3.2  
+**Stable tag:** 2.0.4  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -52,6 +52,9 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 
 ## Changelog ##
+
+### 2.0.4 ###
+* Fix: Settings link on plugin page.
 
 ### 2.0.3 ###
 * Fix: Stop breaking quick edit on Taxonomy pages.
