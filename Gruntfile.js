@@ -64,7 +64,8 @@ module.exports = function(grunt) {
 					'!.gitmodules',
 					'!**/*.sublime-workspace',
 					'!**/*.sublime-project',
-					'!deploy.sh',
+					'!.wordpress-org/**',
+					'!.github/**',
 					'!**/*~'
 				],
 				dest: 'build/'
