@@ -331,18 +331,10 @@ class Radio_Buttons_For_Taxonomies {
 	function get_all_taxonomies() {
 
 		$args = array (
-			'public'   => true,
-			'show_ui'  => true,
-			'_builtin' => true
+			'show_ui'  => true
 		);
 
-		$defaults = get_taxonomies( $args, 'objects' );
-
-		$args['_builtin'] = false;
-
-		$custom = get_taxonomies( $args, 'objects' );
-
-		$taxonomies = apply_filters( 'radio_buttons_for_taxonomies_taxonomies', array_merge( $defaults, $custom ) );
+		$taxonomies = apply_filters( 'radio_buttons_for_taxonomies_taxonomies', get_taxonomies( $args, 'objects' ) );
 
 		ksort( $taxonomies );
 
