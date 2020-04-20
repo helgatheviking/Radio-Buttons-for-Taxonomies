@@ -52,6 +52,8 @@ module.exports = function(grunt) {
 					'!build/**',
 					'!license.txt',
 					'!js\dist\index.deps.json',
+					'!js/dist/index.asset.php',
+					'!js/dist/index.js.map',
 					'!readme.md',
 					'!wp-assets/**',
 					'!.git/**',
@@ -66,7 +68,10 @@ module.exports = function(grunt) {
 					'!**/*.sublime-project',
 					'!.wordpress-org/**',
 					'!.github/**',
-					'!**/*~'
+					'!webpack.config.js',
+					'!.eslintrc.json',
+					'!.distignore',
+					'!**/*~',
 				],
 				dest: 'build/'
 			}
