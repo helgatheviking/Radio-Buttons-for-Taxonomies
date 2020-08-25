@@ -433,9 +433,10 @@ class WordPress_Radio_Taxonomy {
 		if ( is_array( $this->tax_obj->object_type ) && isset( $_REQUEST['post_type'] ) && ! in_array ( $_REQUEST['post_type'], $this->tax_obj->object_type ) ) 
 			return $post_id;
 
-		// verify nonce
-		if ( isset( $_POST["_radio_nonce-{$this->taxonomy}"]) && ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) 
+		// Verify nonce.
+		if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
+		}
 
 		// OK, we must be authenticated by now: we need to find and save the data
 		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ){
