@@ -276,7 +276,9 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return void
 	 * @since  2.0
 	 */
-	public function block_editor_assets(){
+	public function block_editor_assets() {
+
+		// @todo: use npm run build to minify.
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_enqueue_script( 'radiotax-gutenberg-sidebar', plugins_url( 'js/dist/index' . $suffix . '.js', __FILE__ ), array( 'wp-i18n', 'wp-edit-post', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-plugins', 'wp-edit-post', 'wp-api' ), self::$version, true );

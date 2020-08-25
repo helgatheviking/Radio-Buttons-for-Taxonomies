@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+= 2.0.6 =
+* Fix: Vulnerable nonce in save routine.
+
 = 2.0.5 =
 * Fix: Admin settings- Get all taxonomies with show_ui=true.
 
