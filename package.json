@@ -1,7 +1,7 @@
 {
   "name": "radio-buttons-for-taxonomies",
   "author": "helgatheviking",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Use radio buttons for any taxonomy so users can only select 1 term at a time",
   "repository": {
     "type": "git",
@@ -15,7 +15,6 @@
     "build": "wp-scripts build",
     "start": "wp-scripts start"
   },
-  "entry point": "build/index.js",
   "devDependencies": {
     "@wordpress/scripts": "12.1.1",
     "eslint": "^7.7.0",
