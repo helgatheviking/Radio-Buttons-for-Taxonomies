@@ -1,3 +1,7 @@
+/**
+ * Build scripts.
+ */
+
 module.exports = function(grunt) {
 
 	// load most all grunt tasks
