@@ -320,9 +320,9 @@ class WordPress_Radio_Taxonomy {
 	 * Add new 0 or null term in metabox and quickedit
 	 * this will allow users to "undo" a term if the taxonomy is not required
 	 *
-	 * @param  array $terms
-	 * @param  array $taxonomies
-	 * @param  array $args
+     * @param array         $terms      Array of found terms.
+     * @param array         $taxonomies An array of taxonomies.
+     * @param array         $args       An array of get_terms() arguments.
 	 * @return array
 	 * @since 1.4
 	 */
