@@ -14,7 +14,5 @@ package.json
 package-lock.json
 readme.md
 composer.json
-js/dist/index.asset.php
 js/dist/index.deps.json
-js/dist/index.js.map
 .eslintrc.json
