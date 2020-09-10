@@ -1,1 +1,1180 @@
-!function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=23)}([function(e,t){!function(){e.exports=this.wp.element}()},function(e,t){!function(){e.exports=this.lodash}()},function(e,t){!function(){e.exports=this.wp.i18n}()},function(e,t){e.exports=function(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}},function(e,t){e.exports=function(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}},function(e,t){!function(){e.exports=this.wp.components}()},function(e,t){!function(){e.exports=this.wp.apiFetch}()},function(e,t){function r(t){return e.exports=r=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},r(t)}e.exports=r},function(e,t){!function(){e.exports=this.wp.data}()},function(e,t){!function(){e.exports=this.wp.compose}()},function(e,t){!function(){e.exports=this.wp.url}()},function(e,t){e.exports=function(e,t){(null==t||t>e.length)&&(t=e.length);for(var r=0,n=new Array(t);r<t;r++)n[r]=e[r];return n}},function(e,t,r){var n=r(17),o=r(18),a=r(19),i=r(20);e.exports=function(e){return n(e)||o(e)||a(e)||i()}},function(e,t){e.exports=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}},function(e,t){function r(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}e.exports=function(e,t,n){return t&&r(e.prototype,t),n&&r(e,n),e}},function(e,t,r){var n=r(21);e.exports=function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&n(e,t)}},function(e,t,r){var n=r(22),o=r(3);e.exports=function(e,t){return!t||"object"!==n(t)&&"function"!=typeof t?o(e):t}},function(e,t,r){var n=r(11);e.exports=function(e){if(Array.isArray(e))return n(e)}},function(e,t){e.exports=function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}},function(e,t,r){var n=r(11);e.exports=function(e,t){if(e){if("string"==typeof e)return n(e,t);var r=Object.prototype.toString.call(e).slice(8,-1);return"Object"===r&&e.constructor&&(r=e.constructor.name),"Map"===r||"Set"===r?Array.from(e):"Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)?n(e,t):void 0}}},function(e,t){e.exports=function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}},function(e,t){function r(t,n){return e.exports=r=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},r(t,n)}e.exports=r},function(e,t){function r(t){return"function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?e.exports=r=function(e){return typeof e}:e.exports=r=function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r(t)}e.exports=r},function(e,t,r){"use strict";r.r(t);var n=r(12),o=r.n(n),a=r(4),i=r.n(a),c=r(13),s=r.n(c),u=r(14),l=r.n(u),f=r(3),p=r.n(f),m=r(15),d=r.n(m),h=r(16),b=r.n(h),y=r(7),v=r.n(y),g=r(0),O=r(1),j=r(2),_=r(5),x=r(8),T=r(9),w=r(6),P=r.n(w),S=r(10);function k(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function C(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?k(Object(r),!0).forEach((function(t){i()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):k(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function F(e){var t=e.map((function(e){return C({children:[],parent:null},e)})),r=Object(O.groupBy)(t,"parent");if(r.null&&r.null.length)return t;return function e(t){return t.map((function(t){var n=r[t.id];return C(C({},t),{},{children:n&&n.length?e(n):[]})}))}(r[0]||[])}function A(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function E(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?A(Object(r),!0).forEach((function(t){i()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):A(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function R(e){var t=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],(function(){}))),!0}catch(e){return!1}}();return function(){var r,n=v()(e);if(t){var o=v()(this).constructor;r=Reflect.construct(n,arguments,o)}else r=n.apply(this,arguments);return b()(this,r)}}var N={per_page:-1,orderby:"name",order:"asc",_fields:"id,name,parent"},D=function(e){d()(r,e);var t=R(r);function r(){var e;return s()(this,r),(e=t.apply(this,arguments)).findTerm=e.findTerm.bind(p()(e)),e.onChange=e.onChange.bind(p()(e)),e.onChangeFormName=e.onChangeFormName.bind(p()(e)),e.onChangeFormParent=e.onChangeFormParent.bind(p()(e)),e.onAddTerm=e.onAddTerm.bind(p()(e)),e.onToggleForm=e.onToggleForm.bind(p()(e)),e.setFilterValue=e.setFilterValue.bind(p()(e)),e.sortBySelected=e.sortBySelected.bind(p()(e)),e.state={loading:!0,availableTermsTree:[],availableTerms:[],adding:!1,formName:"",formParent:"",showForm:!1,filterValue:"",filteredTermsTree:[]},e}return l()(r,[{key:"onChange",value:function(e){var t=this.props,r=t.onUpdateTerms,n=t.taxonomy;r([parseInt(e.target.value,10)],n.rest_base)}},{key:"onChangeFormName",value:function(e){var t=""===e.target.value.trim()?"":e.target.value;this.setState({formName:t})}},{key:"onChangeFormParent",value:function(e){this.setState({formParent:e})}},{key:"onToggleForm",value:function(){this.setState((function(e){return{showForm:!e.showForm}}))}},{key:"findTerm",value:function(e,t,r){return Object(O.find)(e,(function(e){return(!e.parent&&!t||parseInt(e.parent)===parseInt(t))&&e.name.toLowerCase()===r.toLowerCase()}))}},{key:"onAddTerm",value:function(e){var t=this;e.preventDefault();var r=this.props,n=r.onUpdateTerms,a=r.taxonomy,i=r.terms,c=r.slug,s=this.state,u=s.formName,l=s.formParent,f=s.adding,p=s.availableTerms;if(""!==u&&!f){var m=this.findTerm(p,l,u);if(m)return Object(O.some)(i,(function(e){return e===m.id}))||n([m.id],a.rest_base),void this.setState({formName:"",formParent:""});this.setState({adding:!0}),this.addRequest=P()({path:"/wp/v2/".concat(a.rest_base),method:"POST",data:{name:u,parent:l||void 0}}),this.addRequest.catch((function(e){return"term_exists"===e.code?(t.addRequest=P()({path:Object(S.addQueryArgs)("/wp/v2/".concat(a.rest_base),E(E({},N),{},{parent:l||0,search:u}))}),t.addRequest.then((function(e){return t.findTerm(e,l,u)}))):Promise.reject(e)})).then((function(e){var r=!!Object(O.find)(t.state.availableTerms,(function(t){return t.id===e.id}))?t.state.availableTerms:[e].concat(o()(t.state.availableTerms)),i=Object(j.sprintf)(Object(j._x)("%s added","term"),Object(O.get)(t.props.taxonomy,["labels","singular_name"],"category"===c?Object(j.__)("Category"):Object(j.__)("Term")));t.props.speak(i,"assertive"),t.addRequest=null,t.setState({adding:!1,formName:"",formParent:"",availableTerms:r,availableTermsTree:t.sortBySelected(F(r))}),n([e.id],a.rest_base)}),(function(e){"abort"!==e.statusText&&(t.addRequest=null,t.setState({adding:!1}))}))}}},{key:"componentDidMount",value:function(){this.fetchTerms()}},{key:"componentWillUnmount",value:function(){Object(O.invoke)(this.fetchRequest,["abort"]),Object(O.invoke)(this.addRequest,["abort"])}},{key:"componentDidUpdate",value:function(e){this.props.taxonomy!==e.taxonomy&&this.fetchTerms()}},{key:"fetchTerms",value:function(){var e=this,t=this.props.taxonomy;t&&(this.fetchRequest=P()({path:Object(S.addQueryArgs)("/wp/v2/".concat(t.rest_base),N)}),this.fetchRequest.then((function(t){var r=e.sortBySelected(F(t));e.fetchRequest=null,e.setState({loading:!1,availableTermsTree:r,availableTerms:t})}),(function(t){"abort"!==t.statusText&&(e.fetchRequest=null,e.setState({loading:!1}))})))}},{key:"sortBySelected",value:function(e){var t=this.props.terms,r=function e(r){return-1!==t.indexOf(r.id)||void 0!==r.children&&!!(r.children.map(e).filter((function(e){return e})).length>0)};return e.sort((function(e,t){var n=r(e),o=r(t);return n===o?0:n&&!o?-1:!n&&o?1:0})),e}},{key:"setFilterValue",value:function(e){var t=this.state.availableTermsTree,r=e.target.value,n=t.map(this.getFilterMatcher(r)).filter((function(e){return e}));this.setState({filterValue:r,filteredTermsTree:n});var o=function e(t){for(var r=0,n=0;n<t.length;n++)r++,void 0!==t[n].children&&(r+=e(t[n].children));return r}(n),a=Object(j.sprintf)(Object(j._n)("%d result found.","%d results found.",o),o);this.props.debouncedSpeak(a,"assertive")}},{key:"getFilterMatcher",value:function(e){return function t(r){if(""===e)return r;var n=E({},r);return n.children.length>0&&(n.children=n.children.map(t).filter((function(e){return e}))),(-1!==n.name.toLowerCase().indexOf(e.toLowerCase())||n.children.length>0)&&n}}},{key:"renderTerms",value:function(e){var t=this,r=this.props,n=r.terms,o=void 0===n?[]:n,a=r.taxonomy.hierarchical?"hierarchical":"non-hierarchical";return e.map((function(e){var r="editor-post-taxonomies-".concat(a,"-term-").concat(e.id);return Object(g.createElement)("div",{key:e.id,className:"editor-post-taxonomies__"+a+"-terms-choice "},Object(g.createElement)("input",{id:r,className:"editor-post-taxonomies__"+a+"-terms-input ",type:"radio",checked:-1!==o.indexOf(e.id),value:e.id,onChange:t.onChange,name:"radio_tax_input-"+t.props.slug}),Object(g.createElement)("label",{htmlFor:r},Object(O.unescape)(e.name)),!!e.children.length&&Object(g.createElement)("div",{className:"editor-post-taxonomies__"+a+"-terms-subchoices "},t.renderTerms(e.children)))}))}},{key:"render",value:function(){var e=this.props,t=e.slug,r=e.taxonomy,n=e.instanceId,o=e.hasCreateAction,a=e.hasAssignAction,i=r.hierarchical?"hierarchical":"non-hierarchical";if(!a)return null;var c=this.state,s=c.availableTermsTree,u=c.availableTerms,l=c.filteredTermsTree,f=c.formName,p=c.formParent,m=c.loading,d=c.showForm,h=c.filterValue,b=function(e,n,o){return Object(O.get)(r,["labels",e],"category"===t?n:o)},y=b("add_new_item",Object(j.__)("Add new category"),Object(j.__)("Add new term")),v=b("new_item_name",Object(j.__)("Add new category"),Object(j.__)("Add new term")),x=b("parent_item",Object(j.__)("Parent Category"),Object(j.__)("Parent Term")),T="— ".concat(x," —"),w=y,P="editor-post-taxonomies__".concat(i,"-terms-input-").concat(n),S="editor-post-taxonomies__".concat(i,"-terms-filter-").concat(n),k=Object(O.get)(this.props.taxonomy,["labels","search_items"],Object(j.__)("Search Terms")),C=Object(O.get)(this.props.taxonomy,["name"],Object(j.__)("Terms")),F=u.length>=8;return[F&&Object(g.createElement)("label",{key:"filter-label",htmlFor:S},k),F&&Object(g.createElement)("input",{type:"search",id:S,value:h,onChange:this.setFilterValue,className:"editor-post-taxonomies__hierarchical-terms-filter",key:"term-filter-input"}),Object(g.createElement)("div",{className:"editor-post-taxonomies__hierarchical-terms-list",key:"term-list",tabIndex:"0",role:"group","aria-label":C},this.renderTerms(""!==h?l:s)),!m&&o&&Object(g.createElement)(_.Button,{key:"term-add-button",onClick:this.onToggleForm,className:"editor-post-taxonomies__hierarchical-terms-add","aria-expanded":d,isLink:!0},y),d&&Object(g.createElement)("form",{onSubmit:this.onAddTerm,key:i+"-terms-form"},Object(g.createElement)("label",{htmlFor:P,className:"editor-post-taxonomies__hierarchical-terms-label"},v),Object(g.createElement)("input",{type:"text",id:P,className:"editor-post-taxonomies__hierarchical-terms-input",value:f,onChange:this.onChangeFormName,required:!0}),r.hierarchical&&!!u.length&&Object(g.createElement)(_.TreeSelect,{label:x,noOptionLabel:T,onChange:this.onChangeFormParent,selectedId:p,tree:s}),Object(g.createElement)(_.Button,{isSecondary:!0,type:"submit",className:"editor-post-taxonomies__hierarchical-terms-submit"},w))]}}]),r}(g.Component),q=Object(T.compose)([Object(x.withSelect)((function(e,t){var r=t.slug,n=e("core/editor").getCurrentPost,o=(0,e("core").getTaxonomy)(r);return{hasCreateAction:!!o&&Object(O.get)(n(),["_links","wp:action-create-"+o.rest_base],!1),hasAssignAction:!!o&&Object(O.get)(n(),["_links","wp:action-assign-"+o.rest_base],!1),terms:o?e("core/editor").getEditedPostAttribute(o.rest_base):[],taxonomy:o}})),Object(x.withDispatch)((function(e){return{onUpdateTerms:function(t,r){e("core/editor").editPost(i()({},r,t))}}})),_.withSpokenMessages,T.withInstanceId])(D);wp.hooks.addFilter("editor.PostTaxonomyType","RB4T",(function(e){return function(t){return RB4Tl18n.radio_taxonomies.indexOf(t.slug)>=0?wp.element.createElement(q,t):wp.element.createElement(e,t)}}))}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/src/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./js/src/index.js":
+/*!*************************!*\
+  !*** ./js/src/index.js ***!
+  \*************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _radio_term_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./radio-term-selector */ "./js/src/radio-term-selector.js");
+/**
+ * Internal dependencies
+ */
+
+
+function CustomizeTaxonomySelector(OriginalComponent) {
+  return function (props) {
+    // props.slug is the taxonomy (slug)
+    if (RB4Tl18n.radio_taxonomies.indexOf(props.slug) >= 0) {
+      return wp.element.createElement(_radio_term_selector__WEBPACK_IMPORTED_MODULE_0__["default"], props);
+    } else {
+      return wp.element.createElement(OriginalComponent, props);
+    }
+  };
+}
+
+;
+wp.hooks.addFilter('editor.PostTaxonomyType', 'RB4T', CustomizeTaxonomySelector);
+
+/***/ }),
+
+/***/ "./js/src/radio-term-selector.js":
+/*!***************************************!*\
+  !*** ./js/src/radio-term-selector.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _terms__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./terms */ "./js/src/terms.js");
+
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6___default()(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+/*
+ * Modified version of https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/post-taxonomies/hierarchical-term-selector.js
+ */
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Module Constants
+ */
+
+var DEFAULT_QUERY = {
+  per_page: -1,
+  orderby: 'name',
+  order: 'asc',
+  _fields: 'id,name,parent'
+};
+var MIN_TERMS_COUNT_FOR_FILTER = 8;
+
+var RadioTermSelector = /*#__PURE__*/function (_Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(RadioTermSelector, _Component);
+
+  var _super = _createSuper(RadioTermSelector);
+
+  function RadioTermSelector() {
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, RadioTermSelector);
+
+    _this = _super.apply(this, arguments);
+    _this.findTerm = _this.findTerm.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.onChange = _this.onChange.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.onChangeFormName = _this.onChangeFormName.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.onChangeFormParent = _this.onChangeFormParent.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.onAddTerm = _this.onAddTerm.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.onToggleForm = _this.onToggleForm.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.setFilterValue = _this.setFilterValue.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.sortBySelected = _this.sortBySelected.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+    _this.state = {
+      loading: true,
+      availableTermsTree: [],
+      availableTerms: [],
+      adding: false,
+      formName: '',
+      formParent: '',
+      showForm: false,
+      filterValue: '',
+      filteredTermsTree: []
+    };
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(RadioTermSelector, [{
+    key: "onChange",
+    value: function onChange(event) {
+      // @helgatheviking
+      var _this$props = this.props,
+          onUpdateTerms = _this$props.onUpdateTerms,
+          taxonomy = _this$props.taxonomy;
+      var termId = parseInt(event.target.value, 10);
+      onUpdateTerms([termId], taxonomy.rest_base);
+    }
+  }, {
+    key: "onChangeFormName",
+    value: function onChangeFormName(event) {
+      var newValue = event.target.value.trim() === '' ? '' : event.target.value;
+      this.setState({
+        formName: newValue
+      });
+    }
+  }, {
+    key: "onChangeFormParent",
+    value: function onChangeFormParent(newParent) {
+      this.setState({
+        formParent: newParent
+      });
+    }
+  }, {
+    key: "onToggleForm",
+    value: function onToggleForm() {
+      this.setState(function (state) {
+        return {
+          showForm: !state.showForm
+        };
+      });
+    }
+  }, {
+    key: "findTerm",
+    value: function findTerm(terms, parent, name) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_9__["find"])(terms, function (term) {
+        return (!term.parent && !parent || parseInt(term.parent) === parseInt(parent)) && term.name.toLowerCase() === name.toLowerCase();
+      });
+    }
+  }, {
+    key: "onAddTerm",
+    value: function onAddTerm(event) {
+      var _this2 = this;
+
+      event.preventDefault();
+      var _this$props2 = this.props,
+          onUpdateTerms = _this$props2.onUpdateTerms,
+          taxonomy = _this$props2.taxonomy,
+          terms = _this$props2.terms,
+          slug = _this$props2.slug;
+      var _this$state = this.state,
+          formName = _this$state.formName,
+          formParent = _this$state.formParent,
+          adding = _this$state.adding,
+          availableTerms = _this$state.availableTerms;
+
+      if (formName === '' || adding) {
+        return;
+      } // check if the term we are adding already exists
+
+
+      var existingTerm = this.findTerm(availableTerms, formParent, formName);
+
+      if (existingTerm) {
+        // if the term we are adding exists but is not selected select it
+        if (!Object(lodash__WEBPACK_IMPORTED_MODULE_9__["some"])(terms, function (term) {
+          return term === existingTerm.id;
+        })) {
+          onUpdateTerms([existingTerm.id], taxonomy.rest_base); // @helgatheviking
+        }
+
+        this.setState({
+          formName: '',
+          formParent: ''
+        });
+        return;
+      }
+
+      this.setState({
+        adding: true
+      });
+      this.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
+        path: "/wp/v2/".concat(taxonomy.rest_base),
+        method: 'POST',
+        data: {
+          name: formName,
+          parent: formParent ? formParent : undefined
+        }
+      }); // Tries to create a term or fetch it if it already exists
+
+      var findOrCreatePromise = this.addRequest.catch(function (error) {
+        var errorCode = error.code;
+
+        if (errorCode === 'term_exists') {
+          // search the new category created since last fetch
+          _this2.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
+            path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), _objectSpread(_objectSpread({}, DEFAULT_QUERY), {}, {
+              parent: formParent || 0,
+              search: formName
+            }))
+          });
+          return _this2.addRequest.then(function (searchResult) {
+            return _this2.findTerm(searchResult, formParent, formName);
+          });
+        }
+
+        return Promise.reject(error);
+      });
+      findOrCreatePromise.then(function (term) {
+        var hasTerm = !!Object(lodash__WEBPACK_IMPORTED_MODULE_9__["find"])(_this2.state.availableTerms, function (availableTerm) {
+          return availableTerm.id === term.id;
+        });
+        var newAvailableTerms = hasTerm ? _this2.state.availableTerms : [term].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(_this2.state.availableTerms));
+        var termAddedMessage = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_x"])('%s added', 'term'), Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(_this2.props.taxonomy, ['labels', 'singular_name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Category') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Term')));
+
+        _this2.props.speak(termAddedMessage, 'assertive');
+
+        _this2.addRequest = null;
+
+        _this2.setState({
+          adding: false,
+          formName: '',
+          formParent: '',
+          availableTerms: newAvailableTerms,
+          availableTermsTree: _this2.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_16__["buildTermsTree"])(newAvailableTerms))
+        });
+
+        onUpdateTerms([term.id], taxonomy.rest_base); // @helgatheviking
+      }, function (xhr) {
+        if (xhr.statusText === 'abort') {
+          return;
+        }
+
+        _this2.addRequest = null;
+
+        _this2.setState({
+          adding: false
+        });
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.fetchTerms();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      Object(lodash__WEBPACK_IMPORTED_MODULE_9__["invoke"])(this.fetchRequest, ['abort']);
+      Object(lodash__WEBPACK_IMPORTED_MODULE_9__["invoke"])(this.addRequest, ['abort']);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.taxonomy !== prevProps.taxonomy) {
+        this.fetchTerms();
+      }
+    }
+  }, {
+    key: "fetchTerms",
+    value: function fetchTerms() {
+      var _this3 = this;
+
+      var taxonomy = this.props.taxonomy;
+
+      if (!taxonomy) {
+        return;
+      }
+
+      this.fetchRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
+        path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), DEFAULT_QUERY)
+      });
+      this.fetchRequest.then(function (terms) {
+        // resolve
+        var availableTermsTree = _this3.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_16__["buildTermsTree"])(terms));
+
+        _this3.fetchRequest = null;
+
+        _this3.setState({
+          loading: false,
+          availableTermsTree: availableTermsTree,
+          availableTerms: terms
+        });
+      }, function (xhr) {
+        // reject
+        if (xhr.statusText === 'abort') {
+          return;
+        }
+
+        _this3.fetchRequest = null;
+
+        _this3.setState({
+          loading: false
+        });
+      });
+    }
+  }, {
+    key: "sortBySelected",
+    value: function sortBySelected(termsTree) {
+      var terms = this.props.terms;
+
+      var treeHasSelection = function treeHasSelection(termTree) {
+        if (terms.indexOf(termTree.id) !== -1) {
+          return true;
+        }
+
+        if (undefined === termTree.children) {
+          return false;
+        }
+
+        var anyChildIsSelected = termTree.children.map(treeHasSelection).filter(function (child) {
+          return child;
+        }).length > 0;
+
+        if (anyChildIsSelected) {
+          return true;
+        }
+
+        return false;
+      };
+
+      var termOrChildIsSelected = function termOrChildIsSelected(termA, termB) {
+        var termASelected = treeHasSelection(termA);
+        var termBSelected = treeHasSelection(termB);
+
+        if (termASelected === termBSelected) {
+          return 0;
+        }
+
+        if (termASelected && !termBSelected) {
+          return -1;
+        }
+
+        if (!termASelected && termBSelected) {
+          return 1;
+        }
+
+        return 0;
+      };
+
+      termsTree.sort(termOrChildIsSelected);
+      return termsTree;
+    }
+  }, {
+    key: "setFilterValue",
+    value: function setFilterValue(event) {
+      var availableTermsTree = this.state.availableTermsTree;
+      var filterValue = event.target.value;
+      var filteredTermsTree = availableTermsTree.map(this.getFilterMatcher(filterValue)).filter(function (term) {
+        return term;
+      });
+
+      var getResultCount = function getResultCount(terms) {
+        var count = 0;
+
+        for (var i = 0; i < terms.length; i++) {
+          count++;
+
+          if (undefined !== terms[i].children) {
+            count += getResultCount(terms[i].children);
+          }
+        }
+
+        return count;
+      };
+
+      this.setState({
+        filterValue: filterValue,
+        filteredTermsTree: filteredTermsTree
+      });
+      var resultCount = getResultCount(filteredTermsTree);
+      var resultsFoundMessage = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_n"])('%d result found.', '%d results found.', resultCount), resultCount);
+      this.props.debouncedSpeak(resultsFoundMessage, 'assertive');
+    }
+  }, {
+    key: "getFilterMatcher",
+    value: function getFilterMatcher(filterValue) {
+      var matchTermsForFilter = function matchTermsForFilter(originalTerm) {
+        if ('' === filterValue) {
+          return originalTerm;
+        } // Shallow clone, because we'll be filtering the term's children and
+        // don't want to modify the original term.
+
+
+        var term = _objectSpread({}, originalTerm); // Map and filter the children, recursive so we deal with grandchildren
+        // and any deeper levels.
+
+
+        if (term.children.length > 0) {
+          term.children = term.children.map(matchTermsForFilter).filter(function (child) {
+            return child;
+          });
+        } // If the term's name contains the filterValue, or it has children
+        // (i.e. some child matched at some point in the tree) then return it.
+
+
+        if (-1 !== term.name.toLowerCase().indexOf(filterValue.toLowerCase()) || term.children.length > 0) {
+          return term;
+        } // Otherwise, return false. After mapping, the list of terms will need
+        // to have false values filtered out.
+
+
+        return false;
+      };
+
+      return matchTermsForFilter;
+    }
+  }, {
+    key: "renderTerms",
+    value: function renderTerms(renderedTerms) {
+      var _this4 = this;
+
+      var _this$props3 = this.props,
+          _this$props3$terms = _this$props3.terms,
+          terms = _this$props3$terms === void 0 ? [] : _this$props3$terms,
+          taxonomy = _this$props3.taxonomy; // @helgatheviking
+
+      var klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
+
+      return renderedTerms.map(function (term) {
+        var id = "editor-post-taxonomies-".concat(klass, "-term-").concat(term.id); // @helgatheviking
+
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", {
+          key: term.id,
+          className: 'editor-post-taxonomies__' + klass + '-terms-choice '
+        }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("input", {
+          id: id,
+          className: 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input',
+          type: "radio" // @helgatheviking
+          ,
+          checked: terms.indexOf(term.id) !== -1,
+          value: term.id,
+          onChange: _this4.onChange,
+          name: 'radio_tax_input-' + _this4.props.slug // @helgatheviking
+
+        }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("label", {
+          htmlFor: id
+        }, Object(lodash__WEBPACK_IMPORTED_MODULE_9__["unescape"])(term.name)), !!term.children.length && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", {
+          className: 'editor-post-taxonomies__' + klass + '-terms-subchoices '
+        }, _this4.renderTerms(term.children)));
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props4 = this.props,
+          slug = _this$props4.slug,
+          taxonomy = _this$props4.taxonomy,
+          instanceId = _this$props4.instanceId,
+          hasCreateAction = _this$props4.hasCreateAction,
+          hasAssignAction = _this$props4.hasAssignAction;
+      var klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
+
+      if (!hasAssignAction) {
+        return null;
+      }
+
+      var _this$state2 = this.state,
+          availableTermsTree = _this$state2.availableTermsTree,
+          availableTerms = _this$state2.availableTerms,
+          filteredTermsTree = _this$state2.filteredTermsTree,
+          formName = _this$state2.formName,
+          formParent = _this$state2.formParent,
+          loading = _this$state2.loading,
+          showForm = _this$state2.showForm,
+          filterValue = _this$state2.filterValue;
+
+      var labelWithFallback = function labelWithFallback(labelProperty, fallbackIsCategory, fallbackIsNotCategory) {
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(taxonomy, ['labels', labelProperty], slug === 'category' ? fallbackIsCategory : fallbackIsNotCategory);
+      };
+
+      var newTermButtonLabel = labelWithFallback('add_new_item', Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add new category'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add new term'));
+      var newTermLabel = labelWithFallback('new_item_name', Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add new category'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add new term'));
+      var parentSelectLabel = labelWithFallback('parent_item', Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Parent Category'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Parent Term'));
+      var noParentOption = "\u2014 ".concat(parentSelectLabel, " \u2014");
+      var newTermSubmitLabel = newTermButtonLabel;
+      var inputId = "editor-post-taxonomies__".concat(klass, "-terms-input-").concat(instanceId); // @helgatheviking
+
+      var filterInputId = "editor-post-taxonomies__".concat(klass, "-terms-filter-").concat(instanceId); // @helgatheviking
+
+      var filterLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(this.props.taxonomy, ['labels', 'search_items'], Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Search Terms'));
+      var groupLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(this.props.taxonomy, ['name'], Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Terms'));
+      var showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
+      return [showFilter && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("label", {
+        key: "filter-label",
+        htmlFor: filterInputId
+      }, filterLabel), showFilter && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("input", {
+        type: "search",
+        id: filterInputId,
+        value: filterValue,
+        onChange: this.setFilterValue,
+        className: "editor-post-taxonomies__hierarchical-terms-filter",
+        key: "term-filter-input"
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", {
+        className: "editor-post-taxonomies__hierarchical-terms-list",
+        key: "term-list",
+        tabIndex: "0",
+        role: "group",
+        "aria-label": groupLabel
+      }, this.renderTerms('' !== filterValue ? filteredTermsTree : availableTermsTree)), !loading && hasCreateAction && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+        key: "term-add-button",
+        onClick: this.onToggleForm,
+        className: "editor-post-taxonomies__hierarchical-terms-add",
+        "aria-expanded": showForm,
+        isLink: true
+      }, newTermButtonLabel), showForm && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("form", {
+        onSubmit: this.onAddTerm,
+        key: klass + '-terms-form'
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("label", {
+        htmlFor: inputId,
+        className: "editor-post-taxonomies__hierarchical-terms-label"
+      }, newTermLabel), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("input", {
+        type: "text",
+        id: inputId,
+        className: "editor-post-taxonomies__hierarchical-terms-input",
+        value: formName,
+        onChange: this.onChangeFormName,
+        required: true
+      }), taxonomy.hierarchical && !!availableTerms.length && // @helgatheviking
+      Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["TreeSelect"], {
+        label: parentSelectLabel,
+        noOptionLabel: noParentOption,
+        onChange: this.onChangeFormParent,
+        selectedId: formParent,
+        tree: availableTermsTree
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+        isSecondary: true,
+        type: "submit",
+        className: "editor-post-taxonomies__hierarchical-terms-submit"
+      }, newTermSubmitLabel))];
+    }
+  }]);
+
+  return RadioTermSelector;
+}(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_13__["compose"])([Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__["withSelect"])(function (select, _ref) {
+  var slug = _ref.slug;
+
+  var _select = select('core/editor'),
+      getCurrentPost = _select.getCurrentPost;
+
+  var _select2 = select('core'),
+      getTaxonomy = _select2.getTaxonomy;
+
+  var taxonomy = getTaxonomy(slug);
+  return {
+    hasCreateAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(getCurrentPost(), ['_links', 'wp:action-create-' + taxonomy.rest_base], false) : false,
+    hasAssignAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(getCurrentPost(), ['_links', 'wp:action-assign-' + taxonomy.rest_base], false) : false,
+    terms: taxonomy ? select('core/editor').getEditedPostAttribute(taxonomy.rest_base) : [],
+    taxonomy: taxonomy
+  };
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__["withDispatch"])(function (dispatch) {
+  return {
+    onUpdateTerms: function onUpdateTerms(terms, restBase) {
+      dispatch('core/editor').editPost(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()({}, restBase, terms));
+    }
+  };
+}), _wordpress_components__WEBPACK_IMPORTED_MODULE_11__["withSpokenMessages"], _wordpress_compose__WEBPACK_IMPORTED_MODULE_13__["withInstanceId"] //withFilters( 'editor.PostTaxonomyType' ), // Intentionally commented out.
+])(RadioTermSelector));
+
+/***/ }),
+
+/***/ "./js/src/terms.js":
+/*!*************************!*\
+  !*** ./js/src/terms.js ***!
+  \*************************/
+/*! exports provided: buildTermsTree */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buildTermsTree", function() { return buildTermsTree; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Returns terms in a tree form.
+ *
+ * @param {Array} flatTerms  Array of terms in flat format.
+ *
+ * @return {Array} Array of terms in tree format.
+ */
+
+function buildTermsTree(flatTerms) {
+  var flatTermsWithParentAndChildren = flatTerms.map(function (term) {
+    return _objectSpread({
+      children: [],
+      parent: null
+    }, term);
+  });
+  var termsByParent = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["groupBy"])(flatTermsWithParentAndChildren, 'parent');
+
+  if (termsByParent.null && termsByParent.null.length) {
+    return flatTermsWithParentAndChildren;
+  }
+
+  var fillWithChildren = function fillWithChildren(terms) {
+    return terms.map(function (term) {
+      var children = termsByParent[term.id];
+      return _objectSpread(_objectSpread({}, term), {}, {
+        children: children && children.length ? fillWithChildren(children) : []
+      });
+    });
+  };
+
+  return fillWithChildren(termsByParent['0'] || []);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+module.exports = _arrayLikeToArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray */ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray(arr);
+}
+
+module.exports = _arrayWithoutHoles;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+module.exports = _assertThisInitialized;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+module.exports = _classCallCheck;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+module.exports = _createClass;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+module.exports = _getPrototypeOf;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/inherits.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf */ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js");
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+module.exports = _inherits;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/iterableToArray.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArray.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+
+module.exports = _iterableToArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+module.exports = _nonIterableSpread;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _typeof = __webpack_require__(/*! ../helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
+
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return assertThisInitialized(self);
+}
+
+module.exports = _possibleConstructorReturn;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/toConsumableArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
+
+var iterableToArray = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/iterableToArray.js");
+
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray */ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
+
+var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js");
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray */ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+}
+
+module.exports = _unsupportedIterableToArray;
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!*******************************************!*\
+  !*** external {"this":["wp","apiFetch"]} ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!*********************************************!*\
+  !*** external {"this":["wp","components"]} ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/compose":
+/*!******************************************!*\
+  !*** external {"this":["wp","compose"]} ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!***************************************!*\
+  !*** external {"this":["wp","data"]} ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["data"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!******************************************!*\
+  !*** external {"this":["wp","element"]} ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!***************************************!*\
+  !*** external {"this":["wp","i18n"]} ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/url":
+/*!**************************************!*\
+  !*** external {"this":["wp","url"]} ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
+
+/***/ }),
+
+/***/ "lodash":
+/*!**********************************!*\
+  !*** external {"this":"lodash"} ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=index.js.map
