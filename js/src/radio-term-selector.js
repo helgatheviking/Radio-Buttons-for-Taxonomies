@@ -322,8 +322,8 @@ class RadioTermSelector extends Component {
 			return (
 				<div key={ term.id } className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
 					<input
-						id={ id } 
-						className={ 'editor-post-taxonomies__' + klass + '-terms-input ' }
+						id={ id }
+						className={ 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input' }
 						type="radio" // @helgatheviking
 						checked={ terms.indexOf( term.id ) !== -1 }
 						value={ term.id }
@@ -372,7 +372,7 @@ class RadioTermSelector extends Component {
 		);
 		const noParentOption = `— ${ parentSelectLabel } —`;
 		const newTermSubmitLabel = newTermButtonLabel;
-		const inputId = `editor-post-taxonomies__${ klass }-terms-input-${ instanceId }`; // @helgatheviking			
+		const inputId = `editor-post-taxonomies__${ klass }-terms-input-${ instanceId }`; // @helgatheviking
 		const filterInputId = `editor-post-taxonomies__${ klass }-terms-filter-${ instanceId }`; // @helgatheviking
 		const filterLabel = get(
 			this.props.taxonomy,
