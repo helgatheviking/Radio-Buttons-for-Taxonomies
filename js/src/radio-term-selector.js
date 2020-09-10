@@ -5,16 +5,14 @@
 /**
  * External dependencies
  */
-import { get, unescape as unescapeString, without, find, some, invoke } from 'lodash';
+import { get, unescape as unescapeString, find, some, invoke } from 'lodash';
 
 /**
  * WordPress dependencies
  */
 import { __, _x, _n, sprintf } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
-import { TreeSelect, withSpokenMessages, withFilters, Button } from '@wordpress/components';
-import { withSelect, withDispatch } from '@wordpress/data';
-import { withInstanceId, compose } from '@wordpress/compose';
+import { TreeSelect, Button } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
@@ -458,24 +456,4 @@ class RadioTermSelector extends Component {
 	}
 }
 
-export default compose( [
-	withSelect( ( select, { slug } ) => {
-		const { getCurrentPost } = select( 'core/editor' );
-		const { getTaxonomy } = select( 'core' );
-		const taxonomy = getTaxonomy( slug );
-		return {
-			hasCreateAction: taxonomy ? get( getCurrentPost(), [ '_links', 'wp:action-create-' + taxonomy.rest_base ], false ) : false,
-			hasAssignAction: taxonomy ? get( getCurrentPost(), [ '_links', 'wp:action-assign-' + taxonomy.rest_base ], false ) : false,
-			terms: taxonomy ? select( 'core/editor' ).getEditedPostAttribute( taxonomy.rest_base ) : [],
-			taxonomy,
-		};
-	} ),
-	withDispatch( ( dispatch ) => ( {
-		onUpdateTerms( terms, restBase ) {
-			dispatch( 'core/editor' ).editPost( { [ restBase ]: terms } );
-		},
-	} ) ),
-	withSpokenMessages,
-	withInstanceId,
-	//withFilters( 'editor.PostTaxonomyType' ), // Intentionally commented out.
-] )( RadioTermSelector );
+export default RadioTermSelector;

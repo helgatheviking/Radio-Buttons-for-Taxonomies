@@ -150,15 +150,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
-/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _terms__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./terms */ "./js/src/terms.js");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _terms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./terms */ "./js/src/terms.js");
 
 
 
@@ -188,8 +184,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -329,7 +323,7 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
       this.setState({
         adding: true
       });
-      this.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
+      this.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12___default()({
         path: "/wp/v2/".concat(taxonomy.rest_base),
         method: 'POST',
         data: {
@@ -343,8 +337,8 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
 
         if (errorCode === 'term_exists') {
           // search the new category created since last fetch
-          _this2.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
-            path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), _objectSpread(_objectSpread({}, DEFAULT_QUERY), {}, {
+          _this2.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12___default()({
+            path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_13__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), _objectSpread(_objectSpread({}, DEFAULT_QUERY), {}, {
               parent: formParent || 0,
               search: formName
             }))
@@ -372,7 +366,7 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
           formName: '',
           formParent: '',
           availableTerms: newAvailableTerms,
-          availableTermsTree: _this2.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_16__["buildTermsTree"])(newAvailableTerms))
+          availableTermsTree: _this2.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_14__["buildTermsTree"])(newAvailableTerms))
         });
 
         onUpdateTerms([term.id], taxonomy.rest_base); // @helgatheviking
@@ -417,12 +411,12 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      this.fetchRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_14___default()({
-        path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_15__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), DEFAULT_QUERY)
+      this.fetchRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12___default()({
+        path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_13__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), DEFAULT_QUERY)
       });
       this.fetchRequest.then(function (terms) {
         // resolve
-        var availableTermsTree = _this3.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_16__["buildTermsTree"])(terms));
+        var availableTermsTree = _this3.sortBySelected(Object(_terms__WEBPACK_IMPORTED_MODULE_14__["buildTermsTree"])(terms));
 
         _this3.fetchRequest = null;
 
@@ -684,30 +678,7 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
   return RadioTermSelector;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_13__["compose"])([Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__["withSelect"])(function (select, _ref) {
-  var slug = _ref.slug;
-
-  var _select = select('core/editor'),
-      getCurrentPost = _select.getCurrentPost;
-
-  var _select2 = select('core'),
-      getTaxonomy = _select2.getTaxonomy;
-
-  var taxonomy = getTaxonomy(slug);
-  return {
-    hasCreateAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(getCurrentPost(), ['_links', 'wp:action-create-' + taxonomy.rest_base], false) : false,
-    hasAssignAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(getCurrentPost(), ['_links', 'wp:action-assign-' + taxonomy.rest_base], false) : false,
-    terms: taxonomy ? select('core/editor').getEditedPostAttribute(taxonomy.rest_base) : [],
-    taxonomy: taxonomy
-  };
-}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__["withDispatch"])(function (dispatch) {
-  return {
-    onUpdateTerms: function onUpdateTerms(terms, restBase) {
-      dispatch('core/editor').editPost(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()({}, restBase, terms));
-    }
-  };
-}), _wordpress_components__WEBPACK_IMPORTED_MODULE_11__["withSpokenMessages"], _wordpress_compose__WEBPACK_IMPORTED_MODULE_13__["withInstanceId"] //withFilters( 'editor.PostTaxonomyType' ), // Intentionally commented out.
-])(RadioTermSelector));
+/* harmony default export */ __webpack_exports__["default"] = (RadioTermSelector);
 
 /***/ }),
 
@@ -1107,28 +1078,6 @@ module.exports = _unsupportedIterableToArray;
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/compose":
-/*!******************************************!*\
-  !*** external {"this":["wp","compose"]} ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/data":
-/*!***************************************!*\
-  !*** external {"this":["wp","data"]} ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 
