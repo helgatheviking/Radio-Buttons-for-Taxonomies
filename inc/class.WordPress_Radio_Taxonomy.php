@@ -352,7 +352,7 @@ class WordPress_Radio_Taxonomy {
 					'parent' => '0',
 				 );
 
-				array_push( $terms, $uncategorized );
+				array_push( $terms, new WP_Term( $uncategorized ) );
 
 			}
 
