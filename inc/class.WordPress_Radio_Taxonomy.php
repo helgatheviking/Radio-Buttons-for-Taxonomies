@@ -343,7 +343,7 @@ class WordPress_Radio_Taxonomy {
 				$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
 
 				$uncategorized = (object) array( 
-					'term_id' => '0',
+					'term_id' => 0,
 					'count' => 0,
 					'description' => '',
 					'name' => $no_term,
