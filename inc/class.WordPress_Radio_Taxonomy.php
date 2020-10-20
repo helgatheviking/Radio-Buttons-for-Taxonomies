@@ -141,7 +141,7 @@ class WordPress_Radio_Taxonomy {
 
 		// Get first term, a single term.
 		$single_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
-		$single_term_id = $single_term ? (int) $single_term->term_id : 0;
+		$single_term_id = $single_term ? (int) $single_term->term_id : -1;
 
 		wp_nonce_field( 'radio_nonce-' . $tax_name, '_radio_nonce-' . $tax_name );
 
@@ -353,7 +353,7 @@ class WordPress_Radio_Taxonomy {
 				$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
 
 				$uncategorized = (object) array( 
-					'term_id' => 0,
+					'term_id' => -1,
 					'count' => 0,
 					'description' => '',
 					'name' => $no_term,
@@ -466,14 +466,19 @@ class WordPress_Radio_Taxonomy {
 		// OK, we must be authenticated by now: we need to find and save the data.
 		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
 
-			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"]; 
+			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"];
+
 
 			// If category and not saving any terms, set to default.
 			if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
 				$single_term = intval( get_option( 'default_category' ) );
+			} else {
+				// Make sure we're only saving 1 term.
+				$single_term = intval( array_shift( $terms ) );
 			}
 
-			$single_term = intval( array_shift( $terms ) );
+			// "No term" is now coming in as -1, so we need to set it back to 0.
+			$single_term = $single_term > 0 ? $single_term : 0;
 
 			// Set the single terms.
 			if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {

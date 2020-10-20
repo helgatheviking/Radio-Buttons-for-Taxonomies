@@ -409,7 +409,7 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
 
       if (!taxonomy) {
         return;
-      } // Send extra param to api so we know to filter it serverside.
+      } // @helgatheviking Send extra param to api so we know to filter it serverside.
 
 
       this.fetchRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_12___default()({
@@ -567,6 +567,8 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
       return renderedTerms.map(function (term) {
         var id = "editor-post-taxonomies-".concat(klass, "-term-").concat(term.id); // @helgatheviking
 
+        var isChecked = terms.indexOf(term.id) !== -1 || term.id === -1 && Object.keys(terms).length === 0; // @helgatheviking - if term is -1 and no terms, check the "no term" option.
+
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", {
           key: term.id,
           className: 'editor-post-taxonomies__' + klass + '-terms-choice '
@@ -575,7 +577,7 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
           className: 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input',
           type: "radio" // @helgatheviking
           ,
-          checked: terms.indexOf(term.id) !== -1,
+          checked: isChecked,
           value: term.id,
           onChange: _this4.onChange,
           name: 'radio_tax_input-' + _this4.props.slug // @helgatheviking

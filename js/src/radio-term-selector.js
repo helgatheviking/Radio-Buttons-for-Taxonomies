@@ -190,7 +190,7 @@ class RadioTermSelector extends Component {
 		if ( ! taxonomy ) {
 			return;
 		}
-		// Send extra param to api so we know to filter it serverside.
+		// @helgatheviking Send extra param to api so we know to filter it serverside.
 		this.fetchRequest = apiFetch( {
 			path: addQueryArgs(
 				`/wp/v2/${ taxonomy.rest_base }`,
@@ -321,13 +321,14 @@ class RadioTermSelector extends Component {
 
 		return renderedTerms.map( ( term ) => {
 			const id = `editor-post-taxonomies-${ klass }-term-${ term.id }`; // @helgatheviking
+			const isChecked = terms.indexOf( term.id ) !== -1 || ( term.id === -1 && Object.keys(terms).length === 0 ); // @helgatheviking - if term is -1 and no terms, check the "no term" option.
 			return (
 				<div key={ term.id } className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
 					<input
 						id={ id }
 						className={ 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input' }
 						type="radio" // @helgatheviking
-						checked={ terms.indexOf( term.id ) !== -1 }
+						checked={ isChecked }
 						value={ term.id }
 						onChange={ this.onChange }
 						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
