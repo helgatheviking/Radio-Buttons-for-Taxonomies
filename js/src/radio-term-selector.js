@@ -190,8 +190,12 @@ class RadioTermSelector extends Component {
 		if ( ! taxonomy ) {
 			return;
 		}
+		// Send extra param to api so we know to filter it serverside.
 		this.fetchRequest = apiFetch( {
-			path: addQueryArgs( `/wp/v2/${ taxonomy.rest_base }`, DEFAULT_QUERY ),
+			path: addQueryArgs(
+				`/wp/v2/${ taxonomy.rest_base }`,
+					{ ...DEFAULT_QUERY, is_radio: true }
+				),
 		} );
 		this.fetchRequest.then(
 			( terms ) => { // resolve

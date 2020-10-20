@@ -67,7 +67,11 @@ class WordPress_Radio_Taxonomy {
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
 
 		// add nonce to quick edit/bulk edit
-		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_nonce' ) );	
+		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_nonce' ) );
+
+		// Add "no term" to rest result for Gutenberg sidebar.
+		add_filter( 'rest_'. $taxonomy . '_collection_params', array( $this, 'collection_params' ), 10, 2 );
+		add_filter( 'rest_'. $taxonomy . '_query', array( $this, 'rest_query' ), 10, 2 );
 
 	}
 
@@ -332,12 +336,18 @@ class WordPress_Radio_Taxonomy {
 	function get_terms( $terms, $taxonomies, $args ) { 
 
 		// Only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
-		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
-			&& isset( $args['fields'] ) && $args['fields'] == 'all' 
-			&& $this->get_terms_filter() ) ) {
+		if ( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
+			&& isset( $args['fields'] ) && $args['fields'] == 'all' ) {
 
+			$no_term = false;
 
-			if ( apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $this->taxonomy, true ) ) {
+			if ( ! empty( $args['is_radio'] ) ) {
+				$no_term = true;
+			} else {
+				$no_term = $this->get_terms_filter();
+			}
+
+			if ( apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $this->taxonomy, $no_term ) ) {
 
 				$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
 				$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
@@ -505,6 +515,53 @@ class WordPress_Radio_Taxonomy {
 		
 	}
 
+
+	/**
+	 * Rest terms query. Tell get_terms() to include a "no-terms" option
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param array       $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Taxonomy $taxonomy     Taxonomy object.
+	 * @return  array]
+	 */
+	public function collection_params( $query_params, $taxonomy ) {
+
+		$query_params['is_radio'] = array(
+				'description' => __( 'Whether this request is for a radio checklist.', 'radio-buttons-for-taxonomies' ),
+				'type'        => 'boolean',
+			);	
+
+		return $query_params;
+	}
+
+
+	/**
+	 * Rest terms query. Tell get_terms() to include a "no-terms" option
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param array           $prepared_args Array of arguments to be
+	 *                                       passed to get_terms().
+	 * @param WP_REST_Request $request       The current request.
+	 * @return  array
+	 */
+	public function rest_query( $prepared_args, $request ) {
+		
+		$request_params = $request->get_params();
+
+		// Only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
+		if( isset( $prepared_args['taxonomy'] ) && $this->taxonomy === $prepared_args['taxonomy'] && ! empty( $request_params['is_radio'] ) ) {
+
+			// Turn the switch ON.
+			$this->set_terms_filter();
+
+			$prepared_args['is_radio'] = $this->get_terms_filter();
+
+		}
+		
+		return $prepared_args;
+	}
 
 } //end class - do NOT remove or else
 endif;
