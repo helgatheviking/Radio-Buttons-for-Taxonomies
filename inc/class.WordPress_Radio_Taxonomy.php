@@ -22,7 +22,7 @@ class WordPress_Radio_Taxonomy {
 	* @var boolean - whether to filter get_terms() or not
 	* @since 1.7.0
 	*/
-	private $set = true;
+	private $set = false;
 
 	/**
 	* @var boolean - whether to print Nonce or not
@@ -50,6 +50,9 @@ class WordPress_Radio_Taxonomy {
 
 		// change checkboxes to radios & trigger get_terms() filter
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
+
+		// Maybe filter get_terms() to add "No term" option.
+		add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 		// Add ajax callback for adding a non-hierarchical term
 		if( Radio_Buttons_for_Taxonomies()->is_wp_version_gte('4.4.0') ){
@@ -180,7 +183,7 @@ class WordPress_Radio_Taxonomy {
 				</ul>
 			</div>
 			
-	<?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
+		<?php if ( current_user_can( $taxonomy->cap->edit_terms ) ) : ?>
 			<div id="<?php echo $tax_name; ?>-adder" class="wp-hidden-children">
 				<a id="<?php echo $tax_name; ?>-add-toggle" href="#<?php echo $tax_name; ?>-add" class="hide-if-no-js taxonomy-add-new">
 					<?php
@@ -259,11 +262,10 @@ class WordPress_Radio_Taxonomy {
 	public function filter_terms_checklist_args( $args ) {
 
 		// define our custom Walker
-		if( isset( $args['taxonomy']) && $this->taxonomy == $args['taxonomy'] ) {
+		if( isset( $args['taxonomy'] ) && $this->taxonomy === $args['taxonomy'] ) {
 
 			// add a filter to get_terms() but only for radio lists
 			$this->set_terms_filter( true );
-			add_filter( 'get_terms', array( $this, 'get_terms' ), 10, 3 );
 
 			$args['walker'] = new Walker_Category_Radio;
 		}
@@ -302,17 +304,18 @@ class WordPress_Radio_Taxonomy {
 		$this->set = (bool) $_set;
 	}
 
+
 	/**
-	 * Only filter get_terms() in the wp_terms_checklist() function
+	 * Only filter get_terms() in the specific instances.
 	 *
+	 * @since 1.7.0
+	 * 	 
 	 * @access public
 	 * @param  bool $_set
 	 * @return bool
-	 * @since 1.7.0
 	 */
 	private function get_terms_filter() {
-		// give users a chance to disable the no term feature
-		return apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $this->taxonomy, $this->set );
+		return $this->set;
 	}
 
 
@@ -326,24 +329,35 @@ class WordPress_Radio_Taxonomy {
 	 * @return array
 	 * @since 1.4
 	 */
-	function get_terms( $terms, $taxonomies, $args ){
+	function get_terms( $terms, $taxonomies, $args ) { 
 
-		// only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
+		// Only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
 		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
-			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->get_terms_filter() ){
+			&& isset( $args['fields'] ) && $args['fields'] == 'all' 
+			&& $this->get_terms_filter() ) ) {
 
-			// remove filter after 1st run
-			remove_filter( current_filter(), __FUNCTION__, 10, 3 );
 
-			// turn the switch OFF
-			$this->set_terms_filter( false ); 
+			if ( apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $this->taxonomy, true ) ) {
 
-			$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
-			$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
+				$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
+				$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
 
-			$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => $no_term, 'parent' => '0' );
+				$uncategorized = (object) array( 
+					'term_id' => '0',
+					'count' => 0,
+					'description' => '',
+					'name' => $no_term,
+					'slug' => '0',
+					'taxonomy' => $this->taxonomy,
+					'parent' => '0',
+				 );
 
-			array_push( $terms, $uncategorized );
+				array_push( $terms, $uncategorized );
+
+			}
+
+			// Turn the switch OFF.
+			$this->set_terms_filter( false );
 
 		}
 
