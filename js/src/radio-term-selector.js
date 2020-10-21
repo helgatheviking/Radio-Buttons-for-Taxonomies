@@ -422,12 +422,7 @@ class RadioTermSelector extends Component {
 						onChange={ this.clearTerms }
 						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
 					/>
-					<label htmlFor={ `editor-post-taxonomies-${ klass }-term-${ -1 }` }>{ unescapeString( term.name ) }</label>
-					{ !! term.children.length && (
-						<div className={ 'editor-post-taxonomies__' + klass + '-terms-subchoices ' }>
-							{ this.renderTerms( term.children ) }
-						</div>
-					) }
+					<label htmlFor={ `editor-post-taxonomies-${ klass }-term-${ -1 }` }>{ __( 'None' ) }</label>
 				</div>
 				{ this.renderTerms( '' !== filterValue ? filteredTermsTree : availableTermsTree ) }
 			</div>,
