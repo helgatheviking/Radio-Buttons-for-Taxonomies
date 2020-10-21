@@ -62,6 +62,11 @@ class RadioTermSelector extends Component {
 		const termId = parseInt( event.target.value, 10 );
 		onUpdateTerms( [ termId ], taxonomy.rest_base );
 	}
+	
+	clearTerms() {
+		const { onUpdateTerms, taxonomy } = this.props;
+		onUpdateTerms( [], taxonomy.rest_base );
+	}
 
 	onChangeFormName( event ) {
 		const newValue = event.target.value.trim() === '' ? '' : event.target.value;
@@ -383,6 +388,8 @@ class RadioTermSelector extends Component {
 			__( 'Terms' )
 		);
 		const showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
+		
+		const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical';
 
 		return [
 			showFilter && <label
@@ -405,6 +412,23 @@ class RadioTermSelector extends Component {
 				role="group"
 				aria-label={ groupLabel }
 			>
+				<div className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
+					<input
+						id={ `editor-post-taxonomies-${ klass }-term-${ -1 }` }
+						className={ 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input' }
+						type="radio" // @helgatheviking
+						checked={ terms.length === 0 }
+						value={ -1 }
+						onChange={ this.clearTerms }
+						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
+					/>
+					<label htmlFor={ `editor-post-taxonomies-${ klass }-term-${ -1 }` }>{ unescapeString( term.name ) }</label>
+					{ !! term.children.length && (
+						<div className={ 'editor-post-taxonomies__' + klass + '-terms-subchoices ' }>
+							{ this.renderTerms( term.children ) }
+						</div>
+					) }
+				</div>
 				{ this.renderTerms( '' !== filterValue ? filteredTermsTree : availableTermsTree ) }
 			</div>,
 			! loading && hasCreateAction && (
