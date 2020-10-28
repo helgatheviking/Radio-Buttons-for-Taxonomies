@@ -147,14 +147,13 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function delete_plugin_options() {
 		$options = get_option( 'radio_button_for_taxonomies_options', true );
-		if( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
+		if ( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
 	}
 
 	/**
 	 * Make plugin translation-ready
 	 *
 	 * @access public
-	 * @return void
 	 * @since  1.0
 	 */
 	public function load_text_domain() {
@@ -168,8 +167,8 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return object
 	 * @since  1.0
 	 */
-	public function launch( $taxonomy ){
-		if( in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) ) ) {
+	public function launch( $taxonomy ) {
+		if ( in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) ) ) {
 			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
 		}
 	}
@@ -185,7 +184,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return void
 	 * @since  1.0
 	 */
-	public function admin_init(){
+	public function admin_init() {
 		register_setting( 'radio_button_for_taxonomies_options', 'radio_button_for_taxonomies_options', array( $this, 'validate_options' ) );
 	}
 
@@ -227,9 +226,9 @@ class Radio_Buttons_For_Taxonomies {
 		// Probably overkill, but make sure that the taxonomy actually exists and is one we're cool with modifying.
 		$taxonomies = $this->get_all_taxonomies();
 
-		if( isset( $input['taxonomies'] ) ) {
-			foreach ( $input['taxonomies'] as $tax ){
-				if( array_key_exists( $tax, $taxonomies ) ) {
+		if ( isset( $input['taxonomies'] ) ) {
+			foreach ( $input['taxonomies'] as $tax ) {
+				if ( array_key_exists( $tax, $taxonomies ) ) {
 					$clean['taxonomies'][] = $tax;
 				}
 			}
@@ -247,7 +246,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return void
 	 * @since  1.0
 	 */
-	public function admin_script( $hook ){
+	public function admin_script( $hook ) {
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 		wp_register_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
 
@@ -262,7 +261,7 @@ class Radio_Buttons_For_Taxonomies {
 		if ( 'post' === $screen_base || 'edit' === $screen_base ) {
 
 			// If the post type has a radio taxonomy.
-			if( $post_type && array_intersect( $this->options['taxonomies'], get_object_taxonomies( $post_type, 'names' ) ) ) {
+			if ( $post_type && array_intersect( $this->options['taxonomies'], get_object_taxonomies( $post_type, 'names' ) ) ) {
 				wp_enqueue_script( 'radiotax' );
 			}
 
@@ -320,7 +319,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since 1.7.8
 	 */
 	public function add_meta_links( $plugin_meta, $plugin_file ) {
-		if( $plugin_file == plugin_basename(__FILE__) ){
+		if ( $plugin_file == plugin_basename(__FILE__) ) {
 			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'radio-buttons-for-taxonomies' ) . '</a>';
 		}
 		return $plugin_meta;
@@ -384,7 +383,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return bool
 	 */
 	public function get_options( $option = false) {
-		if( ! $this->options ) {
+		if ( ! $this->options ) {
 
 			$defaults = array(
 				'taxonomies' => array(),
@@ -394,7 +393,7 @@ class Radio_Buttons_For_Taxonomies {
 
 		}
 
-		if( $option && isset( $this->options[ $option ] ) ) {
+		if ( $option && isset( $this->options[ $option ] ) ) {
 			return $this->options[ $option ];
 		} else {
 			return $this->options;

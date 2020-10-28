@@ -35,7 +35,7 @@ class WordPress_Radio_Taxonomy {
 	* @access public
 	* @since 1.0.0
 	*/
-	public function __construct( $taxonomy ){
+	public function __construct( $taxonomy ) {
 
 		$this->taxonomy = $taxonomy;
 
@@ -62,9 +62,6 @@ class WordPress_Radio_Taxonomy {
 
 		// hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
-
-		// add nonce to quick edit/bulk edit
-		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_nonce' ) );	
 
 	}
 
@@ -135,8 +132,6 @@ class WordPress_Radio_Taxonomy {
 		// Get first term, a single term.
 		$single_term = ! empty( $checked_terms ) && ! is_wp_error( $checked_terms ) ? array_pop( $checked_terms ) : false;
 		$single_term_id = $single_term ? (int) $single_term->term_id : 0;
-
-		wp_nonce_field( 'radio_nonce-' . $tax_name, '_radio_nonce-' . $tax_name );
 
 		?>
 		<div id="taxonomy-<?php echo $tax_name; ?>" class="radio-buttons-for-taxonomies categorydiv">
@@ -435,7 +430,7 @@ class WordPress_Radio_Taxonomy {
 			return $post_id;
 
 		// Verify nonce.
-		if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
+		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
 		}
 
@@ -481,8 +476,11 @@ class WordPress_Radio_Taxonomy {
 	 * Add nonces to quick edit and bulk edit
 	 *
 	 * @since 1.7.0
+	 * @deprecated 2.2.0
 	 */
 	public function quick_edit_nonce() {
+
+		_deprecated_function( __FUNCTION__, '2.2.0', 'Nonce is displayed automatically by the custom Walker.' );
 
 		if ( $this->printNonce ) {
 			$this->printNonce = FALSE;
