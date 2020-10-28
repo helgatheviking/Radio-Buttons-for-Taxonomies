@@ -430,7 +430,7 @@ class WordPress_Radio_Taxonomy {
 			return $post_id;
 
 		// Verify nonce.
-		if ( ! isset( $_POST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
+		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
 		}
 
