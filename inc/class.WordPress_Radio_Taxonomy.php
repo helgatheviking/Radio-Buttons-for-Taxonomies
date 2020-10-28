@@ -476,11 +476,11 @@ class WordPress_Radio_Taxonomy {
 	 * Add nonces to quick edit and bulk edit
 	 *
 	 * @since 1.7.0
-	 * @deprecated 2.1.0
+	 * @deprecated 2.2.0
 	 */
 	public function quick_edit_nonce() {
 
-		_deprecated_function( __FUNCTION__, '2.1.0', 'Nonce is displayed automatically by the custom Walker.' );
+		_deprecated_function( __FUNCTION__, '2.2.0', 'Nonce is displayed automatically by the custom Walker.' );
 
 		if ( $this->printNonce ) {
 			$this->printNonce = FALSE;
