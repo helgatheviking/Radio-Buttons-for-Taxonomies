@@ -10,6 +10,9 @@
  * @see wp_terms_checklist()
  */
 class Walker_Category_Radio extends Walker {
+
+	private $printed_nonce = false;
+
 	public $tree_type = 'category';
 	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
 
@@ -59,10 +62,17 @@ class Walker_Category_Radio extends Walker {
 	 * @param int    $id       ID of the current term.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+
 		if ( empty( $args['taxonomy'] ) ) {
 			$taxonomy = 'category';
 		} else {
 			$taxonomy = $args['taxonomy'];
+		}
+
+		// Force add nonce field, which is otherwise impossible in quick/bulk edit.
+		if ( ! $this->printed_nonce ) {
+			$output .= wp_nonce_field( 'radio_nonce-' . $taxonomy, '_radio_nonce-' . $taxonomy, true, false );
+			$this->printed_nonce = true;
 		}
 
 		/* RB4T mod: Replace default $name variable */
