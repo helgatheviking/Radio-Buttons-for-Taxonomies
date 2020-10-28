@@ -35,7 +35,7 @@ class WordPress_Radio_Taxonomy {
 	* @access public
 	* @since 1.0.0
 	*/
-	public function __construct( $taxonomy ){
+	public function __construct( $taxonomy ) {
 
 		$this->taxonomy = $taxonomy;
 
