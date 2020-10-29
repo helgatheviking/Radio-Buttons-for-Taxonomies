@@ -12,7 +12,7 @@ import { get, unescape as unescapeString, find, some, invoke } from 'lodash';
  */
 import { __, _x, _n, sprintf } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
-import { TreeSelect, Button } from '@wordpress/components';
+import { TreeSelect, RadioControl, Button } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
@@ -57,9 +57,8 @@ class RadioTermSelector extends Component {
 		};
 	}
 
-	onChange( event ) { // @helgatheviking
+	onChange( termId ) { // @helgatheviking
 		const { onUpdateTerms, taxonomy } = this.props;
-		const termId = parseInt( event.target.value, 10 );
 		onUpdateTerms( [ termId ], taxonomy.rest_base );
 	}
 
@@ -317,18 +316,20 @@ class RadioTermSelector extends Component {
 
 		return renderedTerms.map( ( term ) => {
 			const id = `editor-post-taxonomies-${ klass }-term-${ term.id }`; // @helgatheviking
+			const selected = terms.indexOf( term.id ) !== -1 ? term.id : 0;
+			
 			return (
 				<div key={ term.id } className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
-					<input
-						id={ id }
-						className={ 'editor-post-taxonomies__' + klass + '-terms-input components-radio-control__input' }
-						type="radio" // @helgatheviking
-						checked={ terms.indexOf( term.id ) !== -1 }
-						value={ term.id }
-						onChange={ this.onChange }
-						name={ 'radio_tax_input-' + this.props.slug } // @helgatheviking
+					<RadioControl
+						selected={ selected }
+						options={ [
+							{ label: unescapeString( term.name ), value: term.id },
+						] }
+						onChange={ () => {
+							const termId = parseInt( term.id, 10 );
+							this.onChange( termId );
+						} }
 					/>
-					<label htmlFor={ id }>{ unescapeString( term.name ) }</label>
 					{ !! term.children.length && (
 						<div className={ 'editor-post-taxonomies__' + klass + '-terms-subchoices ' }>
 							{ this.renderTerms( term.children ) }
