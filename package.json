@@ -1,7 +1,7 @@
 {
   "name": "radio-buttons-for-taxonomies",
   "author": "helgatheviking",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Use radio buttons for any taxonomy so users can only select 1 term at a time",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "wp-scripts build",
-    "start": "wp-scripts start"
+    "start": "wp-scripts start --webpack--devtool=source-map"
   },
   "devDependencies": {
     "@wordpress/scripts": "12.4.0",
@@ -30,6 +30,7 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-wp-i18n": "^1.0.3",
     "grunt-wp-readme-to-markdown": "~2.0.1",
+    "ignore-emit-webpack-plugin": "^2.0.3",
     "jshint-stylish": "~2.2.1",
     "load-grunt-tasks": "~5.1.0"
   }
