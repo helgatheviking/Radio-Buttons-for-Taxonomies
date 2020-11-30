@@ -250,6 +250,15 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
       onUpdateTerms([termId], taxonomy.rest_base);
     }
   }, {
+    key: "onClear",
+    value: function onClear() {
+      // @helgatheviking props @tomjn
+      var _this$props2 = this.props,
+          onUpdateTerms = _this$props2.onUpdateTerms,
+          taxonomy = _this$props2.taxonomy;
+      onUpdateTerms([], taxonomy.rest_base);
+    }
+  }, {
     key: "onChangeFormName",
     value: function onChangeFormName(event) {
       var newValue = event.target.value.trim() === '' ? '' : event.target.value;
@@ -286,11 +295,11 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       event.preventDefault();
-      var _this$props2 = this.props,
-          onUpdateTerms = _this$props2.onUpdateTerms,
-          taxonomy = _this$props2.taxonomy,
-          terms = _this$props2.terms,
-          slug = _this$props2.slug;
+      var _this$props3 = this.props,
+          onUpdateTerms = _this$props3.onUpdateTerms,
+          taxonomy = _this$props3.taxonomy,
+          terms = _this$props3.terms,
+          slug = _this$props3.slug;
       var _this$state = this.state,
           formName = _this$state.formName,
           formParent = _this$state.formParent,
@@ -553,10 +562,10 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
     value: function renderTerms(renderedTerms) {
       var _this4 = this;
 
-      var _this$props3 = this.props,
-          _this$props3$terms = _this$props3.terms,
-          terms = _this$props3$terms === void 0 ? [] : _this$props3$terms,
-          taxonomy = _this$props3.taxonomy; // @helgatheviking
+      var _this$props4 = this.props,
+          _this$props4$terms = _this$props4.terms,
+          terms = _this$props4$terms === void 0 ? [] : _this$props4$terms,
+          taxonomy = _this$props4.taxonomy; // @helgatheviking
 
       var klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
 
@@ -586,12 +595,16 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props4 = this.props,
-          slug = _this$props4.slug,
-          taxonomy = _this$props4.taxonomy,
-          instanceId = _this$props4.instanceId,
-          hasCreateAction = _this$props4.hasCreateAction,
-          hasAssignAction = _this$props4.hasAssignAction;
+      var _this5 = this;
+
+      var _this$props5 = this.props,
+          slug = _this$props5.slug,
+          taxonomy = _this$props5.taxonomy,
+          terms = _this$props5.terms,
+          instanceId = _this$props5.instanceId,
+          hasCreateAction = _this$props5.hasCreateAction,
+          hasAssignAction = _this$props5.hasAssignAction; // @helegatheviking
+
       var klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
 
       if (!hasAssignAction) {
@@ -624,6 +637,10 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
       var filterLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(this.props.taxonomy, ['labels', 'search_items'], Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Search Terms'));
       var groupLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(this.props.taxonomy, ['name'], Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Terms'));
       var showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
+      var noneSelected = terms.length ? 0 : -1; // @helgatheviking
+
+      var noneLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])( // @helgatheviking
+      Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_x"])('No %s', 'term', 'radio-buttons-for-taxonomies'), Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(this.props.taxonomy, ['labels', 'singular_name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Category') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Term')));
       return [showFilter && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("label", {
         key: "filter-label",
         htmlFor: filterInputId
@@ -640,7 +657,19 @@ var RadioTermSelector = /*#__PURE__*/function (_Component) {
         tabIndex: "0",
         role: "group",
         "aria-label": groupLabel
-      }, this.renderTerms('' !== filterValue ? filteredTermsTree : availableTermsTree)), !loading && hasCreateAction && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["Button"], {
+      }, this.renderTerms('' !== filterValue ? filteredTermsTree : availableTermsTree), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", {
+        key: "no-term",
+        className: 'editor-post-taxonomies__' + klass + '-terms-choice '
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["RadioControl"], {
+        selected: noneSelected,
+        options: [{
+          label: noneLabel,
+          value: -1
+        }],
+        onChange: function onChange() {
+          _this5.onClear();
+        }
+      }))), !loading && hasCreateAction && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["Button"], {
         key: "term-add-button",
         onClick: this.onToggleForm,
         className: "editor-post-taxonomies__hierarchical-terms-add",

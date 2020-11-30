@@ -62,6 +62,11 @@ class RadioTermSelector extends Component {
 		onUpdateTerms( [ termId ], taxonomy.rest_base );
 	}
 
+	onClear() { // @helgatheviking props @tomjn
+		const { onUpdateTerms, taxonomy } = this.props;
+		onUpdateTerms( [], taxonomy.rest_base );
+	}
+
 	onChangeFormName( event ) {
 		const newValue = event.target.value.trim() === '' ? '' : event.target.value;
 		this.setState( { formName: newValue } );
@@ -341,7 +346,7 @@ class RadioTermSelector extends Component {
 	}
 
 	render() {
-		const { slug, taxonomy, instanceId, hasCreateAction, hasAssignAction } = this.props;
+		const { slug, taxonomy, terms, instanceId, hasCreateAction, hasAssignAction } = this.props; // @helegatheviking
 		const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical'; // @helgatheviking
 
 		if ( ! hasAssignAction ) {
@@ -385,6 +390,16 @@ class RadioTermSelector extends Component {
 		);
 		const showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
 
+		const noneSelected = terms.length ? 0 : -1; // @helgatheviking
+		const noneLabel = sprintf( // @helgatheviking
+					_x( 'No %s', 'term', 'radio-buttons-for-taxonomies' ),
+					get(
+						this.props.taxonomy,
+						[ 'labels', 'singular_name' ],
+						slug === 'category' ? __( 'Category' ) : __( 'Term' )
+					)
+				);
+
 		return [
 			showFilter && <label
 				key="filter-label"
@@ -407,6 +422,19 @@ class RadioTermSelector extends Component {
 				aria-label={ groupLabel }
 			>
 				{ this.renderTerms( '' !== filterValue ? filteredTermsTree : availableTermsTree ) }
+
+				<div key="no-term" className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
+					<RadioControl
+						selected={ noneSelected }
+						options={ [
+							{ label: noneLabel, value: -1 },
+						] }
+						onChange={ () => {
+							this.onClear();
+						} }
+					/>
+				</div>
+
 			</div>,
 			! loading && hasCreateAction && (
 				<Button
