@@ -168,7 +168,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since  1.0
 	 */
 	public function launch( $taxonomy ) {
-		if ( in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) ) ) {
+		if ( $this->is_radio_tax( $taxonomy ) ) {
 			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
 		}
 	}
@@ -399,6 +399,20 @@ class Radio_Buttons_For_Taxonomies {
 			return $this->options;
 		}
 	}
+
+
+	/**
+	 * Is this a radio taxonomy?
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param string $taxonomy - the taxonomy name.
+	 * @return bool
+	 */
+	public function is_radio_tax( $taxonomy ) {
+		return in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) );
+	}
+
 
 	// ------------------------------------------------------------------------------
 	// Compatibility
