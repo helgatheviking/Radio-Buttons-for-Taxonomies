@@ -4,7 +4,7 @@
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
 **Tested up to:** 5.5.0  
-**Stable tag:** 2.1.1  
+**Stable tag:** 2.2.0  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -52,6 +52,9 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 
 ## Changelog ##
+
+### 2.2.0 ###
+* New: Conditionally show a "no term" radio button in Gutenberg sidebar. props @tomjn!
 
 ### 2.1.1 ###
 * Fix: Missing NONCE preventing bulk/quick edit from saving correctly.
