@@ -423,17 +423,19 @@ class RadioTermSelector extends Component {
 			>
 				{ this.renderTerms( '' !== filterValue ? filteredTermsTree : availableTermsTree ) }
 
-				<div key="no-term" className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
-					<RadioControl
-						selected={ noneSelected }
-						options={ [
-							{ label: noneLabel, value: -1 },
-						] }
-						onChange={ () => {
-							this.onClear();
-						} }
-					/>
-				</div>
+				{ taxonomy.radio_no_term && (
+					<div key="no-term" className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
+						<RadioControl
+							selected={ noneSelected }
+							options={ [
+								{ label: noneLabel, value: -1 },
+							] }
+							onChange={ () => {
+								this.onClear();
+							} }
+						/>
+					</div>
+				) }
 
 			</div>,
 			! loading && hasCreateAction && (
