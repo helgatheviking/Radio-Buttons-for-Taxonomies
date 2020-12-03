@@ -355,8 +355,14 @@ class Radio_Buttons_For_Taxonomies {
 					return apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $taxonomy, ! $has_default );
 
 			    },
+				'schema' => array(
+					'description' => __( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
+					'type'        => 'bool',
+					'context'       =>   array( 'view' )
+				),
 			)
 		);
+		
 	}
 
 	// ------------------------------------------------------------------------------

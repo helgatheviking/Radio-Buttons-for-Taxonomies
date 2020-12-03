@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+= 2.2.1 =
+* Fix: Define schema for new REST field added in 2.2.0
+
 = 2.2.0 =
 * New: Conditionally show a "no term" radio button in Gutenberg sidebar. props @tomjn!
 
