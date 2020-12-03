@@ -133,8 +133,12 @@ class Radio_Buttons_For_Taxonomies {
 		// Add Donate link to plugin.
 		add_filter( 'plugin_row_meta', array( $this, 'add_meta_links' ), 10, 2 );
 
+		// Add "no term" to taxonomy rest result for Gutenberg sidebar.
+		add_action( 'rest_api_init', array( $this, 'register_rest_field' ) );
+
 		// Multilingualpress support.
 		add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
+
 	}
 
 
@@ -323,6 +327,36 @@ class Radio_Buttons_For_Taxonomies {
 			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'radio-buttons-for-taxonomies' ) . '</a>';
 		}
 		return $plugin_meta;
+	}
+
+
+	/**
+	 * Rest terms query. Tell front-end to include a "no-terms" option
+	 *
+	 * @since 2.2.0
+	 */
+	public function register_rest_field() {
+
+		register_rest_field(
+			'taxonomy',
+			'radio_no_term',
+			array(
+				'get_callback' => function ( $params ) {
+					$taxonomy = $params['slug'];
+
+					// Always false if not a radio taxonomy.
+					if ( ! $this->is_radio_tax( $taxonomy ) ) {
+						return false;
+					}
+
+					// If it is a radio, then show the "no term" if the tax has no default.
+					$has_default = 'category' === $taxonomy || get_option( 'default_term_' . $taxonomy );
+					
+					return apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $taxonomy, ! $has_default );
+
+			    },
+			)
+		);
 	}
 
 	// ------------------------------------------------------------------------------
