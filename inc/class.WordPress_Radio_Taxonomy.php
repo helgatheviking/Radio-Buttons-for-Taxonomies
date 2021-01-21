@@ -39,16 +39,16 @@ class WordPress_Radio_Taxonomy {
 
 		$this->taxonomy = $taxonomy;
 
-		// get the taxonomy object - need to get it after init but before admin_menu
+		// Get the taxonomy object - need to get it after init but before admin_menu.
 		$this->tax_obj = get_taxonomy( $taxonomy );
 
-		// Remove old taxonomy meta box
+		// Remove old taxonomy meta box.
 		add_action( 'admin_menu', array( $this, 'remove_meta_box' ) );
 
-		// Add new taxonomy meta box
+		// Add new taxonomy meta box.
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 
-		// change checkboxes to radios & trigger get_terms() filter
+		// Change checkboxes to radios & trigger get_terms() filter.
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
 		// Add ajax callback for adding a non-hierarchical term
@@ -56,11 +56,11 @@ class WordPress_Radio_Taxonomy {
 			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ), 5 );	
 		}
 
-		// never save more than 1 term
+		// Never save more than 1 term.
 		add_action( 'save_post', array( $this, 'save_single_term' ) );
 		add_action( 'edit_attachment', array( $this, 'save_single_term' ) );
 
-		// hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen
+		// Hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen.
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
 
 	}
