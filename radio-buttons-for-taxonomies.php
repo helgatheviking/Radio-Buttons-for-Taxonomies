@@ -255,14 +255,15 @@ class Radio_Buttons_For_Taxonomies {
 		wp_register_script( 'radiotax', plugins_url( 'js/radiotax' . $suffix . '.js', __FILE__ ), array( 'jquery', 'inline-edit-post' ), self::$version, true );
 
 		// Get admin screen id.
-		$screen      = get_current_screen();
-		$screen_base = $screen ? $screen->base : '';
-		$post_type    = $screen ? $screen->post_type : '';
+		$screen           = get_current_screen();
+		$screen_base      = $screen ? $screen->base : '';
+		$post_type        = $screen ? $screen->post_type : '';
+		$has_block_editor = is_callable( array( $screen, 'is_block_editor' ) ) && $screen->is_block_editor();
 
-		/*
+		/**
 		 * Enqueue scripts.
 		 */
-		if ( 'post' === $screen_base || 'edit' === $screen_base ) {
+		if ( in_array( $screen_base, array( 'post', 'edit' ) ) && ! $has_block_editor ) {
 
 			// If the post type has a radio taxonomy.
 			if ( $post_type && array_intersect( $this->options['taxonomies'], get_object_taxonomies( $post_type, 'names' ) ) ) {
