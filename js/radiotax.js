@@ -38,14 +38,14 @@
 	/*
 	 * Bulk Edit
 	 */
-	$('#doaction, #doaction2').click(function(e){
+	$( '#doaction, #doaction2' ).on( 'click', function(e) {
 		var n = $(this).attr('id').substr(2);
 		if ( 'edit' === $( 'select[name="' + n + '"]' ).val() ) {
 			e.preventDefault();
 			$( '.cat-checklist' ).each( function() {
 				if( $(this).find( 'input[type="radio"]' ).length ) {
 					$(this).find( 'input[type="radio"]' ).prop('checked', false );
-					$(this).prev( 'input' ).remove(); // remove the hidden tax_input input, prevents WP from running its default save routine
+					$(this).prev( 'input' ).remove(); // Remove the hidden tax_input input, prevents WP from running its default save routine.
 				}
 			});
 		} 
@@ -64,12 +64,12 @@
 		taxonomyParts.shift();
 		taxonomy = taxonomyParts.join('-');
 
-		//fix for radio buttons- if click on popular select on all and vice versa
+		// Fix for radio buttons- if click on popular select on all and vice versa.
         $('#' + taxonomy + '-all li :radio, #' + taxonomy + '-pop li :radio').on('click', function(){
             var t = $(this), c = t.is(':checked'), id = t.val();
             $('#' + taxonomy + '-all li :radio, #' + taxonomy + '-pop li :radio').prop('checked',false);
             $('#' + taxonomy + '-all li :radio[value="'+id+'"], #' + taxonomy + '-pop li :radio[value="'+id+'"]').prop( 'checked', c );
-	    });  //end on radio click
+	    });  // End on radio click.
 
 	}); // end taxonomy metaboxes
 
