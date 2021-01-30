@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/fundraiser/charity/1451316
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 4.5.0
 Tested up to: 5.5.0
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,11 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+= 2.2.2 =
+* Fix: Add term for custom taxonomy in custom post type
+* Fix: remove jQuery 3 deprecated handlers
+* Fix: Don't load the metabox script in the block editor 
 
 = 2.2.1 =
 * Fix: Define schema for new REST field added in 2.2.0
