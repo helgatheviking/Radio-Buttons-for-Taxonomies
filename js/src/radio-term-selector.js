@@ -25,6 +25,8 @@ import {
 	withSpokenMessages,	
 	Button,
 } from '@wordpress/components';
+import { withSelect, withDispatch } from '@wordpress/data';
+import { withInstanceId, compose } from '@wordpress/compose';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
@@ -564,4 +566,39 @@ class RadioTermSelector extends Component {
 	}
 }
 
-export default RadioTermSelector;
+export default compose( [
+	withSelect( ( select, { slug } ) => {
+		const { getCurrentPost } = select( 'core/editor' );
+		const { getTaxonomy } = select( 'core' );
+		const taxonomy = getTaxonomy( slug );
+		return {
+			hasCreateAction: taxonomy
+				? get(
+						getCurrentPost(),
+						[ '_links', 'wp:action-create-' + taxonomy.rest_base ],
+						false
+				  )
+				: false,
+			hasAssignAction: taxonomy
+				? get(
+						getCurrentPost(),
+						[ '_links', 'wp:action-assign-' + taxonomy.rest_base ],
+						false
+				  )
+				: false,
+			terms: taxonomy
+				? select( 'core/editor' ).getEditedPostAttribute(
+						taxonomy.rest_base
+				  )
+				: [],
+			taxonomy,
+		};
+	} ),
+	withDispatch( ( dispatch ) => ( {
+		onUpdateTerms( terms, restBase ) {
+			dispatch( 'core/editor' ).editPost( { [ restBase ]: terms } );
+		},
+	} ) ),
+	withSpokenMessages,
+	withInstanceId,
+] )( RadioTermSelector );
