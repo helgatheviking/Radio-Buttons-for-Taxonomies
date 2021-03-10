@@ -112,8 +112,9 @@ class Radio_Buttons_For_Taxonomies {
 		// load plugin text domain for translations.
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		// launch each taxonomy class when tax is registered.
-		add_action( 'registered_taxonomy', array( $this, 'launch' ) );
+		// launch each taxonomy class
+		// Other hook than 'registered_taxonomy', one that only runs once, priority is needed
+		add_action( 'init', array( $this, 'launch' ), 99);
 
 		// register admin settings.
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
@@ -171,9 +172,14 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return object
 	 * @since  1.0
 	 */
-	public function launch( $taxonomy ) {
-		if ( $this->is_radio_tax( $taxonomy ) ) {
-			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
+	public function launch() {
+		// Run only for taxonomies we need, instead of running for all custom taxonomies and checkin if it is a radio tax
+		// Also this function now runs only once instead of on every taxnomomy registration
+		$radiotaxonomies = $this->get_options( 'taxonomies' );
+
+		// Loop through selected posttypes
+		foreach ($radiotaxonomies as $radiotaxonomy ) {
+			$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy( $radiotaxonomy  );
 		}
 	}
 
