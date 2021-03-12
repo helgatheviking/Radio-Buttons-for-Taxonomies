@@ -43,7 +43,8 @@ class WordPress_Radio_Taxonomy {
 		$this->tax_obj = get_taxonomy( $taxonomy );
 
 		// Remove old taxonomy meta box.
-		add_action( 'admin_menu', array( $this, 'remove_meta_box' ) );
+		// Other hook than 'admin_menu': we need get_current_screen, which is not available on admin_menu
+		add_action( 'current_screen', array( $this, 'remove_meta_box' ));
 
 		// Add new taxonomy meta box.
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
@@ -74,12 +75,25 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function remove_meta_box() {
+		$this->screen = get_current_screen()->post_type;
 		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) {
-			foreach ( $this->tax_obj->object_type as $post_type ) {
-				if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $post_type ) ) {
-					$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
-					remove_meta_box( $id, $post_type, 'side' );
+			//get posttypes this taxonomy is connected to
+			$posttypes = $this->tax_obj->object_type;
+			//Do not unnecessarily iterate over post types in tax object. Only check against current screen
+			if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $this->screen ) ) {
+				//check if needed
+				if (
+					empty( $this->taxonomy ) || empty( $this->screen )
+					|| ! isset( $posttypes)
+					|| ! isset( $this->screen )
+					|| ! in_array( $this->screen,  $posttypes )
+				) {
+					return;
 				}
+				$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
+
+				//screen for 2nd parameter
+				remove_meta_box( $id, $this->screen, 'side' );
 			}
 		}
 	}
@@ -92,12 +106,24 @@ class WordPress_Radio_Taxonomy {
 	 * @since 1.0.0
 	 */
 	public function add_meta_box() {
+		$this->screen = get_current_screen()->post_type;
 		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) {
-			foreach ( $this->tax_obj->object_type as $post_type ) {
-				if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $post_type ) ) {
-					$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
-					add_meta_box( $id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
+			//get posttypes this taxonomy is connected to
+			$posttypes = $this->tax_obj->object_type;
+			//Do not iterate over post types in tax object. Only check against current screen
+			if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $this->screen ) ) {
+				//check if needed
+				if (
+					empty( $this->taxonomy ) || empty( $this->screen )
+					|| ! isset( $posttypes)
+					|| ! isset( $this->screen )
+					|| ! in_array( $this->screen,  $posttypes )
+				) {
+					return;
 				}
+				$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
+				//screen for 2nd parameter
+				add_meta_box( $id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $this->screen , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
 			}
 		}
 	}
