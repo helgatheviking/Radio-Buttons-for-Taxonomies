@@ -364,8 +364,7 @@ class Radio_Buttons_For_Taxonomies {
 			    },
 				'schema' => array(
 					'description' => __( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
-					'type'        => 'bool',
-					'context'       =>   array( 'view' )
+					'type'        => 'bool'
 				),
 			)
 		);
