@@ -172,8 +172,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since  1.0
 	 */
 	public function launch() {
-		// Run only for taxonomies we need, instead of running for all custom taxonomies and checkin if it is a radio tax
-		// Also this function now runs only once instead of on every taxnomomy registration
+		// Run only for taxonomies we need.
 		$radiotaxonomies = $this->get_options( 'taxonomies' );
 
 		// Loop through selected taxonomies.
