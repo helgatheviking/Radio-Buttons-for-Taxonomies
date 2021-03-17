@@ -42,12 +42,8 @@ class WordPress_Radio_Taxonomy {
 		// Get the taxonomy object - need to get it after init but before admin_menu.
 		$this->tax_obj = get_taxonomy( $taxonomy );
 
-		// Remove old taxonomy meta box.
-		// Other hook than 'admin_menu': we need get_current_screen, which is not available on admin_menu
-		add_action( 'current_screen', array( $this, 'remove_meta_box' ));
-
-		// Add new taxonomy meta box.
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+		// Replace new taxonomy meta box.
+		add_action( 'replace_meta_box', array( $this, 'add_meta_box' ) );
 
 		// Change checkboxes to radios & trigger get_terms() filter.
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
@@ -70,60 +66,61 @@ class WordPress_Radio_Taxonomy {
 	/**
 	 * Remove the default metabox
 	 *
-	 * @access public
-	 * @return  void
 	 * @since 1.0.0
+	 * @deprecated 2.3.0
 	 */
 	public function remove_meta_box() {
-		$this->screen = get_current_screen()->post_type;
-		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type) ) {
-			//get posttypes this taxonomy is connected to
-			$posttypes = $this->tax_obj->object_type;
-			//Do not unnecessarily iterate over post types in tax object. Only check against current screen
-			if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $this->screen ) ) {
-				//check if needed
-				if (
-					empty( $this->taxonomy ) || empty( $this->screen )
-					|| ! isset( $posttypes)
-					|| ! isset( $this->screen )
-					|| ! in_array( $this->screen,  $posttypes )
-				) {
-					return;
-				}
-				$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
-
-				//screen for 2nd parameter
-				remove_meta_box( $id, $this->screen, 'side' );
-			}
-		}
+		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
+		return $this->replace_meta_box();
 	}
 
 	/**
 	 * Add our new customized metabox
-	 *
-	 * @access public
-	 * @return  void
+	 * 
 	 * @since 1.0.0
+	 * @deprecated 2.3.0
 	 */
 	public function add_meta_box() {
-		$this->screen = get_current_screen()->post_type;
-		if( ! is_wp_error( $this->tax_obj ) && isset($this->tax_obj->object_type ) ) {
-			//get posttypes this taxonomy is connected to
+		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
+		return $this->replace_meta_box();
+	}
+
+	/**
+	 * Remove old metabox and add new customized metabox
+	 *
+	 * @since 2.3.0
+	 */
+	public function replace_meta_box() {
+		
+		$screen = get_current_screen();
+
+		$post_type = $screen instanceof WP_Screen ? $screen->post_type : '';
+
+		if( ! is_wp_error( $this->tax_obj ) && isset( $this->tax_obj->object_type ) ) {
+
+			// Get posttypes this taxonomy is connected to
 			$posttypes = $this->tax_obj->object_type;
-			//Do not iterate over post types in tax object. Only check against current screen
-			if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $this->screen ) ) {
-				//check if needed
+			// Do not iterate over post types in tax object. Only check against current screen
+			if( ! function_exists( 'use_block_editor_for_post_type' ) || ! use_block_editor_for_post_type( $post_type ) ) {
+				// Check if needed
 				if (
-					empty( $this->taxonomy ) || empty( $this->screen )
+					empty( $this->taxonomy ) || empty( $post_type )
 					|| ! isset( $posttypes)
-					|| ! isset( $this->screen )
-					|| ! in_array( $this->screen,  $posttypes )
+					|| ! isset( $post_type )
+					|| ! in_array( $post_type,  $posttypes )
 				) {
 					return;
 				}
-				$id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
-				//screen for 2nd parameter
-				add_meta_box( $id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $this->screen , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
+
+				// Metaboxes to remove.
+				$remove_id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
+
+				remove_meta_box( $remove_id, $post_type, 'side' );
+
+				// Metaboxes to add.
+				$add_id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
+				
+				add_meta_box( $add_id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
 			}
 		}
 	}
