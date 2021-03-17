@@ -112,9 +112,8 @@ class Radio_Buttons_For_Taxonomies {
 		// load plugin text domain for translations.
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		// launch each taxonomy class
-		// Other hook than 'registered_taxonomy', one that only runs once, priority is needed
-		add_action( 'init', array( $this, 'launch' ), 99);
+		// Launch each taxonomy class.
+		add_action( 'wp_loaded', array( $this, 'launch' ) );
 
 		// register admin settings.
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
