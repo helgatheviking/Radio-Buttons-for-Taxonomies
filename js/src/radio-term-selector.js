@@ -378,7 +378,7 @@ class RadioTermSelector extends Component {
 			const selected = terms.indexOf( term.id ) !== -1 ? term.id : 0;
 			
 			return (
-				<div key={ term.id } className={ 'editor-post-taxonomies__' + klass + '-terms-choice ' }>
+				<div key={ term.id } className={ `radio-taxonomies-choice editor-post-taxonomies__hierarchical-terms-choice ${taxonomy.hierarchical ? "": "editor-post-taxonomies__non-hierarchical-terms-choice"}` }>
 					<RadioControl
 						selected={ selected }
 						options={ [
