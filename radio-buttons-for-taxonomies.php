@@ -176,9 +176,11 @@ class Radio_Buttons_For_Taxonomies {
 		// Also this function now runs only once instead of on every taxnomomy registration
 		$radiotaxonomies = $this->get_options( 'taxonomies' );
 
-		// Loop through selected posttypes
-		foreach ($radiotaxonomies as $radiotaxonomy ) {
-			$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy( $radiotaxonomy  );
+		// Loop through selected taxonomies.
+		foreach ( $radiotaxonomies as $radiotaxonomy ) {
+			if ( taxonomy_exists( $radiotaxonomy ) ) {
+				$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy( $radiotaxonomy  );
+			}
 		}
 	}
 
