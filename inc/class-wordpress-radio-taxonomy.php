@@ -49,7 +49,7 @@ class WordPress_Radio_Taxonomy {
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
 		// Add ajax callback for adding a non-hierarchical term
-		if( Radio_Buttons_for_Taxonomies()->is_wp_version_gte('4.4.0') ){
+		if( Radio_Buttons_for_Taxonomies()->is_wp_version_gte('4.4.0') ) {
 			add_action( 'wp_ajax_add-' . $taxonomy, array( $this, 'add_non_hierarchical_term' ), 5 );	
 		}
 
@@ -62,28 +62,6 @@ class WordPress_Radio_Taxonomy {
 
 	}
 
-
-	/**
-	 * Remove the default metabox
-	 *
-	 * @since 1.0.0
-	 * @deprecated 2.3.0
-	 */
-	public function remove_meta_box() {
-		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
-		return $this->replace_meta_box();
-	}
-
-	/**
-	 * Add our new customized metabox
-	 * 
-	 * @since 1.0.0
-	 * @deprecated 2.3.0
-	 */
-	public function add_meta_box() {
-		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
-		return $this->replace_meta_box();
-	}
 
 	/**
 	 * Remove old metabox and add new customized metabox
@@ -170,7 +148,7 @@ class WordPress_Radio_Taxonomy {
 						$popular_terms = get_terms( $tax_name, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
 						$popular_ids = array(); 
 
-						foreach( $popular_terms as $term ){
+						foreach( $popular_terms as $term ) {
 
 							$popular_ids[] = $term->term_id;
 							$value = is_taxonomy_hierarchical( $tax_name ) ? $term->term_id : $term->slug;
@@ -344,11 +322,11 @@ class WordPress_Radio_Taxonomy {
 	 * @return array
 	 * @since 1.4
 	 */
-	function get_terms( $terms, $taxonomies, $args ){
+	function get_terms( $terms, $taxonomies, $args ) {
 
 		// only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
 		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
-			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->get_terms_filter() ){
+			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->get_terms_filter() ) {
 
 			// remove filter after 1st run
 			remove_filter( current_filter(), __FUNCTION__, 10, 3 );
@@ -376,7 +354,7 @@ class WordPress_Radio_Taxonomy {
 	 * @return data for WP_Lists script
 	 * @since 1.7.0
 	 */
-	public function add_non_hierarchical_term(){
+	public function add_non_hierarchical_term() {
 		$action = $_POST[ 'action' ];
 		$tax_name = substr( $action, 4 );
 
@@ -396,7 +374,7 @@ class WordPress_Radio_Taxonomy {
 		foreach ( $names as $cat_name ) {
 			$cat_name = trim($cat_name);
 			$category_nicename = sanitize_title($cat_name);
-			if ( '' === $category_nicename ){
+			if ( '' === $category_nicename ) {
 				continue;
 			}
 
@@ -441,7 +419,7 @@ class WordPress_Radio_Taxonomy {
 	function save_single_term( $post_id ) {
 
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return $post_id;
 
 		// prevent weirdness with multisite
@@ -458,7 +436,7 @@ class WordPress_Radio_Taxonomy {
 		}
 
 		// OK, we must be authenticated by now: we need to find and save the data
-		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ){
+		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
 
 			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"]; 
 
@@ -512,6 +490,27 @@ class WordPress_Radio_Taxonomy {
 		
 	}
 
+	/**
+	 * Remove the default metabox
+	 *
+	 * @since 1.0.0
+	 * @deprecated 2.3.0
+	 */
+	public function remove_meta_box() {
+		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
+		return $this->replace_meta_box();
+	}
+
+	/**
+	 * Add our new customized metabox
+	 * 
+	 * @since 1.0.0
+	 * @deprecated 2.3.0
+	 */
+	public function add_meta_box() {
+		_deprecated_function( __METHOD__ . '()', '2.3.0', 'WordPress_Radio_Taxonomy::replace_meta_box()' );
+		return $this->replace_meta_box();
+	}
 
 } //end class - do NOT remove or else
 endif;
