@@ -98,12 +98,12 @@ class Radio_Buttons_For_Taxonomies {
 	public function __construct() {
 
 		// Include required files.
-		include_once 'inc/class.WordPress_Radio_Taxonomy.php';
+		include_once 'inc/class-wordpress-radio-taxonomy.php';
 
 		if ( $this->is_wp_version_gte('4.4.0') ) {
-			include_once 'inc/class.Walker_Category_Radio.php';
+			include_once 'inc/class-walker-category-radio.php';
 		} else {
-			include_once 'inc/class.Walker_Category_Radio_old.php';
+			include_once 'inc/class-walker-category-radio-old.php';
 		}
 
 		// Set-up Action and Filter Hooks.
