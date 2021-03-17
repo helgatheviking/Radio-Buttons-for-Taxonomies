@@ -43,7 +43,7 @@ class WordPress_Radio_Taxonomy {
 		$this->tax_obj = get_taxonomy( $taxonomy );
 
 		// Replace new taxonomy meta box.
-		add_action( 'replace_meta_box', array( $this, 'add_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'replace_meta_box' ) );
 
 		// Change checkboxes to radios & trigger get_terms() filter.
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
