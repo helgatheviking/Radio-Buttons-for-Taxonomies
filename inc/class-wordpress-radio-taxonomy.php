@@ -92,14 +92,14 @@ class WordPress_Radio_Taxonomy {
 				}
 
 				// Metaboxes to remove.
-				$remove_id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'.$this->taxonomy : $this->taxonomy .'div' ;
+				$remove_id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'tagsdiv-'. $this->taxonomy : $this->taxonomy .'div' ;
 
 				remove_meta_box( $remove_id, $post_type, 'side' );
 
 				// Metaboxes to add.
 				$add_id = ! is_taxonomy_hierarchical( $this->taxonomy ) ? 'radio-tagsdiv-' . $this->taxonomy : 'radio-' . $this->taxonomy . 'div' ;
 				
-				add_meta_box( $add_id, $this->tax_obj->labels->singular_name, array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
+				add_meta_box( $add_id, $this->tax_obj->labels->name, array( $this,'metabox' ), $post_type , 'side', 'core', array( 'taxonomy'=> $this->taxonomy ) );
 			}
 		}
 	}
