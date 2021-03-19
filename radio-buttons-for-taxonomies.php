@@ -98,12 +98,12 @@ class Radio_Buttons_For_Taxonomies {
 	public function __construct() {
 
 		// Include required files.
-		include_once 'inc/class.WordPress_Radio_Taxonomy.php';
+		include_once 'inc/class-wordpress-radio-taxonomy.php';
 
 		if ( $this->is_wp_version_gte('4.4.0') ) {
-			include_once 'inc/class.Walker_Category_Radio.php';
+			include_once 'inc/class-walker-category-radio.php';
 		} else {
-			include_once 'inc/class.Walker_Category_Radio_old.php';
+			include_once 'inc/class-walker-category-radio-old.php';
 		}
 
 		// Set-up Action and Filter Hooks.
@@ -112,8 +112,8 @@ class Radio_Buttons_For_Taxonomies {
 		// load plugin text domain for translations.
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		// launch each taxonomy class when tax is registered.
-		add_action( 'registered_taxonomy', array( $this, 'launch' ) );
+		// Launch each taxonomy class.
+		add_action( 'wp_loaded', array( $this, 'launch' ) );
 
 		// register admin settings.
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
@@ -171,9 +171,15 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return object
 	 * @since  1.0
 	 */
-	public function launch( $taxonomy ) {
-		if ( $this->is_radio_tax( $taxonomy ) ) {
-			$this->taxonomies[$taxonomy] = new WordPress_Radio_Taxonomy( $taxonomy );
+	public function launch() {
+		// Run only for taxonomies we need.
+		$radiotaxonomies = $this->get_options( 'taxonomies' );
+
+		// Loop through selected taxonomies.
+		foreach ( $radiotaxonomies as $radiotaxonomy ) {
+			if ( taxonomy_exists( $radiotaxonomy ) ) {
+				$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy( $radiotaxonomy  );
+			}
 		}
 	}
 
@@ -358,8 +364,7 @@ class Radio_Buttons_For_Taxonomies {
 			    },
 				'schema' => array(
 					'description' => __( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
-					'type'        => 'bool',
-					'context'       =>   array( 'view' )
+					'type'        => 'bool'
 				),
 			)
 		);
