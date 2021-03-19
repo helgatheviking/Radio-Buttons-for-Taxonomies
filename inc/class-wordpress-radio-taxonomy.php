@@ -45,6 +45,9 @@ class WordPress_Radio_Taxonomy {
 		// Replace new taxonomy meta box.
 		add_action( 'add_meta_boxes', array( $this, 'replace_meta_box' ) );
 
+		// Compatibility with Tabify Edit Screen.
+		add_action( 'tabify_add_meta_boxes', array( $this, 'replace_meta_box' ) );
+
 		// Change checkboxes to radios & trigger get_terms() filter.
 		add_filter( 'wp_terms_checklist_args', array( $this, 'filter_terms_checklist_args' ) );
 
@@ -67,14 +70,17 @@ class WordPress_Radio_Taxonomy {
 	 * Remove old metabox and add new customized metabox
 	 *
 	 * @since 2.3.0
+	 *
+	 * @param  string $post_type - The post type we are fetching metaboxes for. Used by Tabify.
 	 */
-	public function replace_meta_box() {
+	public function replace_meta_box( $post_type = '' ) {
+
+		if ( ! $post_type ) {
+			$screen = get_current_screen();
+			$post_type = $screen instanceof WP_Screen ? $screen->post_type : '';	
+		}
 		
-		$screen = get_current_screen();
-
-		$post_type = $screen instanceof WP_Screen ? $screen->post_type : '';
-
-		if( ! is_wp_error( $this->tax_obj ) && isset( $this->tax_obj->object_type ) ) {
+		if( '' !== $post_type && ! is_wp_error( $this->tax_obj ) && isset( $this->tax_obj->object_type ) ) {
 
 			// Get posttypes this taxonomy is connected to.
 			$posttypes = $this->tax_obj->object_type;
