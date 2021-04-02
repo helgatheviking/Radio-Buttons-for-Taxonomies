@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/fundraiser/charity/1451316
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 4.5.0
 Tested up to: 5.5.0
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -53,6 +53,10 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+= 2.3.1 =
+* Fix: Optimize compatibility for Tabify Edit Screen. Props @remcokalf.
+
+Removed 'tabify_add_meta_boxes' action, as it is doubled by do_action( 'add_meta_boxes')in settings-posttype.php of Tabify Edit Screen.
 = 2.3.0 =
 * New: Optimize to load taxonomy class hooks/callbacks only on radio-enabled taxonomies. Props @remcokalf.
 * New: Compatibility for Tabify Edit Screen
