@@ -66,8 +66,6 @@ class Walker_Category_Radio extends Walker {
 		if ( empty($taxonomy) )
 			$taxonomy = 'category';
 
-		$name = 'radio_tax_input['.$taxonomy.']';
-
 		//get first term object
 		$current_term = ! empty( $selected_cats ) && ! is_wp_error( $selected_cats ) ? array_pop( $selected_cats ) : false;
 

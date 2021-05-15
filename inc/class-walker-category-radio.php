@@ -75,10 +75,6 @@ class Walker_Category_Radio extends Walker {
 			$this->printed_nonce = true;
 		}
 
-		/* RB4T mod: Replace default $name variable */
-		$name = 'radio_tax_input['.$taxonomy.']';
-		/* end */
-
 		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];
 		$class = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
 

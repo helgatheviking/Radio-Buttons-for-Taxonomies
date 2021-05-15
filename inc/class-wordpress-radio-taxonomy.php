@@ -395,7 +395,7 @@ class WordPress_Radio_Taxonomy {
 				$cat_id = $cat_id['term_id'];
 			}
 
-			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
+			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
 				esc_attr( $taxonomy->name ),
 				intval( $cat_id ),
 				esc_html( $cat_name )
@@ -443,9 +443,9 @@ class WordPress_Radio_Taxonomy {
 		}
 
 		// OK, we must be authenticated by now: we need to find and save the data.
-		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
+		if ( isset( $_REQUEST["tax_input"]["{$this->taxonomy}"] ) ) {
 
-			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"]; 
+			$terms = (array) $_REQUEST["tax_input"]["{$this->taxonomy}"]; 
 
 			// If category and not saving any terms, set to default.
 			if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
