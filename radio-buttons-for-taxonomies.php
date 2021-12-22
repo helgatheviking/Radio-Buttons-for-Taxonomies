@@ -299,6 +299,8 @@ class Radio_Buttons_For_Taxonomies {
 			true
 		);
 
+		wp_set_script_translations( 'radiotax-gutenberg-sidebar', 'radio-buttons-for-taxonomies' );
+
 		$i18n = array( 'radio_taxonomies' => (array) $this->get_options( 'taxonomies' ) );
 		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
 	}
