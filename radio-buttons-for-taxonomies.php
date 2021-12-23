@@ -493,7 +493,7 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function multilingualpress_support( Array $taxonomies ) {
 		_deprecated_function( __METHOD__ . '()', '2.4.0', 'RB4T_MultilingualPress_Compatibility::multilingualpress_support()' );
-		RB4T_MultilingualPress_Compatibility::multilingualpress_support( Array $taxonomies );
+		RB4T_MultilingualPress_Compatibility::multilingualpress_support( $taxonomies );
 	}
 
 } // End class.
