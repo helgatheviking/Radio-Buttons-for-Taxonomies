@@ -7,7 +7,7 @@
  * Author:            helgatheviking
  * Author URI:        https://www.kathyisawesome.com
  * Requires at least: 4.5.0
- * Tested up to:      5.2.4
+ * Tested up to:      5.8.2
  *
  * Text Domain:       radio-buttons-for-taxonomies
  * Domain Path:       /languages/
