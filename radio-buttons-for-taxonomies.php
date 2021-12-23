@@ -100,11 +100,8 @@ class Radio_Buttons_For_Taxonomies {
 		// Include required files.
 		include_once 'inc/class-wordpress-radio-taxonomy.php';
 
-		if ( $this->is_wp_version_gte('4.4.0') ) {
-			include_once 'inc/class-walker-category-radio.php';
-		} else {
-			include_once 'inc/class-walker-category-radio-old.php';
-		}
+		// Include taxonomy walker.
+		include_once 'inc/class-walker-category-radio.php';
 
 		// Load compatibility modules.
 		include_once 'inc/class-rb4t-compatibility.php';
