@@ -24,6 +24,11 @@ class RB4T_Compatibility {
 	 */
 	public function init() {
 
+		// WP SEO fixes.
+		if ( class_exists( 'WPSEO_Primary_Term_Admin' ) ) {
+			$module_paths['wpseo'] = 'modules/class-wc-rb4t-wpseo-compatibility.php';
+		}
+
 		// Multilingualpress support.
 		if ( class_exists( 'Multilingual_Press' ) ) {
 			$module_paths['mlp'] = 'modules/class-wc-rb4t-multilingualpress-compatibility.php';
