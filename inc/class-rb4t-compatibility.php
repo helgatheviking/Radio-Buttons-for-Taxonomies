@@ -22,7 +22,7 @@ class RB4T_Compatibility {
 	/**
 	 * Init compatibility classes.
 	 */
-	public function init() {
+	public static function init() {
 
 		// WP SEO fixes.
 		if ( class_exists( 'WPSEO_Primary_Term_Admin' ) ) {
