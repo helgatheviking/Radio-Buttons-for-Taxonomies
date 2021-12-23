@@ -139,6 +139,9 @@ class Radio_Buttons_For_Taxonomies {
 		// Add "no term" to taxonomy rest result for Gutenberg sidebar.
 		add_action( 'rest_api_init', array( $this, 'register_rest_field' ) );
 
+		// Limit return to first term... just in case.
+		add_filter( 'get_the_terms', array( $this, 'restrict_terms' ), 10, 3 );
+
 	}
 
 
@@ -371,6 +374,25 @@ class Radio_Buttons_For_Taxonomies {
 			)
 		);
 		
+	}
+
+
+
+	/**
+	 * Filters the list of terms attached to the given post, limit response to single term.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param WP_Term[]|WP_Error $terms    Array of attached terms, or WP_Error on failure.
+	 * @param int                $post_id  Post ID.
+	 * @param string             $taxonomy Name of the taxonomy.
+	 * @return WP_Term[]|WP_Error
+	 */
+	function restrict_terms( $terms, $post_id, $taxonomy ) {
+		if ( ! is_wp_error( $terms ) && $this->is_radio_tax( $taxonomy ) && count( $terms) > 1 ) {
+			$terms = array_slice( $terms, 0, 1 );
+		}
+		return $terms;
 	}
 
 	// ------------------------------------------------------------------------------
