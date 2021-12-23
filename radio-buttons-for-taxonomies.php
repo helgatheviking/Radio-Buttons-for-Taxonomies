@@ -106,6 +106,9 @@ class Radio_Buttons_For_Taxonomies {
 			include_once 'inc/class-walker-category-radio-old.php';
 		}
 
+		// Load compatibility modules.
+		include_once 'inc/class-rb4t-compatibility.php';
+
 		// Set-up Action and Filter Hooks.
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'delete_plugin_options' ) );
 
@@ -135,9 +138,6 @@ class Radio_Buttons_For_Taxonomies {
 
 		// Add "no term" to taxonomy rest result for Gutenberg sidebar.
 		add_action( 'rest_api_init', array( $this, 'register_rest_field' ) );
-
-		// Multilingualpress support.
-		add_filter( 'mlp_mutually_exclusive_taxonomies', array( $this, 'multilingualpress_support' ) );
 
 	}
 
@@ -469,23 +469,12 @@ class Radio_Buttons_For_Taxonomies {
 	/**
 	 * Make sure Multilingual Press shows the correct user interface.
 	 *
-	 * This method is called after switch_to_blog(), so we have to fetch the
-	 * options separately.
-	 *
-	 * @wp-hook mlp_mutually_exclusive_taxonomies
-	 * @param array $taxonomies
-	 * @return array
+	 * @deprecated 2.4.0 - Moved to separate compat class module.
+	 * @see: RB4T_MultilingualPress_Compatibility::multilingualpress_support()
 	 */
 	public function multilingualpress_support( Array $taxonomies ) {
-
-		$remote_options = get_option( 'radio_button_for_taxonomies_options', array() );
-
-		if ( empty( $remote_options['taxonomies'] ) )
-			return $taxonomies;
-
-		$all_taxonomies = array_merge( (array) $remote_options['taxonomies'], $taxonomies );
-
-		return array_unique( $all_taxonomies );
+		_deprecated_function( __METHOD__ . '()', '2.4.0', 'RB4T_MultilingualPress_Compatibility::multilingualpress_support()' );
+		RB4T_MultilingualPress_Compatibility::multilingualpress_support( Array $taxonomies );
 	}
 
 } // End class.
