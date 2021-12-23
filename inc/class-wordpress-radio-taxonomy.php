@@ -426,16 +426,19 @@ class WordPress_Radio_Taxonomy {
 	function save_single_term( $post_id ) {
 
 		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
+		}
 
 		// prevent weirdness with multisite.
-		if( function_exists( 'ms_is_switched' ) && ms_is_switched() )
+		if( function_exists( 'ms_is_switched' ) && ms_is_switched() ) {
 			return $post_id;
+		}
 
 		// make sure we're on a supported post type.
-		if ( is_array( $this->tax_obj->object_type ) && isset( $_REQUEST['post_type'] ) && ! in_array ( $_REQUEST['post_type'], $this->tax_obj->object_type ) ) 
+		if ( is_array( $this->tax_obj->object_type ) && isset( $_REQUEST['post_type'] ) && ! in_array ( $_REQUEST['post_type'], $this->tax_obj->object_type ) ) {
 			return $post_id;
+		}
 
 		// Verify nonce.
 		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
