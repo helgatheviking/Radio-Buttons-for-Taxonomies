@@ -445,30 +445,29 @@ class WordPress_Radio_Taxonomy {
 			return $post_id;
 		}
 
+		// Check capabilities.
+		if ( ! current_user_can( $this->tax_obj->cap->assign_terms ) ) {
+			return $post_id;
+		}
+
 		// Verify nonce.
 		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
 		}
 
-		// OK, we must be authenticated by now: we need to find and save the data.
-		if ( isset( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
-
-			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"]; 
-
-			// If category and not saving any terms, set to default.
-			if ( 'category' == $this->taxonomy && empty ( $terms ) ) {
-				$single_term = intval( get_option( 'default_category' ) );
-			}
-
-			// Make sure we're only saving 1 term.
+		// OK, we must be authenticated by now: we need to make sure we're only saving 1 term.
+		if ( ! empty ( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
+			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"];
 			$single_term = intval( array_shift( $terms ) );
+		} else {
+			// If not saving any terms, set to default.
+			$single_term = intval( get_option( 'default_' . $this->taxonomy, 0 ) );
+		}
 
-			// Set the single terms.
-			if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {
-				wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
-			}
-
-		}		
+		// Set the single terms.
+		if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {
+			wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
+		}
 
 		return $post_id;
 	}
