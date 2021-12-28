@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+- 2021.12.27 - Version 2.4.1 =
+* Fix: Fatal error from compatibility module includes.
+
 - 2021.12.27 - Version 2.4.0 =
 * Update: Drop support for WordPress < 4.4
 * New: Compatibility with WP SEO's primary term (disable for Radio terms)
