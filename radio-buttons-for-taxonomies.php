@@ -370,7 +370,21 @@ class Radio_Buttons_For_Taxonomies {
 				),
 			)
 		);
-		
+
+		register_rest_field(
+			'taxonomy',
+			'default_term',
+			array(
+				'get_callback' => function ( $params ) {
+					return intval( get_option( 'default_' . $params['slug'], 0 ) );
+			    },
+				'schema' => array(
+					'description' => __( 'Taxonomy default term ID.', 'radio-buttons-for-taxonomies' ),
+					'type'        => 'int'
+				),
+			)
+		);
+
 	}
 
 

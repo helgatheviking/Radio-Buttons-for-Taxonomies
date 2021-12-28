@@ -1,4 +1,4 @@
-/*
+/**
  * Modified version of https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/components/post-taxonomies/hierarchical-term-selector.js
  */
 
@@ -375,7 +375,7 @@ class RadioTermSelector extends Component {
 
 		return renderedTerms.map( ( term ) => {
 			const id = `editor-post-taxonomies-${ klass }-term-${ term.id }`; // @helgatheviking
-			const selected = terms.indexOf( term.id ) !== -1 ? term.id : 0;
+			const selected = terms.indexOf( term.id ) !== -1 ? term.id : taxonomy.default_term;
 			
 			return (
 				<div key={ term.id } className={ `radio-taxonomies-choice editor-post-taxonomies__hierarchical-terms-choice ${taxonomy.hierarchical ? "": "editor-post-taxonomies__non-hierarchical-terms-choice"}` }>

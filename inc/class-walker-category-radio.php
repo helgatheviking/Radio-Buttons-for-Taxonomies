@@ -88,7 +88,7 @@ class Walker_Category_Radio extends Walker {
 		$selected_term = ! empty( $args['selected_cats'] ) && ! is_wp_error( $args['selected_cats'] ) ? array_pop( $args['selected_cats'] ) : false;
 
 		// if no term, match the 0 "no term" option
-		$selected_id = ( $selected_term ) ? $selected_term : 0;
+		$selected_id = ( $selected_term ) ? $selected_term : intval( get_option( 'default_' . $taxonomy, 0 ) );
 		/* end */
 
 		if ( ! empty( $args['list_only'] ) ) {
