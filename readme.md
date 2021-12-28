@@ -1,10 +1,10 @@
 # Radio Buttons for Taxonomies #
-**Contributors:** [helgatheviking](https://profiles.wordpress.org/helgatheviking)  
+**Contributors:** [helgatheviking](https://profiles.wordpress.org/helgatheviking/)  
 **Donate link:** https://www.paypal.com/fundraiser/charity/1451316  
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
-**Tested up to:** 5.5.0  
-**Stable tag:** 2.3.1  
+**Tested up to:** 5.8.0  
+**Stable tag:** 2.4.0  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -52,6 +52,14 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 
 ## Changelog ##
+
+- 2021.12.27 - Version 2.4.0 =
+* Update: Drop support for WordPress < 4.4
+* New: Compatibility with WP SEO's primary term (disable for Radio terms)
+* New: Save default term if it exists and no term is selected.
+* Fix: Default term is checked by default.
+* Fix: "No term" is not displayed when taxonomy has a default term option.
+* Fix: Missing translations in block editor. Props @ocean90.
 
 ### 2.3.1 ###
 * Fix: Optimize compatibility for Tabify Edit Screen. Props @remcokalf.
