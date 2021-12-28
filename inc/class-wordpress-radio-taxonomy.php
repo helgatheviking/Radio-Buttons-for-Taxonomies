@@ -330,21 +330,26 @@ class WordPress_Radio_Taxonomy {
 	function get_terms( $terms, $taxonomies, $args ) {
 
 		// Only filter terms for radio taxes (except category) and only in the checkbox - need to check $args b/c get_terms() is called multiple times in wp_terms_checklist()
-		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && ! in_array( 'category', $taxonomies ) 
-			&& isset( $args['fields'] ) && $args['fields'] == 'all' && $this->get_terms_filter() ) {
+		if( in_array( $this->taxonomy, ( array ) $taxonomies ) && isset( $args['fields'] ) && $args['fields'] == 'all' ) {
 
-			// Remove filter after 1st run.
-			remove_filter( current_filter(), __FUNCTION__, 10, 3 );
+			$default_term = intval( get_option( 'default_' . $this->taxonomy, 0 ) );
+			
+			if ( ! $default_term && $this->get_terms_filter() ) {
 
-			// Turn the switch OFF.
-			$this->set_terms_filter( false ); 
+				// Remove filter after 1st run.
+				remove_filter( current_filter(), __FUNCTION__, 10, 3 );
 
-			$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
-			$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
+				// Turn the switch OFF.
+				$this->set_terms_filter( false ); 
 
-			$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => $no_term, 'parent' => '0' );
+				$no_term = sprintf( __( 'No %s', 'radio-buttons-for-taxonomies' ), $this->tax_obj->labels->singular_name );
+				$no_term = apply_filters( 'radio_buttons_for_taxonomies_no_term_selected_text', $no_term, $this->tax_obj->labels->singular_name );
 
-			array_push( $terms, $uncategorized );
+				$uncategorized = (object) array( 'term_id' => '0', 'slug' => '0', 'name' => $no_term, 'parent' => '0' );
+
+				array_push( $terms, $uncategorized );
+
+			}
 
 		}
 
