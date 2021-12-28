@@ -4,7 +4,7 @@
  *
  * @package  Radio Buttons for Taxonomies/Compatibility/Modules
  * @since    2.4.0
- * @version  2.4.0
+ * @version  2.4.1
  */
 
 // Exit if accessed directly.
@@ -29,7 +29,7 @@ class RB4T_WPSEO_Compatibility {
 	/**
 	 * Remove any radio button taxonomies from the array.
 	 *
-	 * @param array  $taxonomies     An array of taxonomy objects that are primary_term enabled.
+	 * @param WP_Taxonomy[]  $taxonomies     An array of taxonomy objects that are primary_term enabled.
 	 *
 	 * @param string $post_type      The post type for which to filter the taxonomies.
 	 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
@@ -41,7 +41,7 @@ class RB4T_WPSEO_Compatibility {
 		$radio_taxonomies = (array) radio_buttons_for_taxonomies()->get_options( 'taxonomies' );
 
 		if ( ! empty( $radio_taxonomies ) ) {
-			$taxonomies = array_diff( $taxonomies, $radio_taxonomies );
+			$taxonomies = array_diff_key( $taxonomies, array_flip( $radio_taxonomies ) );
 		}
 		return $taxonomies;
 	}
