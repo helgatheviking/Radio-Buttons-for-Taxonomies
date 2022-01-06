@@ -295,7 +295,7 @@ class Radio_Buttons_For_Taxonomies {
 			'radiotax-gutenberg-sidebar',
 			plugins_url( 'js/dist/index.js', __FILE__ ),
 			$asset_file['dependencies'],
-			self::$version,
+			$asset_file['version'],
 			true
 		);
 
