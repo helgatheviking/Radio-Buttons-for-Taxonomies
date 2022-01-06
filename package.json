@@ -12,9 +12,9 @@
     "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies/issues"
   },
   "scripts": {
-    "build": "npm run build:assets && grunt build",
-    "build:assets": "wp-scripts build",
-    "start": "wp-scripts start --webpack--devtool=source-map"
+    "build": "wp-scripts build",
+    "start": "wp-scripts start --webpack--devtool=source-map",
+    "release": "npm run build && grunt build"
   },
   "devDependencies": {
     "@wordpress/scripts": "19.2.2",
