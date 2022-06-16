@@ -430,6 +430,11 @@ class WordPress_Radio_Taxonomy {
 	 */
 	function save_single_term( $post_id ) {
 
+		// If posts are being bulk edited, we don't want to do anything.
+		if ( ! empty( $_GET['bulk_edit'] ) ) {
+			return $post_id;
+		}
+
 		// Verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything.
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
