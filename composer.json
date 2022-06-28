@@ -1,9 +1,9 @@
 {
-	"name": "helgatheviking/Radio-Buttons-for-Taxonomies",
+	"name": "helgatheviking/radio-buttons-for-taxonomies",
 	"description": "Turn any WordPress taxonomy into a list of radio buttons, which forces users to select only 1 term!",
 	"type": "wordpress-muplugin",
 	"keywords": ["wordpress", "plugin", "taxonomy", "term"],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=7.2"
 	}
 }
