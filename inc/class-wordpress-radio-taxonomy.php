@@ -470,9 +470,7 @@ class WordPress_Radio_Taxonomy {
 		}
 
 		// Set the single terms.
-		if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {
-			wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
-		}
+		wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
 
 		return $post_id;
 	}
