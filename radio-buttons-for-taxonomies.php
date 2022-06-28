@@ -3,7 +3,7 @@
  * Plugin Name: 	  Radio Buttons for Taxonomies
  * Plugin URI: 		  http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
  * Description: 	  Use radio buttons for any taxonomy so users can only select 1 term at a time
- * Version:           2.4.3
+ * Version:           2.4.4
  * Author:            helgatheviking
  * Author URI:        https://www.kathyisawesome.com
  * Requires at least: 4.5.0
@@ -46,7 +46,7 @@ class Radio_Buttons_For_Taxonomies {
 	protected static $_instance = null;
 
 	/* @var str $version */
-	public static $version = '2.4.3';
+	public static $version = '2.4.4';
 
 	/* @var array $options - The plugin's options. */
 	public $options = array();

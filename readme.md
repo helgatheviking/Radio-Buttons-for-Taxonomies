@@ -4,7 +4,7 @@
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
 **Tested up to:** 6.0.0  
-**Stable tag:** 2.4.3  
+**Stable tag:** 2.4.4  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -52,6 +52,12 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 
 ## Changelog ##
+
+- 2022.06.28 - Version 2.4.4 =
+* Fix: Bulk edit removes terms (set to default) when not editing the term. Closes #105.
+
+- 2022.06.15 - Version 2.4.3 =
+ * Fix: Fatal error when deleting plugin. uninstall callback must be static. Closes #104.
 
 - 2022.01.06 - Version 2.4.2 =
 * Fix: Conflict with default term, multiple checked terms (term plus default term). Closes #103.
