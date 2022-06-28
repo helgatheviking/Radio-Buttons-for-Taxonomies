@@ -92,7 +92,7 @@ jobs:
           echo ${{ env.release_tag }}
       - name: "Build release."
         run: |
-          ./node_modules/.bin/grunt release
+          npm run release
       - name: "Add package to GitHub releases."
         uses: softprops/action-gh-release@v1
         with:

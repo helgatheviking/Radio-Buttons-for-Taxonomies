@@ -450,6 +450,11 @@ class WordPress_Radio_Taxonomy {
 			return $post_id;
 		}
 
+		// If posts are being bulk edited, and no term is selected, do nothing.
+		if ( ! empty( $_GET[ 'bulk_edit' ] ) && empty ( $_REQUEST[ 'radio_tax_input' ][ "{$this->taxonomy}" ] ) ) {
+			return $post_id;
+		}
+
 		// Verify nonce.
 		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
@@ -465,9 +470,7 @@ class WordPress_Radio_Taxonomy {
 		}
 
 		// Set the single terms.
-		if ( current_user_can( $this->tax_obj->cap->assign_terms ) ) {
-			wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
-		}
+		wp_set_object_terms( $post_id, $single_term, $this->taxonomy );
 
 		return $post_id;
 	}

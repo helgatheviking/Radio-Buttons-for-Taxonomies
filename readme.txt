@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+- 2022.06.28 - Version 2.4.3 =
+* Fix: Bulk edit removes terms (set to default) when not editing the term. Closes #105.
+
 - 2022.01.06 - Version 2.4.2 =
 * Fix: Conflict with default term, multiple checked terms (term plus default term). Closes #103.
 
