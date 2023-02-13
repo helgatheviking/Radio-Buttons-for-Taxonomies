@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+- 2022.02.13 - Version 2.4.5 =
+* Fix: Reload non-hierarchical terms as forced-hierarchical after quick edit save. Closes #109.
+
 - 2022.06.28 - Version 2.4.4 =
 * Fix: Bulk edit removes terms (set to default) when not editing the term. Closes #105.
 
