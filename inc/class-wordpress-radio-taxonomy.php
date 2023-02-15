@@ -59,7 +59,7 @@ class WordPress_Radio_Taxonomy {
 
 		// Hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen.
 		add_action( 'load-edit.php', array( $this, 'make_hierarchical' ) );
-		add_action( 'wp_ajax_inline-save', array( $this, 'make_hierarchical' ), 0, );
+		add_action( 'wp_ajax_inline-save', array( $this, 'make_hierarchical' ), 0 );
 		
 	}
 
