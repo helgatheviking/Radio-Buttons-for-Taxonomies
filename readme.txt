@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/fundraiser/charity/1451316
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 4.5.0
 Tested up to: 6.1.0
-Stable tag: 2.4.5
+Stable tag: 2.4.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 `
 
 == Changelog ==
+
+- 2022.02.15 - Version 2.4.6 =
+* Fix: Typo from 2.4.5 patch. Closes #111.
 
 - 2022.02.13 - Version 2.4.5 =
 * Fix: Reload non-hierarchical terms as forced-hierarchical after quick edit save. Closes #109.
