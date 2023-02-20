@@ -75,8 +75,14 @@ class Walker_Category_Radio extends Walker {
 			$this->printed_nonce = true;
 		}
 
-		/* RB4T mod: Replace default $name variable */
-		$name = 'radio_tax_input['.$taxonomy.']';
+		/* RB4T mod: Replace default $name variable - Core naming conventions. */
+		if ( 'category' === $taxonomy ) {
+			$name = 'post_category';
+		} elseif ( 'post_tag' === $taxonomy ) {
+			$name = 'post_tag';
+		} else {
+			$name = 'tax_input[' . $taxonomy . ']';
+		}
 		/* end */
 
 		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];

@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+- 2023.02.20 - Version 2.5.0 =
+* Fix: Rename inputs to match WP Core input names. Closes #71.
+
 - 2022.02.15 - Version 2.4.6 =
 * Fix: Typo from 2.4.5 patch. Closes #111.
 
