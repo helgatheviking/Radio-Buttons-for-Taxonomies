@@ -14,7 +14,7 @@
   "scripts": {
     "build": "wp-scripts build",
     "start": "wp-scripts start --webpack--devtool=source-map",
-    "release": "npm run build && grunt build"
+    "release": "npm run build && grunt release"
   },
   "devDependencies": {
     "@wordpress/scripts": "23.3.0",

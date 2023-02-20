@@ -39,6 +39,8 @@ module.exports = function(grunt) {
 			all: ['js/*.js', '!js/*.min.js']
 		},
 
+		// # Build and release
+
 		// Remove the build directory files
 		clean: {
 			main: ['build/**']
@@ -80,6 +82,22 @@ module.exports = function(grunt) {
 				dest: 'build/'
 			}
 		},
+
+		// Make a zipfile.
+		compress: {
+			main: {
+				options: {
+					mode: 'zip',
+					archive: 'deploy/<%= pkg.version %>/<%= pkg.name %>.zip'
+				},
+				expand: true,
+				cwd: 'build/',
+				src: ['**/*'],
+				dest: '/<%= pkg.name %>'
+			}
+		},
+
+		// # Docs
 
 		// Generate git readme from readme.txt
 		wp_readme_to_markdown: {
@@ -147,6 +165,15 @@ module.exports = function(grunt) {
 
 	});
 
+	grunt.registerTask(
+		'zip',
+		[
+		'clean',
+		'copy',
+		'compress'
+		]
+	);
+
 	// makepot and addtextdomain tasks
 	grunt.loadNpmTasks('grunt-wp-i18n');
 
@@ -158,5 +185,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['wp_readme_to_markdown']);
 
 	grunt.registerTask('build', ['replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown']);
+
+	grunt.registerTask( 'release', [ 'build', 'zip', 'clean' ] );
 
 };
