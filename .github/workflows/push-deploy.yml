@@ -1,6 +1,8 @@
 name: Deploy to WordPress.org
 on:
   push:
+    branches:
+    - trunk
     tags-ignore:
     - '-alpha*'
     - '-beta*'
