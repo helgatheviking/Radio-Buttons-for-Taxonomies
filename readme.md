@@ -4,7 +4,7 @@
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
 **Tested up to:** 6.1.0  
-**Stable tag:** 2.4.6  
+**Stable tag:** 2.5.0-beta.1  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -52,6 +52,9 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 
 ## Changelog ##
+
+- 2023.02.20 - Version 2.5.0 =
+* Fix: Rename inputs to match WP Core input names. Closes #71.
 
 - 2022.02.15 - Version 2.4.6 =
 * Fix: Typo from 2.4.5 patch. Closes #111.
