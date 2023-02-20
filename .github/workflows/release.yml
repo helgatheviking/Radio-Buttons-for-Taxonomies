@@ -1,5 +1,5 @@
 # Add build zip to GitHub releases.
-# Version: 1.0.0
+# Version: 1.1.0
 
 name: Release
 
@@ -49,6 +49,7 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - name: "Sets up Composer Caching."
         uses: "actions/cache@v2"
         with:
@@ -56,13 +57,16 @@ jobs:
           key: ${{ runner.os }}-php-composer-build-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-composer-build-
+
       - name: "Logs debug information."
         run: |
           php --version
           composer --version
+
       - name: "Install Composer dependencies with development dependencies."
         run: |
           composer install --no-interaction --prefer-dist --no-scripts
+
       - name: "Setup NodeJS."
         uses: actions/setup-node@v2
         with:
@@ -72,6 +76,7 @@ jobs:
         id: npm-cache-dir
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
+
       - name: "Sets up NPM Caching."
         uses: actions/cache@v2
         with:
@@ -79,23 +84,28 @@ jobs:
           key: ${{ runner.os }}-node-npm-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-npm-build-
+
       - name: "Install NPM dependencies."
         run: npm install
 
       - name: "Get release version."
         run: |
           echo "release_tag=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
+          echo "release_name=$(node -p -e "require('./package.json').name")" >> $GITHUB_ENV
+
       - name: "Logs debug information."
         run: |
           node --version
           npm --version
           echo ${{ env.release_tag }}
+
       - name: "Build release."
         run: |
           npm run release
+
       - name: "Add package to GitHub releases."
         uses: softprops/action-gh-release@v1
         with:
-          files: ./deploy/${{ env.release_tag }}/radio-buttons-for-taxonomies.zip
+          files: ./deploy/${{ env.release_name }}-${{ env.release_tag }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

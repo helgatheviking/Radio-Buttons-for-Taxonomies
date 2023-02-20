@@ -401,9 +401,10 @@ class WordPress_Radio_Taxonomy {
 				$cat_id = $cat_id['term_id'];
 			}
 
-			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="radio_tax_input[%1$s][]" value="%2$s" checked="checked"> %3$s</label></li>',
+			$data = sprintf( '<li id="%1$s-%2$s"><label class="selectit"><input id="in-%1$s-%2$s" type="radio" name="%3$s[]" value="%2$s" checked="checked"> %4$s</label></li>',
 				esc_attr( $taxonomy->name ),
 				intval( $cat_id ),
+				esc_attr( $taxonomy->name === 'post_tag' ? 'post_tag' : 'tax_input[ ' . $taxonomy->name . ']' ),
 				esc_html( $cat_name )
 			);
 
@@ -451,19 +452,27 @@ class WordPress_Radio_Taxonomy {
 			return $post_id;
 		}
 
-		// If posts are being bulk edited, and no term is selected, do nothing.
-		if ( ! empty( $_GET[ 'bulk_edit' ] ) && empty ( $_REQUEST[ 'radio_tax_input' ][ "{$this->taxonomy}" ] ) ) {
-			return $post_id;
-		}
-
 		// Verify nonce.
 		if ( ! isset( $_REQUEST["_radio_nonce-{$this->taxonomy}"]) || ! wp_verify_nonce( $_REQUEST["_radio_nonce-{$this->taxonomy}"], "radio_nonce-{$this->taxonomy}" ) ) {
 			return $post_id;
 		}
 
+		if ( $this->taxonomy === 'category' ) {
+			$radio_tax_key = $_REQUEST['post_category' ];
+		} elseif ( $this->taxonomy === 'post_tag' ) {
+			$radio_tax_key = $_REQUEST['post_tag' ];
+		} else {
+			$radio_tax_key = $_REQUEST['tax_input']["{$this->taxonomy}"];
+		}
+
+		// If posts are being bulk edited, and no term is selected, do nothing.
+		if ( ! empty( $_GET[ 'bulk_edit' ] ) && empty ( $radio_tax_key ) ) {
+			return $post_id;
+		}
+		
 		// OK, we must be authenticated by now: we need to make sure we're only saving 1 term.
-		if ( ! empty ( $_REQUEST["radio_tax_input"]["{$this->taxonomy}"] ) ) {
-			$terms = (array) $_REQUEST["radio_tax_input"]["{$this->taxonomy}"];
+		if ( ! empty ( $radio_tax_key ) ) {
+			$terms = (array) $radio_tax_key;
 			$single_term = intval( array_shift( $terms ) );
 		} else {
 			// If not saving any terms, set to default.
