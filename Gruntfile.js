@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 					'!license.txt',
 					'!readme.md',
 					'!wp-assets/**',
+					'!deploy/**',
 					'!.git/**',
 					'!Gruntfile.js',
 					'!package.json',
@@ -85,6 +86,20 @@ module.exports = function(grunt) {
 					'readme.md': 'readme.txt'
 				},
 			},
+		},
+
+		// Make a zipfile.
+		compress: {
+			main: {
+				options: {
+					mode: 'zip',
+					archive: 'deploy/<%= pkg.name %>-<%= pkg.version %>.zip'
+				},
+				expand: true,
+				cwd: 'build/',
+				src: ['**/*'],
+				dest: '/<%= pkg.name %>'
+			}
 		},
 
 		// # Internationalization 
@@ -155,5 +170,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['wp_readme_to_markdown']);
 
 	grunt.registerTask('build', ['replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown']);
+
+	grunt.registerTask('zip', ['clean', 'copy', 'build', 'compress']);
 
 };
