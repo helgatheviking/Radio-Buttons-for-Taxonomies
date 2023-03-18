@@ -35,12 +35,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Radio_Buttons_For_Taxonomies {
 
 	/**
-	 * Donation URL for USA Women's National Team.
+	 * Donation URL.
 	 *
 	* @constant string donate url
 	* @since 1.7.8
 	*/
-	const DONATE_URL = 'https://www.paypal.com/fundraiser/charity/1451316';
+	const DONATE_URL = 'https://www.paypal.me/kathyisawesome';
 
 	/* @var obj $instance The single instance of Radio_Buttons_for_Taxonomies.*/
 	protected static $_instance = null;

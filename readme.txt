@@ -1,6 +1,6 @@
 === Radio Buttons for Taxonomies ===
 Contributors: helgatheviking
-Donate link: https://www.paypal.com/fundraiser/charity/1451316
+Donate link: https://www.paypal.me/kathyisawesome
 Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
 Requires at least: 4.5.0
 Tested up to: 6.1.0
