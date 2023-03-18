@@ -16,3 +16,4 @@ readme.md
 composer.json
 js/dist/index.deps.json
 .eslintrc.json
+webpack.config.js
