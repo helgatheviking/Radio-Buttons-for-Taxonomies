@@ -4,7 +4,7 @@
 **Tags:** taxonomy, admin, interface, ui, post, radio, terms, metabox  
 **Requires at least:** 4.5.0  
 **Tested up to:** 6.1.0  
-**Stable tag:** 2.4.6  
+**Stable tag:** 2.4.7  
 **License:** GPLv3 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html  
 
@@ -53,25 +53,28 @@ So for example, to disabled the "No term" option on a taxonomy called "genre" yo
 
 ## Changelog ##
 
-- 2022.02.15 - Version 2.4.6 =
+### 2023.03.18 - Version 2.4.7 ###
+* Manual update to ensure SVN version is the same as GitHub version.
+
+### 2023.02.15 - Version 2.4.6 ###
 * Fix: Typo from 2.4.5 patch. Closes #111.
 
-- 2022.02.13 - Version 2.4.5 =
+### 2023.02.13 - Version 2.4.5 ###
 * Fix: Reload non-hierarchical terms as forced-hierarchical after quick edit save. Closes #109.
 
-- 2022.06.28 - Version 2.4.4 =
+### 2022.06.28 - Version 2.4.4 ###
 * Fix: Bulk edit removes terms (set to default) when not editing the term. Closes #105.
 
-- 2022.06.15 - Version 2.4.3 =
+### 2022.06.15 - Version 2.4.3 ###
  * Fix: Fatal error when deleting plugin. uninstall callback must be static. Closes #104.
 
-- 2022.01.06 - Version 2.4.2 =
+### 2022.01.06 - Version 2.4.2 ###
 * Fix: Conflict with default term, multiple checked terms (term plus default term). Closes #103.
 
-- 2021.12.27 - Version 2.4.1 =
+### 2021.12.27 - Version 2.4.1 ###
 * Fix: Fatal error from compatibility module includes.
 
-- 2021.12.27 - Version 2.4.0 =
+### 2021.12.27 - Version 2.4.0 ###
 * Update: Drop support for WordPress < 4.4
 * New: Compatibility with WP SEO's primary term (disable for Radio terms)
 * New: Save default term if it exists and no term is selected.
