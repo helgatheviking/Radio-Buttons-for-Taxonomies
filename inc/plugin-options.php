@@ -16,7 +16,7 @@
 
 		<fieldset>
 			<legend><?php esc_html_e('Select taxonomies to convert to radio buttons', 'radio-buttons-for-taxonomies'); ?></legend>
-			<table>
+			<table class="wp-list-table widefat fixed striped table-view-list posts">
 				<tbody>
 
 					<?php
