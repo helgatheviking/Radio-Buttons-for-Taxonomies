@@ -113,7 +113,7 @@ class Radio_Buttons_For_Taxonomies {
 		add_action('init', array($this, 'load_text_domain'));
 
 		// Launch each taxonomy class.
-		add_action('wp_loaded', array($this, 'launch'));
+		add_action('current_screen', array($this, 'launch'));
 
 		// register admin settings.
 		add_action('admin_init', array($this, 'admin_init'));
@@ -173,11 +173,16 @@ class Radio_Buttons_For_Taxonomies {
 	public function launch() {
 		// Run only for taxonomies we need.
 		$radiotaxonomies = $this->get_options('taxonomies');
+		$screen           = get_current_screen();
+		$post_type        = $screen ? $screen->post_type : '';
 
 		// Loop through selected taxonomies.
-		foreach ($radiotaxonomies as $radiotaxonomy) {
-			if (taxonomy_exists($radiotaxonomy)) {
-				$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy($radiotaxonomy);
+		foreach ($radiotaxonomies as $key => $radiotaxonomy) {
+
+			if (is_string($radiotaxonomy)) {
+				if (in_array($post_type, $radiotaxonomies[$radiotaxonomy])) {
+					$this->taxonomies[$radiotaxonomy] = new WordPress_Radio_Taxonomy($radiotaxonomy);
+				}
 			}
 		}
 	}
@@ -278,15 +283,15 @@ class Radio_Buttons_For_Taxonomies {
 		 */
 		if (in_array($screen_base, array('post', 'edit')) && !$has_block_editor) {
 
-			foreach ($this->options['taxonomies'] as $tax) {
-				if (is_array($tax)) {
+			//foreach ($this->options['taxonomies'] as $key => $tax) {
+			//if (is_array($tax)) {
 
-					// If the post type has a radio taxonomy.
-					if ($post_type && array_intersect($tax, get_object_taxonomies($post_type, 'names'))) {
-						wp_enqueue_script('radiotax');
-					}
-				}
-			}
+			// If the post type has a radio taxonomy.
+			//if ($post_type == $key && in_array($key, get_object_taxonomies($post_type, 'names'))) {
+			wp_enqueue_script('radiotax');
+			//}
+			//}
+			//}
 		}
 	}
 
@@ -313,13 +318,13 @@ class Radio_Buttons_For_Taxonomies {
 		wp_set_script_translations('radiotax-gutenberg-sidebar', 'radio-buttons-for-taxonomies');
 
 
-		$localize_taxonomies = [];
+		$localize_taxonomies = '';
 		$current_post_type = get_post_type();
 		$opt = (array) $this->get_options('taxonomies');
 
 		foreach ($opt as $key => $value) {
 			if (is_array($value) && in_array($current_post_type, $value)) {
-				$localize_taxonomies[] = $key;
+				$localize_taxonomies = $key;
 			}
 		}
 

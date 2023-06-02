@@ -67,8 +67,8 @@ if (!class_exists('WordPress_Radio_Taxonomy')) :
 			}
 
 			// Never save more than 1 term.
-			add_action('save_post', array($this, 'save_single_term'));
-			add_action('edit_attachment', array($this, 'save_single_term'));
+			//add_action('save_post', array($this, 'save_single_term'));
+			//add_action('edit_attachment', array($this, 'save_single_term'));
 
 			// Hack global taxonomy to switch all radio taxonomies to hierarchical on edit screen.
 			add_action('load-edit.php', array($this, 'make_hierarchical'));
