@@ -38,7 +38,7 @@ class RB4T_WPSEO_Compatibility {
 	 */
 	public static function remove_radio_taxonomies( $taxonomies, $post_type, $all_taxonomies ) {
 
-		$radio_taxonomies = (array) radio_buttons_for_taxonomies()->get_options( 'taxonomies' );
+		$radio_taxonomies = array_filter((array) radio_buttons_for_taxonomies()->get_options( 'taxonomies' ), "is_string");
 
 		if ( ! empty( $radio_taxonomies ) ) {
 			$taxonomies = array_diff_key( $taxonomies, array_flip( $radio_taxonomies ) );
