@@ -318,13 +318,13 @@ class Radio_Buttons_For_Taxonomies {
 		wp_set_script_translations('radiotax-gutenberg-sidebar', 'radio-buttons-for-taxonomies');
 
 
-		$localize_taxonomies = '';
+		$localize_taxonomies = [];
 		$current_post_type = get_post_type();
 		$opt = (array) $this->get_options('taxonomies');
 
 		foreach ($opt as $key => $value) {
 			if (is_array($value) && in_array($current_post_type, $value)) {
-				$localize_taxonomies = $key;
+				$localize_taxonomies[] = $key;
 			}
 		}
 
