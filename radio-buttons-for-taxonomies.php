@@ -137,7 +137,7 @@ class Radio_Buttons_For_Taxonomies {
 		add_action('rest_api_init', array($this, 'register_rest_field'));
 
 		// Limit return to first term... just in case.
-		add_filter('get_the_terms', array($this, 'restrict_terms'), 10, 3);
+		// add_filter('get_the_terms', array($this, 'restrict_terms'), 10, 3);
 	}
 
 
