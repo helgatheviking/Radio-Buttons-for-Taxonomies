@@ -207,7 +207,13 @@ class Radio_Buttons_For_Taxonomies {
 	 * @since  1.0
 	 */
 	public function add_options_page() {
-		add_options_page(__( 'Radio Buttons for Taxonomies Options Page', 'radio-buttons-for-taxonomies' ), __( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ), 'manage_options', 'radio-buttons-for-taxonomies', array( $this,'render_form' ) );
+		add_options_page(
+			esc_html__( 'Radio Buttons for Taxonomies Options Page', 'radio-buttons-for-taxonomies' ), 
+			esc_html__( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ),
+			'manage_options',
+			'radio-buttons-for-taxonomies',
+			array( $this,'render_form' )
+		);
 	}
 
 	/**
@@ -333,7 +339,7 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function add_meta_links( $plugin_meta, $plugin_file ) {
 		if ( $plugin_file == plugin_basename(__FILE__) ) {
-			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . __( 'Donate', 'radio-buttons-for-taxonomies' ) . '</a>';
+			$plugin_meta[] = '<a class="dashicons-before dashicons-awards" href="' . self::DONATE_URL . '" target="_blank">' . esc_html__( 'Donate', 'radio-buttons-for-taxonomies' ) . '</a>';
 		}
 		return $plugin_meta;
 	}
@@ -365,7 +371,7 @@ class Radio_Buttons_For_Taxonomies {
 
 			    },
 				'schema' => array(
-					'description' => __( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
+					'description' => esc_html__( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
 					'type'        => 'bool'
 				),
 			)
@@ -379,7 +385,7 @@ class Radio_Buttons_For_Taxonomies {
 					return intval( get_option( 'default_' . $params['slug'], 0 ) );
 			    },
 				'schema' => array(
-					'description' => __( 'Taxonomy default term ID.', 'radio-buttons-for-taxonomies' ),
+					'description' => esc_html__( 'Taxonomy default term ID.', 'radio-buttons-for-taxonomies' ),
 					'type'        => 'int'
 				),
 			)

@@ -7,7 +7,7 @@
 		}
 	</style>
 
-	<h2><?php _e( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ); ?></h2>
+	<h2><?php esc_html_e( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ); ?></h2>
 
 	<!-- Beginning of the Plugin Options Form -->
 	<form method="post" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
