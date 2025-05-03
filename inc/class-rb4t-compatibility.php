@@ -47,8 +47,6 @@ class RB4T_Compatibility {
 		foreach ( $module_paths as $name => $path ) {
 			require_once $path;
 		}
-
 	}
-
 }
 add_action( 'plugins_loaded', array( 'RB4T_Compatibility', 'init' ), 20 );
