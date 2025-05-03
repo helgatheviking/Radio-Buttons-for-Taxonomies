@@ -14,7 +14,7 @@
  *
  * @package           Radio Buttons for Taxonomies
  * @author            Kathy Darling
- * @copyright         Copyright (c) 2019, Kathy Darling
+ * @copyright         Copyright (c) 2025, Kathy Darling
  * @license           http://opensource.org/licenses/gpl-3.0.php GNU Public License
  *
  * Props to by Stephen Harris http://profiles.wordpress.org/stephenh1988/
