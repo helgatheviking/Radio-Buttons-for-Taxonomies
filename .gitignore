@@ -5,3 +5,5 @@ package-lock.json
 *.afdesign
 *.idea
 *.DS_Store
+js/dist/
+*.min.js
