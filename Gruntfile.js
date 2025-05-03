@@ -132,4 +132,5 @@ module.exports = function(grunt) {
 
 	grunt.registerTask( 'build', [ 'replace', 'newer:uglify' ] );
 
+	grunt.registerTask( 'release', [ 'clean', 'copy', 'build', 'compress' ] );
 };

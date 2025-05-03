@@ -16,6 +16,7 @@
     "makepot": "composer run makepot",
     "start": "wp-scripts start --webpack--devtool=source-map",
     "release": "npm run build && npm run makepot && grunt zip"
+      "release": "npm run build && npm run makepot && grunt release"
   },
   "devDependencies": {
     "@wordpress/scripts": "23.3.0",
