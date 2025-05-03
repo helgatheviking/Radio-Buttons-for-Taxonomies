@@ -173,7 +173,7 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function launch() {
 		// Run only for taxonomies we need.
-		$radiotaxonomies = $this->get_options( 'taxonomies' );
+		$radiotaxonomies = $this->get_radio_taxonomies();
 
 		// Loop through selected taxonomies.
 		foreach ( $radiotaxonomies as $radiotaxonomy ) {
@@ -307,7 +307,7 @@ class Radio_Buttons_For_Taxonomies {
 
 		wp_set_script_translations( 'radiotax-gutenberg-sidebar', 'radio-buttons-for-taxonomies' );
 
-		$i18n = array( 'radio_taxonomies' => (array) $this->get_options( 'taxonomies' ) );
+		$i18n = array( 'radio_taxonomies' => (array) $this->get_radio_taxonomies() );
 		wp_localize_script( 'radiotax-gutenberg-sidebar', 'RB4Tl18n', $i18n );
 	}
 
@@ -487,6 +487,16 @@ class Radio_Buttons_For_Taxonomies {
 		}
 	}
 
+	/**
+	 * Get the activated radio taxonomies.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array
+	 */
+	public function get_radio_taxonomies() {
+		return (array) apply_filters( 'radio_buttons_for_taxonomies_active_taxonomies', $this->get_options( 'taxonomies' ) );
+	}
 
 	/**
 	 * Is this a radio taxonomy?
@@ -497,7 +507,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return bool
 	 */
 	public function is_radio_tax( $taxonomy ) {
-		return in_array( $taxonomy, (array) $this->get_options( 'taxonomies' ) );
+		return in_array( $taxonomy, (array) $this->get_radio_taxonomies() );
 	}
 
 

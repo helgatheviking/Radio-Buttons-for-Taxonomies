@@ -53,6 +53,9 @@ add_filter( 'radio_buttons_for_taxonomies_no_term_genre', '__return_FALSE' );
 
 == Changelog ==
 
+= 2025.xx.xx - Version 3.0.0 =
+* New: `radio_buttons_for_taxonomies_active_taxonomies` for programatically declaring which taxonomies use the radio UI.
+
 = 2023.03.18 - Version 2.4.7 =
 * Manual update to ensure SVN version is the same as GitHub version.
 
