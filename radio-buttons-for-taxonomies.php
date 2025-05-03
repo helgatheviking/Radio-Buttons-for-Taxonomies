@@ -6,7 +6,7 @@
  * Version:           2.4.7
  * Author:            helgatheviking
  * Author URI:        https://www.kathyisawesome.com
- * Requires at least: 4.5.0
+ * Requires at least: 6.0.0
  * Tested up to:      6.1.0
  *
  * Text Domain:       radio-buttons-for-taxonomies
