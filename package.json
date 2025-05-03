@@ -11,11 +11,13 @@
   "bugs": {
     "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies/issues"
   },
-  "scripts": {
-    "build": "wp-scripts build",
-    "makepot": "composer run makepot",
-    "start": "wp-scripts start --webpack--devtool=source-map",
-    "release": "npm run build && npm run makepot && grunt zip"
+  "scripts":
+  {
+      "build": "wp-scripts build",
+      "format": "wp-scripts format",
+      "lint:js": "wp-scripts lint-js",
+      "makepot": "composer run makepot",
+      "start": "wp-scripts start --webpack--devtool=source-map",
       "release": "npm run build && npm run makepot && grunt release"
   },
   "devDependencies":
