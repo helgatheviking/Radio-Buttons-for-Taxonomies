@@ -75,16 +75,7 @@ module.exports = function(grunt) {
 					'!.distignore',
 					'!**/*~',
 				],
-				dest: 'build/'
-			}
-		},
-
-		// Generate git readme from readme.txt
-		wp_readme_to_markdown: {
-			convert: {
-				files: {
-					'readme.md': 'readme.txt'
-				},
+				dest: 'build/',
 			},
 		},
 
@@ -135,14 +126,10 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['jshint', 'uglify']);
+	grunt.registerTask( 'default', [ 'jshint', 'uglify' ] );
 
-	grunt.registerTask('test', ['jshint']);
+	grunt.registerTask( 'test', [ 'jshint' ] );
 
-	grunt.registerTask('docs', ['wp_readme_to_markdown']);
-
-	grunt.registerTask('build', ['replace', 'newer:uglify', 'wp_readme_to_markdown']);
-
-	grunt.registerTask('zip', ['clean', 'copy', 'build', 'compress']);
+	grunt.registerTask( 'build', [ 'replace', 'newer:uglify' ] );
 
 };

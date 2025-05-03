@@ -31,7 +31,7 @@
     "grunt-contrib-watch": "~1.1.0",
     "grunt-newer": "~1.3.0",
     "grunt-text-replace": "^0.4.0",
-    "grunt-wp-readme-to-markdown": "~2.1.0",
+      "jshint-stylish": "~2.2.1",
     "ignore-emit-webpack-plugin": "^2.0.6",
     "jshint-stylish": "~2.2.1",
     "load-grunt-tasks": "~5.1.0"
