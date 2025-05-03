@@ -1,12 +1,14 @@
 === Radio Buttons for Taxonomies ===
 Contributors: helgatheviking
 Donate link: https://www.paypal.me/kathyisawesome
-Tags: taxonomy, admin, interface, ui, post, radio, terms, metabox
+Tags: taxonomy, admin, post, radio, terms, metabox
 Requires at least: 6.0.0
-Tested up to: 6.7.0
+Tested up to: 6.8.0
 Stable tag: 2.4.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
+Replace the default taxonomy term checkboxes with radio buttons.
 
 == Description ==
 
