@@ -1,6 +1,7 @@
 node_modules/
 build/
 deploy/
+vendor/
 package-lock.json
 *.afdesign
 *.idea

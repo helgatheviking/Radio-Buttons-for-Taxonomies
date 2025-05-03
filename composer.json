@@ -2,8 +2,27 @@
 	"name": "helgatheviking/radio-buttons-for-taxonomies",
 	"description": "Turn any WordPress taxonomy into a list of radio buttons, which forces users to select only 1 term!",
 	"type": "wordpress-muplugin",
-	"keywords": ["wordpress", "plugin", "taxonomy", "term"],
-	"require": {
-		"php": ">=7.2"
+	"keywords": [
+		"wordpress",
+		"plugin",
+		"taxonomy",
+		"term"
+	],
+	"require-dev": {
+		"wp-cli/i18n-command": "^2.6"
+	},
+	"scripts": {
+		"makepot-audit": [
+			"wp --allow-root i18n make-pot . languages/radio-buttons-for-taxonomies.pot --slug=radio-buttons-for-taxonomies --exclude=\".github,.wordpress-org,node_modules,vendor,src,build,deploy\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/tickets/\"}'"
+		],
+		"makepot": [
+			"@makepot-audit --skip-audit"
+		]
+	},
+	"extra": {
+		"scripts-description": {
+			"makepot": "Generate a .pot file for translation",
+			"makepot-audit": "Generate a .pot file for translation. Dry run."
+		}
 	}
 }

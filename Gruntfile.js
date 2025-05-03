@@ -102,31 +102,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// # Internationalization 
-
-		// Add text domain
-		addtextdomain: {
-			textdomain: '<%= pkg.name %>',
-			target: {
-				files: {
-					src: ['*.php', '**/*.php', '!node_modules/**', '!build/**']
-				}
-			}
-		},
-
-		// Generate .pot file
-		makepot: {
-			target: {
-				options: {
-					domainPath: '/languages', // Where to save the POT file.
-					exclude: ['build'], // List of files or directories to ignore.
-					mainFile: '<%= pkg.name %>.php', // Main project file.
-					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
-					type: 'wp-plugin' // Type of project (wp-plugin or wp-theme).
-				}
-			}
-		},
-
 		// bump version numbers
 		replace: {
 			Version: {
@@ -159,17 +134,14 @@ module.exports = function(grunt) {
 
 	});
 
-	// makepot and addtextdomain tasks
-	grunt.loadNpmTasks('grunt-wp-i18n');
-
 	// Default task(s).
 	grunt.registerTask('default', ['jshint', 'uglify']);
 
-	grunt.registerTask('test', ['jshint', 'addtextdomain']);
+	grunt.registerTask('test', ['jshint']);
 
 	grunt.registerTask('docs', ['wp_readme_to_markdown']);
 
-	grunt.registerTask('build', ['replace', 'newer:uglify', 'makepot', 'wp_readme_to_markdown']);
+	grunt.registerTask('build', ['replace', 'newer:uglify', 'wp_readme_to_markdown']);
 
 	grunt.registerTask('zip', ['clean', 'copy', 'build', 'compress']);
 
