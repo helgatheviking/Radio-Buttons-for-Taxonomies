@@ -3,13 +3,15 @@
   "author": "helgatheviking",
   "version": "2.4.7",
   "description": "Use radio buttons for any taxonomy so users can only select 1 term at a time",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies"
+  "repository":
+  {
+      "type": "git",
+      "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies"
   },
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies/issues"
+  "bugs":
+  {
+      "url": "https://github.com/helgatheviking/radio-buttons-for-taxonomies/issues"
   },
   "scripts":
   {
