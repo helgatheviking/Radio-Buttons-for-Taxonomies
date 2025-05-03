@@ -22,8 +22,7 @@ class RB4T_WPSEO_Compatibility {
 	public static function init() {
 
 		// Primary term taxonomies.
-		add_filter( 'wpseo_primary_term_taxonomies', array( __CLASS__, 'remove_radio_taxonomies'), 10, 3 );
-
+		add_filter( 'wpseo_primary_term_taxonomies', array( __CLASS__, 'remove_radio_taxonomies' ), 10, 3 );
 	}
 
 	/**
@@ -45,7 +44,6 @@ class RB4T_WPSEO_Compatibility {
 		}
 		return $taxonomies;
 	}
-
 }
 
 RB4T_WPSEO_Compatibility::init();

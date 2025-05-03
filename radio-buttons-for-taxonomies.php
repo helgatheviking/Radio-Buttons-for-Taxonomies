@@ -1,8 +1,8 @@
 <?php
 /*
- * Plugin Name: 	  Radio Buttons for Taxonomies
- * Plugin URI: 		  http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
- * Description: 	  Use radio buttons for any taxonomy so users can only select 1 term at a time
+ * Plugin Name:       Radio Buttons for Taxonomies
+ * Plugin URI:        http://www.kathyisawesome.com/441/radio-buttons-for-taxonomies
+ * Description:       Use radio buttons for any taxonomy so users can only select 1 term at a time
  * Version:           3.0.0-beta.1
  * Author:            helgatheviking
  * Author URI:        https://www.kathyisawesome.com
@@ -138,7 +138,6 @@ class Radio_Buttons_For_Taxonomies {
 
 		// Limit return to first term... just in case.
 		add_filter( 'get_the_terms', array( $this, 'restrict_terms' ), 10, 3 );
-
 	}
 
 
@@ -151,7 +150,9 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public static function delete_plugin_options() {
 		$options = get_option( 'radio_button_for_taxonomies_options', true );
-		if ( isset( $options['delete'] ) && $options['delete'] ) delete_option( 'radio_button_for_taxonomies_options' );
+		if ( isset( $options['delete'] ) && $options['delete'] ) {
+delete_option( 'radio_button_for_taxonomies_options' );
+		}
 	}
 
 	/**
@@ -212,7 +213,7 @@ class Radio_Buttons_For_Taxonomies {
 			esc_html__( 'Radio Buttons for Taxonomies', 'radio-buttons-for-taxonomies' ),
 			'manage_options',
 			'radio-buttons-for-taxonomies',
-			array( $this,'render_form' )
+			array( $this, 'render_form' )
 		);
 	}
 
@@ -295,7 +296,7 @@ class Radio_Buttons_For_Taxonomies {
 	public function block_editor_assets() {
 
 		// Automatically load dependencies and version.
-		$asset_file = include( plugin_dir_path( __FILE__ ) . 'js/dist/index.asset.php');
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'js/dist/index.asset.php';
 
 		wp_enqueue_script(
 			'radiotax-gutenberg-sidebar',
@@ -368,11 +369,10 @@ class Radio_Buttons_For_Taxonomies {
 					$has_default = 'category' === $taxonomy || get_option( 'default_term_' . $taxonomy );
 					
 					return apply_filters( 'radio_buttons_for_taxonomies_no_term_' . $taxonomy, ! $has_default );
-
-			    },
+				},
 				'schema' => array(
 					'description' => esc_html__( 'Radio taxonomy should show no term option.', 'radio-buttons-for-taxonomies' ),
-					'type'        => 'bool'
+					'type'        => 'bool',
 				),
 			)
 		);
@@ -383,14 +383,13 @@ class Radio_Buttons_For_Taxonomies {
 			array(
 				'get_callback' => function ( $params ) {
 					return intval( get_option( 'default_' . $params['slug'], 0 ) );
-			    },
+				},
 				'schema' => array(
 					'description' => esc_html__( 'Taxonomy default term ID.', 'radio-buttons-for-taxonomies' ),
-					'type'        => 'int'
+					'type'        => 'int',
 				),
 			)
 		);
-
 	}
 
 
@@ -424,8 +423,8 @@ class Radio_Buttons_For_Taxonomies {
 	 */
 	public function get_all_taxonomies() {
 
-		$args = array (
-			'show_ui'  => true
+		$args = array(
+			'show_ui'  => true,
 		);
 
 		$taxonomies = apply_filters( 'radio_buttons_for_taxonomies_taxonomies', get_taxonomies( $args, 'objects' ) );
@@ -469,10 +468,10 @@ class Radio_Buttons_For_Taxonomies {
 	 * @param mixed
 	 * @return bool
 	 */
-	public function get_options( $option = false) {
+	public function get_options( $option = false ) {
 		if ( ! $this->options ) {
 
-			$defaults = array(
+			$defaults      = array(
 				'taxonomies' => array(),
 				'delete'     => 0,
 			);
@@ -521,11 +520,10 @@ class Radio_Buttons_For_Taxonomies {
 	 * @deprecated 2.4.0 - Moved to separate compat class module.
 	 * @see: RB4T_MultilingualPress_Compatibility::multilingualpress_support()
 	 */
-	public function multilingualpress_support( Array $taxonomies ) {
+	public function multilingualpress_support( array $taxonomies ) {
 		_deprecated_function( __METHOD__ . '()', '2.4.0', 'RB4T_MultilingualPress_Compatibility::multilingualpress_support()' );
 		RB4T_MultilingualPress_Compatibility::multilingualpress_support( $taxonomies );
 	}
-
 } // End class.
 
 

@@ -17,14 +17,14 @@
 			<legend><?php esc_html_e( 'Select taxonomies to convert to radio buttons', 'radio-buttons-for-taxonomies' ); ?></legend>
 
 			<?php
-			$taxonomies = Radio_Buttons_For_Taxonomies::instance()->get_all_taxonomies();
+			$taxonomies        = Radio_Buttons_For_Taxonomies::instance()->get_all_taxonomies();
 			$active_taxonomies = Radio_Buttons_For_Taxonomies::instance()->get_radio_taxonomies();
 
 			if ( ! empty ( $taxonomies ) ) {
 
 				foreach ( $taxonomies as $i => $taxonomy ) {
 					$is_checked = Radio_Buttons_For_Taxonomies()->is_radio_tax( $i );
-					$id = "rbt_$i";
+					$id         = "rbt_$i";
 					?>
 					<p>
 						<label for="<?php echo esc_attr( $id ); ?>">
@@ -59,7 +59,7 @@
 
 		<p class="submit">
 			<input type="submit" class="button-primary"
-				   value="<?php esc_attr_e( 'Save Changes', 'radio-buttons-for-taxonomies' ) ?>"/>
+					value="<?php esc_attr_e( 'Save Changes', 'radio-buttons-for-taxonomies' ); ?>"/>
 		</p>
 	</form>
 </div>

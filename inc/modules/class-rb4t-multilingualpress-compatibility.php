@@ -21,7 +21,6 @@ class RB4T_MultilingualPress_Compatibility {
 
 		// Primary term taxonomies.
 		add_filter( 'mlp_mutually_exclusive_taxonomies', array( __CLASS__, 'multilingualpress_support' ) );
-
 	}
 
 	/**
@@ -34,7 +33,7 @@ class RB4T_MultilingualPress_Compatibility {
 	 * @param array $taxonomies
 	 * @return array
 	 */
-	public static function multilingualpress_support( Array $taxonomies ) {
+	public static function multilingualpress_support( array $taxonomies ) {
 
 		$remote_options = get_option( 'radio_button_for_taxonomies_options', array() );
 
@@ -46,7 +45,6 @@ class RB4T_MultilingualPress_Compatibility {
 
 		return array_unique( $all_taxonomies );
 	}
-
 }
 
 RB4T_MultilingualPress_Compatibility::init();
