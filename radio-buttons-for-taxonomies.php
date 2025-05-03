@@ -405,7 +405,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @param string             $taxonomy Name of the taxonomy.
 	 * @return WP_Term[]|WP_Error
 	 */
-	function restrict_terms( $terms, $post_id, $taxonomy ) {
+	public function restrict_terms( $terms, $post_id, $taxonomy ) {
 		if ( ! is_wp_error( $terms ) && $this->is_radio_tax( $taxonomy ) && count( $terms) > 1 ) {
 			$terms = array_slice( $terms, 0, 1 );
 		}
@@ -422,7 +422,7 @@ class Radio_Buttons_For_Taxonomies {
 	 * @return array
 	 * @since  1.7
 	 */
-	function get_all_taxonomies() {
+	public function get_all_taxonomies() {
 
 		$args = array (
 			'show_ui'  => true
