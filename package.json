@@ -15,11 +15,11 @@
   },
   "scripts":
   {
-      "build": "wp-scripts build",
+      "build": "wp-scripts build --source-path=js/src --output-path=js/dist",
       "format": "wp-scripts format",
       "lint:js": "wp-scripts lint-js",
       "makepot": "composer run makepot",
-      "start": "wp-scripts start --webpack--devtool=source-map",
+      "start": "wp-scripts start --source-path=js/src --output-path=js/dist",
       "release": "npm run build && npm run makepot && grunt release"
   },
   "devDependencies":
