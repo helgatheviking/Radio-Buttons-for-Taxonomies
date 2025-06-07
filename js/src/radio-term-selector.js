@@ -166,6 +166,7 @@ export function RadioTermSelector( { slug } ) {
 	const {
 		hasCreateAction,
 		hasAssignAction,
+		klass, // @helgatheviking.
 		terms,
 		loading,
 		availableTerms,
@@ -190,6 +191,7 @@ export function RadioTermSelector( { slug } ) {
 							'wp:action-assign-' + _taxonomy.rest_base
 					  ] ?? false
 					: false,
+				klass: taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical',
 				terms: _taxonomy
 					? getEditedPostAttribute( _taxonomy.rest_base )
 					: EMPTY_ARRAY,
@@ -206,9 +208,6 @@ export function RadioTermSelector( { slug } ) {
 		},
 		[ slug ]
 	);
-
-	// @helgatheviking - Check if the taxonomy is hierarchical.
-	const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical';
 
 	const { editPost } = useDispatch( editorStore );
 	const { saveEntityRecord } = useDispatch( coreStore );
@@ -382,13 +381,7 @@ export function RadioTermSelector( { slug } ) {
 						} }
 					/>
 					{ !! term.children.length && (
-						<div
-							className={
-								'editor-post-taxonomies__' +
-								klass +
-								'-terms-subchoices '
-							}
-						>
+						<div className={ `editor-post-taxonomies__${ klass }-terms-subchoices` } >
 							{ renderTerms( term.children ) }
 						</div>
 					) }
@@ -466,11 +459,7 @@ export function RadioTermSelector( { slug } ) {
 				{ taxonomy.radio_no_term && (
 					<div
 						key="no-term"
-						className={
-							'editor-post-taxonomies__' +
-							klass +
-							'-terms-choice '
-						}
+						className={ `editor-post-taxonomies__${ klass }-terms-choice` }
 					>
 						<RadioControl
 							selected={ noneSelected }
