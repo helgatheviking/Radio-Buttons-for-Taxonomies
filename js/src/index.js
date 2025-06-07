@@ -4,6 +4,7 @@
  * External dependencies
  */
 import { createElement } from '@wordpress/element';
+import { addFilter } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -21,7 +22,7 @@ function CustomizeTaxonomySelector( OriginalComponent ) {
 	};
 }
 
-wp.hooks.addFilter(
+addFilter(
 	'editor.PostTaxonomyType',
 	'RB4T',
 	CustomizeTaxonomySelector
