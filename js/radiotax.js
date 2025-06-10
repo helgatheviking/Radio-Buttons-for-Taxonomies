@@ -1,3 +1,5 @@
+/* global jQuery, inlineEditPost */
+
 ( function ( $ ) {
 	/*
 	 * Quick Edit
@@ -10,7 +12,7 @@
 		// get the post ID
 		var post_id = inlineEditPost.getId( this );
 
-		rowData = $( '#inline_' + post_id );
+		var rowData = $( '#inline_' + post_id );
 
 		// hierarchical taxonomies (we're treating all radio taxes as hierarchical)
 		$( '.post_category', rowData ).each( function () {
