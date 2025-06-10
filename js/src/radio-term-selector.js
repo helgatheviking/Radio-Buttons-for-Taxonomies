@@ -458,7 +458,7 @@ export function RadioTermSelector( { slug } ) {
 				{ /* @helgatheviking - Add default term to the list. */ }
 				{ taxonomy.radio_no_term && (
 					<div
-						key="no-term"
+						key={ `${ taxonomy }-no-term` }
 						className={ `editor-post-taxonomies__${ klass }-terms-choice` }
 					>
 						<RadioControl
