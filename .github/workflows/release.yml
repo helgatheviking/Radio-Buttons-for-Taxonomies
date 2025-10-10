@@ -44,10 +44,10 @@ jobs:
               env:
                   COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: "Get Composer Cache Directory."
+            - name: 'Get Composer Cache Directory.'
               id: composer-cache
               run: |
-                echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+                  echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: 'Sets up Composer Caching.'
               uses: 'actions/cache@v4'
@@ -65,15 +65,15 @@ jobs:
               run: |
                   composer install --no-interaction --prefer-dist --no-scripts
 
-            - name: "Setup NodeJS."
+            - name: 'Setup NodeJS.'
               uses: actions/setup-node@v4
               with:
-                node-version: '20'
+                  node-version: '20'
 
-            - name: "Get NPM cache directory."
+            - name: 'Get NPM cache directory.'
               id: npm-cache-dir
               run: |
-                echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+                  echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
 
             - name: 'Sets up NPM Caching.'
               uses: actions/cache@v4
@@ -90,9 +90,9 @@ jobs:
               run: |
                   echo "release_tag=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
 
-            - name: "Get release file base name."
+            - name: 'Get release file base name.'
               run: |
-                echo "release_name=$(node -p -e "require('./package.json').name")" >> $GITHUB_ENV
+                  echo "release_name=$(node -p -e "require('./package.json').name")" >> $GITHUB_ENV
 
             - name: 'Logs debug information.'
               run: |

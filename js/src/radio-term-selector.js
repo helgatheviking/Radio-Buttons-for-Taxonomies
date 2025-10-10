@@ -526,18 +526,17 @@ export function RadioTermSelector( { slug } ) {
 							onChange={ onChangeFormName }
 							required
 						/>
-						{ taxonomy.hierarchical &&
-							!! availableTerms.length && ( // @helgatheviking - Only show parent select if taxonomy is hierarchical.
-								<TreeSelect
-									__next40pxDefaultSize
-									__nextHasNoMarginBottom
-									label={ parentSelectLabel }
-									noOptionLabel={ noParentOption }
-									onChange={ onChangeFormParent }
-									selectedId={ formParent }
-									tree={ availableTermsTree }
-								/>
-							) }
+						{ taxonomy.hierarchical && !! availableTerms.length && ( // @helgatheviking - Only show parent select if taxonomy is hierarchical.
+							<TreeSelect
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ parentSelectLabel }
+								noOptionLabel={ noParentOption }
+								onChange={ onChangeFormParent }
+								selectedId={ formParent }
+								tree={ availableTermsTree }
+							/>
+						) }
 						<FlexItem>
 							<Button
 								__next40pxDefaultSize
