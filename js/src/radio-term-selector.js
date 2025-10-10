@@ -426,16 +426,22 @@ export function RadioTermSelector( { slug } ) {
 	// @helgatheviking - Add default term to the list.
 	const noneSelected = terms.length ? 0 : -1;
 
-	const singleTerm = labelWithFallback(
-		'singular_name',
-		__( 'Category' ),
-		__( 'Term' )
-	);
+	/**
+	 * Build the “No …” label dynamically.
+	 */
+	const singularName =
+		taxonomy?.labels?.singular_name ??
+		( slug === 'category' ? __( 'Category' ) : __( 'Term' ) );
 
-	const noTermLabel = sprintf(
-		/* translators: %s: taxonomy name */
+	const noTermLabelFallback = sprintf(
+		/* translators: %s: taxonomy singular name */
 		_x( 'No %s', 'term', 'radio-buttons-for-taxonomies' ),
-		singleTerm
+		singularName
+	);
+	const noTermLabel = labelWithFallback(
+		'no_item_name',
+		noTermLabelFallback,
+		noTermLabelFallback
 	);
 
 	return (
