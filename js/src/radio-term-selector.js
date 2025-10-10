@@ -1,4 +1,8 @@
 /**
+ * Modified version of https://github.com/WordPress/gutenberg/blame/trunk/packages/editor/src/components/post-taxonomies/hierarchical-term-selector.js
+ */
+
+/**
  * WordPress dependencies
  */
 import { __, _n, _x, sprintf } from '@wordpress/i18n';
@@ -6,12 +10,13 @@ import { useMemo, useState } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
 import {
 	Button,
-	RadioControl,
+	RadioControl, // @helgatheviking.
 	TextControl,
 	TreeSelect,
 	Flex,
 	FlexItem,
 	SearchControl,
+	Spinner,
 } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useDebounce } from '@wordpress/compose';
@@ -24,6 +29,7 @@ import { store as editorStore } from '@wordpress/editor';
  * Internal dependencies
  */
 import { buildTermsTree } from './terms';
+const { normalizeTextString, RECEIVE_INTERMEDIATE_RESULTS } = './utils';
 
 /**
  * Module Constants
@@ -34,10 +40,9 @@ const DEFAULT_QUERY = {
 	order: 'asc',
 	_fields: 'id,name,parent',
 	context: 'view',
+	[ RECEIVE_INTERMEDIATE_RESULTS ]: true,
 };
-
 const MIN_TERMS_COUNT_FOR_FILTER = 8;
-
 const EMPTY_ARRAY = [];
 
 /**
@@ -131,7 +136,9 @@ export function getFilterMatcher( filterValue ) {
 		// (i.e. some child matched at some point in the tree) then return it.
 		if (
 			-1 !==
-				term.name.toLowerCase().indexOf( filterValue.toLowerCase() ) ||
+				normalizeTextString( term.name ).indexOf(
+					normalizeTextString( filterValue )
+				) ||
 			term.children.length > 0
 		) {
 			return term;
@@ -182,14 +189,14 @@ export function RadioTermSelector( { slug } ) {
 
 			return {
 				hasCreateAction: _taxonomy
-					? post._links?.[
+					? !! post._links?.[
 							'wp:action-create-' + _taxonomy.rest_base
-					  ] ?? false
+					  ]
 					: false,
 				hasAssignAction: _taxonomy
-					? post._links?.[
+					? !! post._links?.[
 							'wp:action-assign-' + _taxonomy.rest_base
-					  ] ?? false
+					  ]
 					: false,
 				terms: _taxonomy
 					? getEditedPostAttribute( _taxonomy.rest_base )
@@ -358,11 +365,12 @@ export function RadioTermSelector( { slug } ) {
 
 	const renderTerms = ( renderedTerms ) => {
 		return renderedTerms.map( ( term ) => {
+			// ID of the currently selected term. If no terms, select the default.
 			const selected =
-				terms.includes( term.id ) ||
+				-1 !== terms.indexOf( term.id ) ||
 				( ! terms.length && term.id === taxonomy.default_term )
 					? term.id
-					: 0;
+					: 0; // @helgatheviking
 
 			return (
 				<div
@@ -404,13 +412,13 @@ export function RadioTermSelector( { slug } ) {
 
 	const newTermButtonLabel = labelWithFallback(
 		'add_new_item',
-		__( 'Add new category' ),
-		__( 'Add new term' )
+		__( 'Add Category' ),
+		__( 'Add Term' )
 	);
 	const newTermLabel = labelWithFallback(
 		'new_item_name',
-		__( 'Add new category' ),
-		__( 'Add new term' )
+		__( 'Add Category' ),
+		__( 'Add Term' )
 	);
 	const parentSelectLabel = labelWithFallback(
 		'parent_item',
@@ -446,14 +454,26 @@ export function RadioTermSelector( { slug } ) {
 
 	return (
 		<Flex direction="column" gap="4">
-			{ showFilter && (
+			{ showFilter && ! loading && (
 				<SearchControl
+					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					label={ filterLabel }
 					placeholder={ filterLabel }
 					value={ filterValue }
 					onChange={ setFilter }
 				/>
+			) }
+			{ loading && (
+				<Flex
+					justify="center"
+					style={ {
+						// Match SearchControl height to prevent layout shift.
+						height: '40px',
+					} }
+				>
+					<Spinner />
+				</Flex>
 			) }
 			<div
 				className={ `editor-post-taxonomies__${ klass }-terms-list` } // @helgatheviking
