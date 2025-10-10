@@ -170,6 +170,7 @@ export function RadioTermSelector( { slug } ) {
 		loading,
 		availableTerms,
 		taxonomy,
+		klass,
 	} = useSelect(
 		( select ) => {
 			const { getCurrentPost, getEditedPostAttribute } =
@@ -202,13 +203,13 @@ export function RadioTermSelector( { slug } ) {
 					getEntityRecords( 'taxonomy', slug, DEFAULT_QUERY ) ||
 					EMPTY_ARRAY,
 				taxonomy: _taxonomy,
+				klass: _taxonomy.hierarchical
+					? 'hierarchical'
+					: 'non-hierarchical', // @helgatheviking
 			};
 		},
 		[ slug ]
 	);
-
-	// @helgatheviking - Check if the taxonomy is hierarchical.
-	const klass = taxonomy.hierarchical ? 'hierarchical' : 'non-hierarchical';
 
 	const { editPost } = useDispatch( editorStore );
 	const { saveEntityRecord } = useDispatch( coreStore );
@@ -366,7 +367,7 @@ export function RadioTermSelector( { slug } ) {
 			return (
 				<div
 					key={ term.id }
-					className={ `radio-taxonomies-choice editor-post-taxonomies_${ klass }-terms-choice` }
+					className={ `radio-taxonomies-choice editor-post-taxonomies__${ klass }-terms-choice` } // @helgatheviking
 				>
 					<RadioControl
 						selected={ selected }
@@ -381,13 +382,9 @@ export function RadioTermSelector( { slug } ) {
 							onChange( termId );
 						} }
 					/>
-					{ !! term.children.length && (
+					{ !! term.children.length && ( // @helgatheviking
 						<div
-							className={
-								'editor-post-taxonomies__' +
-								klass +
-								'-terms-subchoices '
-							}
+							className={ `editor-post-taxonomies__${ klass }-terms-subchoices` }
 						>
 							{ renderTerms( term.children ) }
 						</div>
@@ -453,7 +450,7 @@ export function RadioTermSelector( { slug } ) {
 				/>
 			) }
 			<div
-				className={ `editor-post-taxonomies__${ klass }-terms-list` }
+				className={ `editor-post-taxonomies__${ klass }-terms-list` } // @helgatheviking
 				tabIndex="0"
 				role="group"
 				aria-label={ groupLabel }
@@ -466,11 +463,7 @@ export function RadioTermSelector( { slug } ) {
 				{ taxonomy.radio_no_term && (
 					<div
 						key="no-term"
-						className={
-							'editor-post-taxonomies__' +
-							klass +
-							'-terms-choice '
-						}
+						className={ `editor-post-taxonomies__${ klass }-terms-choice` }
 					>
 						<RadioControl
 							selected={ noneSelected }
@@ -487,7 +480,7 @@ export function RadioTermSelector( { slug } ) {
 					<Button
 						__next40pxDefaultSize
 						onClick={ onToggleForm }
-						className={ `editor-post-taxonomies__${ klass }-terms-add` }
+						className={ `editor-post-taxonomies__${ klass }-terms-add` } // @helgatheviking
 						aria-expanded={ showForm }
 						variant="link"
 					>
@@ -501,7 +494,7 @@ export function RadioTermSelector( { slug } ) {
 						<TextControl
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
-							className={ `editor-post-taxonomies__${ klass }-terms-input` }
+							className={ `editor-post-taxonomies__${ klass }-terms-input` } // @helgatheviking
 							label={ newTermLabel }
 							value={ formName }
 							onChange={ onChangeFormName }
@@ -524,7 +517,7 @@ export function RadioTermSelector( { slug } ) {
 								__next40pxDefaultSize
 								variant="secondary"
 								type="submit"
-								className={ `editor-post-taxonomies__${ klass }-terms-submit` }
+								className={ `editor-post-taxonomies__${ klass }-terms-submit` } // @helgatheviking
 							>
 								{ newTermSubmitLabel }
 							</Button>
