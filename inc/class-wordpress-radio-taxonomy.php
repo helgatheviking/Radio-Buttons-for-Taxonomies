@@ -285,7 +285,7 @@ if ( ! class_exists( 'WordPress_Radio_Taxonomy' ) ) :
 			_deprecated_function( __FUNCTION__, '1.8.0', 'WordPress_Radio_Taxonomy::set_terms_filter() or WordPress_Radio_Taxonomy::get_terms_filter()' );
 
 			if ( ! is_null( $_set ) ) {
-$this->set = $_set;
+				$this->set = $_set;
 			}
 
 			// Give users a chance to disable the no term feature.

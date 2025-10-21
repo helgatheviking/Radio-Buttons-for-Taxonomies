@@ -151,7 +151,7 @@ class Radio_Buttons_For_Taxonomies {
 	public static function delete_plugin_options() {
 		$options = get_option( 'radio_button_for_taxonomies_options', true );
 		if ( isset( $options['delete'] ) && $options['delete'] ) {
-delete_option( 'radio_button_for_taxonomies_options' );
+			delete_option( 'radio_button_for_taxonomies_options' );
 		}
 	}
 
