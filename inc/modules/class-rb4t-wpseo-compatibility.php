@@ -4,7 +4,7 @@
  *
  * @package  Radio Buttons for Taxonomies/Compatibility/Modules
  * @since    2.4.0
- * @version  2.4.1
+ * @version  3.0.0
  */
 
 // Exit if accessed directly.
@@ -22,8 +22,7 @@ class RB4T_WPSEO_Compatibility {
 	public static function init() {
 
 		// Primary term taxonomies.
-		add_filter( 'wpseo_primary_term_taxonomies', array( __CLASS__, 'remove_radio_taxonomies'), 10, 3 );
-
+		add_filter( 'wpseo_primary_term_taxonomies', array( __CLASS__, 'remove_radio_taxonomies' ), 10, 3 );
 	}
 
 	/**
@@ -38,14 +37,13 @@ class RB4T_WPSEO_Compatibility {
 	 */
 	public static function remove_radio_taxonomies( $taxonomies, $post_type, $all_taxonomies ) {
 
-		$radio_taxonomies = (array) radio_buttons_for_taxonomies()->get_options( 'taxonomies' );
+		$radio_taxonomies = (array) radio_buttons_for_taxonomies()->get_radio_taxonomies();
 
 		if ( ! empty( $radio_taxonomies ) ) {
 			$taxonomies = array_diff_key( $taxonomies, array_flip( $radio_taxonomies ) );
 		}
 		return $taxonomies;
 	}
-
 }
 
 RB4T_WPSEO_Compatibility::init();

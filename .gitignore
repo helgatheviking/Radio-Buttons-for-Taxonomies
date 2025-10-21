@@ -1,7 +1,10 @@
 node_modules/
 build/
 deploy/
+js/dist/
+vendor/
 package-lock.json
 *.afdesign
 *.idea
 *.DS_Store
+*.min.js

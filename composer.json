@@ -2,8 +2,45 @@
 	"name": "helgatheviking/radio-buttons-for-taxonomies",
 	"description": "Turn any WordPress taxonomy into a list of radio buttons, which forces users to select only 1 term!",
 	"type": "wordpress-muplugin",
-	"keywords": ["wordpress", "plugin", "taxonomy", "term"],
-	"require": {
-		"php": ">=7.2"
+	"keywords": [
+		"wordpress",
+		"plugin",
+		"taxonomy",
+		"term"
+	],
+	"require-dev": {
+		"wp-cli/i18n-command": "^2.6",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"scripts": {
+		"makepot-audit": [
+			"wp --allow-root i18n make-pot . languages/radio-buttons-for-taxonomies.pot --slug=radio-buttons-for-taxonomies --exclude=\".github,.wordpress-org,node_modules,vendor,src,build,deploy\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/tickets/\"}'"
+		],
+		"makepot": [
+			"@makepot-audit --skip-audit"
+		],
+		"phpcs": [
+			"vendor/bin/phpcs . -s -p -n"
+		],
+		"phpcs-pre-commit": [
+			"vendor/bin/phpcs . -s -p -n"
+		],
+		"phpcb": [
+			"vendor/bin/phpcbf . "
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"extra": {
+		"scripts-description": {
+			"makepot": "Generate a .pot file for translation",
+			"makepot-audit": "Generate a .pot file for translation. Dry run.",
+			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+			"phpcb": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+		}
 	}
 }

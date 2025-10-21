@@ -14,7 +14,7 @@ class Walker_Category_Radio extends Walker {
 	private $printed_nonce = false;
 
 	public $tree_type = 'category';
-	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
+	public $db_fields = array( 'parent' => 'parent', 'id' => 'term_id' ); //TODO: decouple this
 
 	/**
 	 * Starts the list before the elements are added.
@@ -28,7 +28,7 @@ class Walker_Category_Radio extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
+		$indent  = str_repeat("\t", $depth);
 		$output .= "$indent<ul class='children'>\n";
 	}
 
@@ -44,7 +44,7 @@ class Walker_Category_Radio extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
+		$indent  = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 	}
 
@@ -71,16 +71,16 @@ class Walker_Category_Radio extends Walker {
 
 		// Force add nonce field, which is otherwise impossible in quick/bulk edit.
 		if ( ! $this->printed_nonce ) {
-			$output .= wp_nonce_field( 'radio_nonce-' . $taxonomy, '_radio_nonce-' . $taxonomy, true, false );
+			$output             .= wp_nonce_field( 'radio_nonce-' . $taxonomy, '_radio_nonce-' . $taxonomy, true, false );
 			$this->printed_nonce = true;
 		}
 
 		/* RB4T mod: Replace default $name variable */
-		$name = 'radio_tax_input['.$taxonomy.']';
+		$name = 'radio_tax_input[' . $taxonomy . ']';
 		/* end */
 
 		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];
-		$class = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
+		$class                = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
 
 		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
 
@@ -93,7 +93,7 @@ class Walker_Category_Radio extends Walker {
 
 		if ( ! empty( $args['list_only'] ) ) {
 			$aria_checked = 'false';
-			$inner_class = 'category';
+			$inner_class  = 'category';
 
 			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
 				$inner_class .= ' selected';
@@ -108,7 +108,7 @@ class Walker_Category_Radio extends Walker {
 		} else {
 			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
-				'<label class="selectit"><input value="' . intval( $category->term_id ) . '" type="radio" name="'.esc_attr( $name ).'[]" id="in-'.esc_attr( $taxonomy ).'-' . intval( $category->term_id ) . '"' .
+				'<label class="selectit"><input value="' . intval( $category->term_id ) . '" type="radio" name="' . esc_attr( $name ) . '[]" id="in-' . esc_attr( $taxonomy ) . '-' . intval( $category->term_id ) . '"' .
 				checked( $category->term_id, $selected_id, false ) .
 				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
 				esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
