@@ -432,7 +432,7 @@ export function RadioTermSelector( { slug } ) {
 	const showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
 
 	// @helgatheviking - Add default term to the list.
-	const noneSelected = terms.length ? 0 : -1;
+	const noneSelected = terms?.length ? 0 : -1;
 
 	/**
 	 * Build the “No …” label dynamically.
